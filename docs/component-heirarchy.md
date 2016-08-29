@@ -40,11 +40,11 @@
 
 ## Routes
 
-|Path   | Component   |
-|-------|-------------|
-| "/frontpage" | "FrontPageContainer"
-| "/signUp" | "AuthFormContainer" |
-| "/signIn" | "AuthFormContainer" |
-| "/channels/me" | "MeChannelContainer" |
-| "/channels/me/:friendId" | "MeChannelContainer" |
-| "/channels/:channelId/:textChannelId" | "ChannelContainer" |
+|Path                                   | Component            |
+|---------------------------------------|----------------------|
+| "/"                                   | "FrontPageContainer" |
+| "/signUp"                             | "AuthFormContainer"  |
+| "/signIn"                             | "AuthFormContainer"  |
+| "/channels/me"                        | "MeChannelContainer" |
+| "/channels/me/:directMessageId"       | "MeChannelContainer" |
+| "/channels/:channelId/:textChannelId" | "ChannelContainer"   |

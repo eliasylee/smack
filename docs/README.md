@@ -9,11 +9,11 @@ Smack is a Slack/Discord-inspired chat site focused on serving the gaming commun
 0. Hosting on Heroku
 0. Production README
 0. New account creation, login, and guest/demo login
-0. Live chat
+0. Channels
   * Adequate styling
   * Smooth, bug-free navigation
   * Adequate and appropriate seeds to demonstrate the feature
-0. Channels
+0. Live chat
   * Adequate styling
   * Smooth, bug-free navigation
   * Adequate and appropriate seeds to demonstrate the feature
@@ -43,84 +43,86 @@ Smack is a Slack/Discord-inspired chat site focused on serving the gaming commun
 
 ## Implementation Timeline
 
-### Phase 1:
+### Phase 0: Websocket Set-Up
 
-**Objective:**
+**Objective** Integrate Websocket for live chat functionality.
 
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] Implement Websocket-Rails or Action-Cable
 
-### Phase 2:
+### Phase 1: Backend setup and Front End User Authentication (2 days)
 
-**Objective:**
+**Objective:** Functioning rails project with front-end Authentication
 
-- [ ]
-- [ ]
-- [ ]
-- [ ]
--
-  - [ ]
-  - [ ]
-  - [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] New Rails project
+- [ ] `User` model/migration
+- [ ] Back end authentication (session/password)
+- [ ] `StaticPages` controller and root view
+- [ ] Webpack & react/redux modules
+- [ ] `APIUtil` to interact with the API
+- [ ] Redux cycle for front-end authentication
+- [ ] User sign-up/sign-in components
+- [ ] Blank landing component after sign-up/sign-in
+- [ ] Style sign-up/sign-in components
+- [ ] Seed users
 
-### Phase 3:
+### Phase 2: Channels (2 days)
 
-**Objective:**
+**Objective:** Channels belong to users and can be created, read, edited and destroyed through the API.
 
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] `Channel` model
+- [ ] Seed database with a small amount of test data
+- [ ] CRUD API for channels (`ChannelsController`)
+- [ ] JBuilder views for channel
+- Channel components and respective Redux loops
+  - [ ] `ChannelsIndex`
+  - [ ] `ChannelForm`
+- [ ] Style channels components
+- [ ] Seed channels
 
-### Phase 4:
+### Phase 3: Text Channels (2 days)
 
-**Objective:**
+**Objective:** Text channels belong to channels and can be created, read, edited and destroyed through the API.
 
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] `Text Channel` model
+- [ ] Seed database with a small amount of test data
+- [ ] CRUD API for text channels (`TextChannelsController`)
+- [ ] JBuilder views for text channel
+- Text Channel components and respective Redux loops
+  - [ ] `TextChannelsIndex`
+  - [ ] `TextChannelForm`
+- [ ] Style text channels components
+- [ ] Seed text channels
 
-### Phase 5:
+### Phase 4: Direct Messages (2 days)
 
-**objective:**
+**Objective:** Direct Messages belong to users and can be created, read, edited and destroyed through the API.
 
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] `Direct Message` model
+- [ ] Seed database with a small amount of test data
+- [ ] CRUD API for direct messages (`DirectMessagesController`)
+- [ ] JBuilder views for direct messages
+- Direct message components and respective Redux loops
+  - [ ] `DirectMessagesIndex`
+  - [ ] `DirectMessageForm`
+- [ ] Style direct messages components
+- [ ] Seed direct messages
 
-### Phase 6:
+### Phase 5: Chat Lines (2 days)
 
-**objective:**
+**Objective:** Chat lines belong to direct messages and text channels and can be created, read, edited and destroyed through the API.
 
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] `Chat Line` model
+- [ ] Seed database with a small amount of test data
+- [ ] CRUD API for chat lines (`ChatLinesController`)
+- [ ] JBuilder views for direct messages
+- Chat line components and respective Redux loops
+  - [ ] `ChatLinesIndex`
+  - [ ] `ChatLineForm`
+- [ ] Style chat lines components
+- [ ] Seed chat lines
 
 ### Bonus Features (TBD)
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] Friend's List that automatically direct to empty DM page
+- [ ] Emote functionality in Chat Line Creation
+- [ ] Pinned Messages
+- [ ] Message mentions
