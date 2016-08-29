@@ -19,7 +19,7 @@
     creator_id: 1,
     iconId: 2,
     userIds: [1],
-    textChannels: [1]
+    textChannelIds: [1]
   },
   textChannel: {
     id: 1,
