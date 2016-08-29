@@ -8,6 +8,7 @@
 
 **ChannelNavContainer**
   - ChannelNavBar
+    + ChannelIndex
 
 **MeChannelContainer**
   + DirectMessageContainer
@@ -42,8 +43,8 @@
 |Path   | Component   |
 |-------|-------------|
 | "/frontpage" | "FrontPageContainer"
-| "/sign-up" | "AuthFormContainer" |
-| "/sign-in" | "AuthFormContainer" |
-| "/channels/@me" | "MeChannelContainer" |
-| "/channels/@me/:friendId" | "MeChannelContainer" |
+| "/signUp" | "AuthFormContainer" |
+| "/signIn" | "AuthFormContainer" |
+| "/channels/me" | "MeChannelContainer" |
+| "/channels/me/:friendId" | "MeChannelContainer" |
 | "/channels/:channelId/:textChannelId" | "ChannelContainer" |
