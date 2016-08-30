@@ -1,14 +1,13 @@
 module.exports = {
-    "extends": "airbnb",
+    "extends": "standard",
     "plugins": [
-        "react",
-        "jsx-a11y",
-        "import"
+        "standard",
+        "promise"
     ],
     "rules": {
         "semi": ["off", "always"],
+        "quotes": ["off", "double"],
         "no-unused-vars": ["off"],
-        "space-in-parens": ["off"],
-        "comma-dangle": ["off"]
-      }
+        "space-in-parens": ["off"]
+    }
 };
