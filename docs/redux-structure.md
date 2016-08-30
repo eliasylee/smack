@@ -124,86 +124,43 @@
   0. invoked from an API callback.
   0. The `TextChannelReducer` removes `textChannels[id]` from the application's state.
 
-## DirectMessages Cycles
+## Messages Cycles
 
-### DirectMessages API Request Actions
+### Messages API Request Actions
 
-* `fetchAllDirectMessages`
-  0. invoked from `DirectMessagesIndex` `didMount`/`willReceiveProps`
-  0. `GET /api/me/directMessages` is called.
-  0. `receiveAllDirectMessages` is set as the success callback.
+* `fetchAllMessages`
+  0. invoked from `MessagesIndex` `didMount`/`willReceiveProps`
+  0. `GET /api/messages` is called.
+  0. `receiveAllMessages` is set as the success callback.
 
-* `createDirectMessage`
-  0. invoked from new DirectMessage button `onClick`
-  0. `POST /api/me/directMessages` is called.
-  0. `receiveSingleDirectMessage` is set as the callback.
+* `createMessage`
+  0. invoked from new Message button `onClick`
+  0. `POST /api/messages` is called.
+  0. `receiveSingleMessage` is set as the callback.
 
-* `fetchSingleDirectMessage`
-  0. invoked from `DirectMessageIndex` `didMount`/`willReceiveProps`
-  0. `GET /api/me/directMessages/:id` is called.
-  0. `receiveSingleDirectMessage` is set as the success callback.
+* `updateMessage`
+  0. invoked from `MessageForm` `onSubmit`
+  0. `POST /api/messages/:id` is called.
+  0. `receiveSingleMessage` is set as the success callback.
 
-* `updateDirectMessage`
-  0. invoked from `DirectMessageForm` `onSubmit`
-  0. `POST /api/me/directMessages/:id` is called.
-  0. `receiveSingleDirectMessage` is set as the success callback.
+* `destroyMessage`
+  0. invoked from delete Message button `onClick`
+  0. `DELETE /api/messages/:id` is called.
+  0. `removeMessage` is set as the success callback.
 
-* `destroyDirectMessage`
-  0. invoked from delete DirectMessage button `onClick`
-  0. `DELETE /api/me/directMessages/:id` is called.
-  0. `removeDirectMessage` is set as the success callback.
+### Messages API Response Actions
 
-### DirectMessages API Response Actions
-
-* `receiveAllDirectMessages`
+* `receiveAllMessages`
   0. invoked from an API callback.
-  0. The `DirectMessageReducer` updates `directMessages` in the application's state.
+  0. The `MessageReducer` updates `messages` in the application's state.
 
-* `receiveSingleDirectMessage`
+* `receiveSingleMessage`
   0. invoked from an API callback.
-  0. The `DirectMessageReducer` updates `directMessage` in the application's state.
+  0. The `MessageReducer` updates `messages[id]` in the application's state.
 
-* `removeDirectMessage`
+* `removeMessage`
   0. invoked from an API callback.
-  0. The `DirectMessageReducer` removes `directMessages[id]` from the application's state.
-
-## ChatLines Cycles
-
-### ChatLines API Request Actions
-
-* `fetchAllChatLines`
-  0. invoked from `ChatLinesIndex` `didMount`/`willReceiveProps`
-  0. `GET /api/chatLines` is called.
-  0. `receiveAllChatLines` is set as the success callback.
-
-* `createChatLine`
-  0. invoked from new ChatLine button `onClick`
-  0. `POST /api/chatLines` is called.
-  0. `receiveSingleChatLine` is set as the callback.
-
-* `updateChatLine`
-  0. invoked from `ChatLineForm` `onSubmit`
-  0. `POST /api/chatLines/:id` is called.
-  0. `receiveSingleChatLine` is set as the success callback.
-
-* `destroyChatLine`
-  0. invoked from delete ChatLine button `onClick`
-  0. `DELETE /api/chatLines/:id` is called.
-  0. `removeChatLine` is set as the success callback.
-
-### ChatLines API Response Actions
-
-* `receiveAllChatLines`
-  0. invoked from an API callback.
-  0. The `ChatLineReducer` updates `chatLines` in the application's state.
-
-* `receiveSingleChatLine`
-  0. invoked from an API callback.
-  0. The `ChatLineReducer` updates `chatLines[id]` in the application's state.
-
-* `removeChatLine`
-  0. invoked from an API callback.
-  0. The `ChatLineReducer` removes `chatLines[id]` from the application's state.
+  0. The `MessageReducer` removes `messages[id]` from the application's state.
 
 ## Friends Cycles
 

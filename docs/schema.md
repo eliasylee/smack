@@ -16,17 +16,11 @@ column name     | data type | details
 user_id_one     | integer   | not null
 user_id_two     | integer   | not null
 
-## user_channels
+## subscriptions
 column name     | data type | details
 ----------------|-----------|-----------------------
 user_id         | integer   | not null
 channel_id      | integer   | not null
-
-## user_direct_messages
-column name      | data type | details
------------------|-----------|-----------------------
-user_id          | integer   | not null
-direct_message_id| integer   | not null
 
 ## channels
 column name    | data type | details
@@ -45,13 +39,7 @@ channel_id  | integer   | not null, foreign key (references channels), indexed
 title       | string    | not null
 description | string    |
 
-## direct_messages
-column name | data type | details
-------------|-----------|-----------------------
-id          | integer   | not null, primary key
-title       | string    |
-
-## chat_lines
+## messages
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key

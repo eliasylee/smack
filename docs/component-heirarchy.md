@@ -15,8 +15,8 @@
   + FriendListContainer
   + ChatContainer
 
-**DirectMessageContainer**
-  - DirectMessageIndex
+**MessagesContainer**
+  - MessagesIndex
 
 **FriendListContainer**
   - FriendListIndex
@@ -46,5 +46,7 @@
 | "/signUp"                             | "AuthFormContainer"  |
 | "/signIn"                             | "AuthFormContainer"  |
 | "/channels/me"                        | "MeChannelContainer" |
-| "/channels/me/:directMessageId"       | "MeChannelContainer" |
+| "/channels/me/:messageId"             | "MeChannelContainer" |
+| "/channels/me/friends"                | "FriendListContainer"|
+| "/channels/me/friends/:id"            | "MessagesContainer"  |
 | "/channels/:channelId/:textChannelId" | "ChannelContainer"   |

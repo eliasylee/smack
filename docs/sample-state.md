@@ -35,7 +35,7 @@
     userIds: [1, 2],
     chatLines: []
   }
-  chatLines: {
+  messages: {
     1: {
       author_id: 1,
       body: "Hello, is anyone there?"
@@ -53,9 +53,6 @@
   },
   friends: {
     friendIds: [2]
-  },
-  directMessages: {
-    directMessageIds: [1]
   }
 }
 ```

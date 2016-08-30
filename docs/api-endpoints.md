@@ -36,23 +36,14 @@
 - `PATCH /api/channels/:id/textChannels/:id`
 - `DELETE /api/channels/:id/textChannels/:id`
 
-### DirectMessages
+### Messages
 
-- `GET /api/channels/:id/directMessages`
-  - Direct messages list, takes current user's ID
-- `POST /api/channels/:id/directMessages`
-- `GET /api/channels/:id/directMessages/:id`
-- `PATCH /api/channels/:id/directMessages/:id`
-- `DELETE /api/channels/:id/directMessages/:id`
-
-### ChatLines
-
-- `GET /api/directMessages`
+- `GET /api/Messages`
   - Chat container, takes parent container's type and ID
-- `POST /api/directMessages`
-- `GET /api/directMessages/:id`
-- `PATCH /api/directMessages/:id`
-- `DELETE /api/directMessages/:id`
+- `POST /api/Messages`
+- `GET /api/Messages/:id`
+- `PATCH /api/Messages/:id`
+- `DELETE /api/Messages/:id`
 
 ### Friends
 
