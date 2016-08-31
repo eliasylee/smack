@@ -3,27 +3,49 @@
   current_user: {
     id: 1,
     iconUrl: "http://imghostingsite.com/HaikuEsqueUrl",
-    username: "username",
-7  },
+    username: "username"
+  },
+  friends: {
+    1: {
+      id: 2,
+      iconUrl: "",
+      username: "second_username",
+    }
+  },
   forms: {
     signup: {errors: []},
     login: {errors: []},
     createChannel: {errors: ["Title can't be blank"]}
+  },
+  channels: {
+    1: {
+      id: 1,
+      iconUrl: "http://imghostingsite.com/AnotherHaikuCool"
+      title: "ChannelTitle",
+      description: "Channel description"
+    }
   },
   channel: {
     id: 1,
     iconUrl: "http://imghostingsite.com/AnotherHaikuCool"
     title: "ChannelTitle",
     description: "Channel description",
-    creator_id: 1,
+    creator_id: 1
   },
-  chat_channel: {
+  text_channels: {
+    1: {
+      id: 1,
+      title: "TextChannelTitle",
+      description: "Text channel description"
+    }
+  },
+  text_channel: {
     id: 1,
     title: "TextChannelTitle",
     description: "Text channel description",
     channel_id: 1,
   },
-  direct_chat:{
+  direct_message:{
     id: 1,
     user_id_one: 1,
     user_id_two: 2
@@ -40,19 +62,6 @@
       body: "I'm lonely :("
       chatable_type: "text_channel",
       chatable_id: 1
-    }
-  },
-  subscriptions: {
-    channel_ids: [1]
-  },
-  text_channels: {
-    text_channel_ids: [1]
-  },
-  friends: {
-    1: {
-      id: 2,
-      iconUrl: "",
-      username: "second_username",
     }
   }
 }

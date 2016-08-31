@@ -5,8 +5,7 @@ column name     | data type | details
 ----------------|-----------|-----------------------
 id              | integer   | not null, primary key
 username        | string    | not null, indexed, unique
-email           | string    | not null, indexed, unique
-iconUrl         | string    |
+icon_url        | string    |
 password_digest | string    | not null
 session_token   | string    | not null, indexed, unique
 
@@ -28,10 +27,10 @@ column name    | data type | details
 id             | integer   | not null, primary key
 title          | string    | not null
 description    | text      |
-iconUrl        | string    |
-creator_id     | integer   | not null, foreign key (references users), indexed
+icon_url       | string    |
+admin_id       | integer   | not null, foreign key (references users), indexed
 
-## chat_channels
+## text_channels
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
@@ -39,7 +38,7 @@ channel_id  | integer   | not null, foreign key (references channels), indexed
 title       | string    | not null
 description | string    |
 
-## direct_chats
+## direct_messages
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
