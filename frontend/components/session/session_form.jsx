@@ -17,7 +17,7 @@ class SessionForm extends React.Component {
 
   redirectIfLoggedIn () {
     if (this.props.loggedIn) {
-      hashHistory.push("/");
+      hashHistory.push("/channels/me");
     }
   }
 
@@ -35,13 +35,13 @@ class SessionForm extends React.Component {
     if (this.props.formType === "login") {
       return (
         <div className="sessionFormHeader">
-          WELCOME BACK.
+          Welcome back.
         </div>
       )
     } else {
       return (
         <div className="sessionFormHeader">
-          JOIN THE FRAY.
+          Join the fray.
         </div>
       )
     }
@@ -93,35 +93,45 @@ class SessionForm extends React.Component {
         <div className="authBackgroundWrap">
           <div className={this.background()}></div>
         </div>
-        <div className="sessionFormBox">
-          <div className="sessionFormBoxLeft">
-            <div className="sessionFormLogo">
-              <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
-            </div>
-          </div>
-          <div className="sessionFormBoxRight">
-            { this.navLinkHeader() }
-            <form onSubmit={this.handleSubmit} className="sessionForm">
-              { this.renderErrors() }
-              <div className="sessionInputBox">
-                <label> Username:
-                  <input type="text"
-                    value={this.state.username}
-                    onChange={this.update("username")}
-                    className="sessionInput" />
-                </label>
-
-                <label> Password:
-                  <input type="password"
-                    value={this.state.password}
-                    onChange={this.update("password")}
-                    className="sessionInput" />
-                </label>
-
-                <input type="submit" value="Submit" />
+        <div className="sessionFormBoxOuter">
+          <div className="sessionFormBoxInner">
+            <div className="sessionFormBoxLeft">
+              <div className="sessionFormLogo">
+                <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
               </div>
-            </form>
-            { this.navLinkFooter() }
+            </div>
+            <div className="sessionFormBoxRight">
+              { this.navLinkHeader() }
+              <form onSubmit={this.handleSubmit} className="sessionForm">
+                { this.renderErrors() }
+                <div className="sessionInputBox">
+                  <div className="sessionUsernameBox">
+                    <div className="usernameWord">Username</div>
+                    <div className="usernameInputLine">
+                      <input type="text"
+                        value={this.state.username}
+                        onChange={this.update("username")}
+                        className="sessionInput" />
+                    </div>
+                  </div>
+                  <div className='sessionPasswordBox'>
+                    <div className="passwordWord">Password</div>
+                    <div className="passwordInputLine">
+                      <input type="password"
+                        value={this.state.password}
+                        onChange={this.update("password")}
+                        className="sessionInput" />
+                    </div>
+                  </div>
+                  <div className="sessionSubmitBoxOuter">
+                    <div className="sessionSubmitBoxInner">
+                      <input className="sessionSubmitButton" type="submit" value="Submit" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+              { this.navLinkFooter() }
+            </div>
           </div>
         </div>
       </div>

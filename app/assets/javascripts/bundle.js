@@ -32368,7 +32368,7 @@
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'frontPageButton', onClick: this._routeToSignUp },
-	                'Start Smack-talking!'
+	                'Click here Smack talk!'
 	              ),
 	              _react2.default.createElement(
 	                'button',
@@ -32481,7 +32481,7 @@
 	    key: 'redirectIfLoggedIn',
 	    value: function redirectIfLoggedIn() {
 	      if (this.props.loggedIn) {
-	        _reactRouter.hashHistory.push("/");
+	        _reactRouter.hashHistory.push("/channels/me");
 	      }
 	    }
 	  }, {
@@ -32507,13 +32507,13 @@
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'sessionFormHeader' },
-	          'WELCOME BACK.'
+	          'Welcome back.'
 	        );
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'sessionFormHeader' },
-	          'JOIN THE FRAY.'
+	          'Join the fray.'
 	        );
 	      }
 	    }
@@ -32581,49 +32581,77 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'sessionFormBox' },
+	          { className: 'sessionFormBoxOuter' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'sessionFormBoxLeft' },
+	            { className: 'sessionFormBoxInner' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'sessionFormLogo' },
-	              _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'sessionFormBoxRight' },
-	            this.navLinkHeader(),
-	            _react2.default.createElement(
-	              'form',
-	              { onSubmit: this.handleSubmit, className: 'sessionForm' },
-	              this.renderErrors(),
+	              { className: 'sessionFormBoxLeft' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'sessionInputBox' },
-	                _react2.default.createElement(
-	                  'label',
-	                  null,
-	                  ' Username:',
-	                  _react2.default.createElement('input', { type: 'text',
-	                    value: this.state.username,
-	                    onChange: this.update("username"),
-	                    className: 'sessionInput' })
-	                ),
-	                _react2.default.createElement(
-	                  'label',
-	                  null,
-	                  ' Password:',
-	                  _react2.default.createElement('input', { type: 'password',
-	                    value: this.state.password,
-	                    onChange: this.update("password"),
-	                    className: 'sessionInput' })
-	                ),
-	                _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+	                { className: 'sessionFormLogo' },
+	                _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
 	              )
 	            ),
-	            this.navLinkFooter()
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'sessionFormBoxRight' },
+	              this.navLinkHeader(),
+	              _react2.default.createElement(
+	                'form',
+	                { onSubmit: this.handleSubmit, className: 'sessionForm' },
+	                this.renderErrors(),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'sessionInputBox' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'sessionUsernameBox' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'usernameWord' },
+	                      'Username'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'usernameInputLine' },
+	                      _react2.default.createElement('input', { type: 'text',
+	                        value: this.state.username,
+	                        onChange: this.update("username"),
+	                        className: 'sessionInput' })
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'sessionPasswordBox' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'passwordWord' },
+	                      'Password'
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'passwordInputLine' },
+	                      _react2.default.createElement('input', { type: 'password',
+	                        value: this.state.password,
+	                        onChange: this.update("password"),
+	                        className: 'sessionInput' })
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'sessionSubmitBoxOuter' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'sessionSubmitBoxInner' },
+	                      _react2.default.createElement('input', { className: 'sessionSubmitButton', type: 'submit', value: 'Submit' })
+	                    )
+	                  )
+	                )
+	              ),
+	              this.navLinkFooter()
+	            )
 	          )
 	        )
 	      );
