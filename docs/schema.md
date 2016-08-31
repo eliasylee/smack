@@ -10,7 +10,7 @@ iconUrl         | string    |
 password_digest | string    | not null
 session_token   | string    | not null, indexed, unique
 
-## user_friends
+## friends
 column name     | data type | details
 ----------------|-----------|-----------------------
 user_id_one     | integer   | not null
@@ -31,7 +31,7 @@ description    | text      |
 iconUrl        | string    |
 creator_id     | integer   | not null, foreign key (references users), indexed
 
-## text_channels
+## chat_channels
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
@@ -39,10 +39,18 @@ channel_id  | integer   | not null, foreign key (references channels), indexed
 title       | string    | not null
 description | string    |
 
-## messages
+## direct_chats
 column name | data type | details
 ------------|-----------|-----------------------
 id          | integer   | not null, primary key
-author_id   | integer   | not null, foreign key (references users), indexed
-body        | text      | not null
-chatable    | references| polymorphic: true, index: true
+user_id_one | integer   | not null, foreign key (references users)
+user_id_two | integer   | not null, foreign key (references users)
+
+## messages
+column name     | data type | details
+----------------|-----------|-----------------------
+id              | integer   | not null, primary key
+author_id       | integer   | not null, foreign key (references users), indexed
+body            | text      | not null
+chatable_type   | string    | not null
+chatable_id     | integer   | not null, foreign key (references chatable type), indexed
