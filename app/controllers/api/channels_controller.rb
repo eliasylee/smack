@@ -1,18 +1,18 @@
 class Api::ChannelsController < ApplicationController
   def index
     @channels = current_user.channels
-
-    render 'api/channels/index'
   end
 
-
+  def show
+    @channel = Channel.find_by_id(params[:id]).includes(:text_channels)
+  end
 
   def create
     @channel = Channel.new(channel_params)
     @channel.admin_id = current_user.id
 
     if @channel.save
-      render 'api/channels/show'
+      render :show
     else
       render json: @channel.errors.full_messages, status: 422
     end
@@ -22,7 +22,7 @@ class Api::ChannelsController < ApplicationController
     @channel = Channel.find_by_id(params[:id])
 
     if @channel.update
-      render 'api/channels/show'
+      render :show
     else
       render json: @channel.errors.full_messages, status: 422
     end
@@ -30,8 +30,12 @@ class Api::ChannelsController < ApplicationController
 
   def destroy
     @channel = Channel.find_by_id(params[:id])
-    @channel.destroy!
-    render 'api/channels/show'
+
+    if @channel.destroy
+      render json: {}
+    else
+      render json: @channel.errors.full_messages, status: 422
+    end
   end
 
   private

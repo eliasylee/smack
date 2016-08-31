@@ -12,11 +12,6 @@
       username: "second_username",
     }
   },
-  forms: {
-    signup: {errors: []},
-    login: {errors: []},
-    createChannel: {errors: ["Title can't be blank"]}
-  },
   channels: {
     1: {
       id: 1,

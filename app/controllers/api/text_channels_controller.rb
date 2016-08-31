@@ -1,15 +1,13 @@
 class Api::TextChannelsController < ApplicationController
-  def index
-    @text_channels = TextChannel.all
-
-    render 'api/text_channels/index'
+  def show
+    @text_channel = TextChannel.find_by_id(params[:id]).includes(:messages).includes(:author)
   end
 
   def create
     @text_channel = TextChannel.new(text_channel_params)
 
     if @text_channel.save
-      render 'api/text_channels/show'
+      render :show
     else
       render json: @text_channel.errors.full_messages, status: 422
     end
@@ -19,7 +17,7 @@ class Api::TextChannelsController < ApplicationController
     @text_channel = TextChannel.find_by_id(params[:id])
 
     if @text_channel.update
-      render 'api/text_channels/show'
+      render :show
     else
       render json: @text_channel.errors.full_messages, status: 422
     end
@@ -27,8 +25,12 @@ class Api::TextChannelsController < ApplicationController
 
   def destroy
     @text_channel = TextChannel.find_by_id(params[:id])
-    @text_channel.destroy!
-    render 'api/text_channels/show'
+
+    if @text_channel.destroy
+      render json: {}
+    else
+      render json: @text_channel.errors.full_messages, status: 422
+    end
   end
 
   private
