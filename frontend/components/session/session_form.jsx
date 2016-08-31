@@ -57,7 +57,7 @@ class SessionForm extends React.Component {
     } else {
       return (
         <div className="sessionFormFooter">
-          Already have an account? <Link to="/login">Log in</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </div>
       )
     }
@@ -75,16 +75,42 @@ class SessionForm extends React.Component {
     }
   }
 
-  renderErrors () {
-    return (
-      <ul>
-        {this.props.errors.map( (error, i) => (
-          <li key={`error-${i}`}>
-            {error}
-          </li>
-        ))}
-      </ul>
-    );
+  renderUsernameTitle () {
+    let errors = this.props.errors.map( error => {
+      return error;
+    });
+
+    if (errors === []) {
+      return <div className="usernameWord">Username</div>;
+    }
+
+    for (var i = 0; i < errors.length; i++) {
+      if (errors[i].slice(0, 8) === "Username") {
+        return <div className="usernameWord sessionErrors">{errors[i]}</div>;
+      }
+    }
+
+    return <div className="usernameWord">Username</div>;
+  }
+
+  renderPasswordTitle () {
+    let errors = this.props.errors.map( error => {
+      return error
+    });
+
+    if (errors === []) {
+      return <div className="passwordWord">Password</div>;
+    }
+
+    for (var i = 0; i < errors.length; i++) {
+      if (errors[i].slice(0, 8) === "Password") {
+        return <div className="passwordWord sessionErrors">{errors[i]}</div>;
+      } else if (errors[i].slice(0, 11) === "Username or") {
+        return <div className="passwordWord sessionErrors">Password or Username are incorrect</div>;
+      }
+    }
+
+    return <div className="passwordWord">Password</div>;
   }
 
   render () {
@@ -103,10 +129,9 @@ class SessionForm extends React.Component {
             <div className="sessionFormBoxRight">
               { this.navLinkHeader() }
               <form onSubmit={this.handleSubmit} className="sessionForm">
-                { this.renderErrors() }
                 <div className="sessionInputBox">
                   <div className="sessionUsernameBox">
-                    <div className="usernameWord">Username</div>
+                    {this.renderUsernameTitle()}
                     <div className="usernameInputLine">
                       <input type="text"
                         value={this.state.username}
@@ -115,7 +140,7 @@ class SessionForm extends React.Component {
                     </div>
                   </div>
                   <div className='sessionPasswordBox'>
-                    <div className="passwordWord">Password</div>
+                    {this.renderPasswordTitle()}
                     <div className="passwordInputLine">
                       <input type="password"
                         value={this.state.password}

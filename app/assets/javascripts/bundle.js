@@ -32350,31 +32350,27 @@
 	            { className: 'frontPageContentBox' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'frontPageLogoBoxLarge' },
-	              _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
 	              { className: 'frontPageTagLineBox' },
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'frontPageTagLine' },
-	                'We know you can walk the walk, but...'
-	              )
+	              'So we know you can walk the walk... But can you talk the talk?'
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'FrontPageSessionBox' },
+	              { className: 'frontPageButtonBox' },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'frontPageButton', onClick: this._routeToSignUp },
-	                'Click here Smack talk!'
+	                'Start Smack-talking'
 	              ),
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'frontPageButton', onClick: this._routeToLogIn },
-	                'I\'ve BEEN Smack-talking, son!'
+	                'Continue Talking Smack'
 	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'frontPageLogoBoxLarge' },
+	              _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
 	            )
 	          )
 	        )
@@ -32539,7 +32535,7 @@
 	          _react2.default.createElement(
 	            _reactRouter.Link,
 	            { to: '/login' },
-	            'Log in'
+	            'Login'
 	          )
 	        );
 	      }
@@ -32554,18 +32550,71 @@
 	      }
 	    }
 	  }, {
-	    key: 'renderErrors',
-	    value: function renderErrors() {
-	      return _react2.default.createElement(
-	        'ul',
-	        null,
-	        this.props.errors.map(function (error, i) {
+	    key: 'renderUsernameTitle',
+	    value: function renderUsernameTitle() {
+	      var errors = this.props.errors.map(function (error) {
+	        return error;
+	      });
+	
+	      if (errors === []) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'usernameWord' },
+	          'Username'
+	        );
+	      }
+	
+	      for (var i = 0; i < errors.length; i++) {
+	        if (errors[i].slice(0, 8) === "Username") {
 	          return _react2.default.createElement(
-	            'li',
-	            { key: 'error-' + i },
-	            error
+	            'div',
+	            { className: 'usernameWord sessionErrors' },
+	            errors[i]
 	          );
-	        })
+	        }
+	      }
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'usernameWord' },
+	        'Username'
+	      );
+	    }
+	  }, {
+	    key: 'renderPasswordTitle',
+	    value: function renderPasswordTitle() {
+	      var errors = this.props.errors.map(function (error) {
+	        return error;
+	      });
+	
+	      if (errors === []) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'passwordWord' },
+	          'Password'
+	        );
+	      }
+	
+	      for (var i = 0; i < errors.length; i++) {
+	        if (errors[i].slice(0, 8) === "Password") {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'passwordWord sessionErrors' },
+	            errors[i]
+	          );
+	        } else if (errors[i].slice(0, 11) === "Username or") {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'passwordWord sessionErrors' },
+	            'Password or Username are incorrect'
+	          );
+	        }
+	      }
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'passwordWord' },
+	        'Password'
 	      );
 	    }
 	  }, {
@@ -32601,18 +32650,13 @@
 	              _react2.default.createElement(
 	                'form',
 	                { onSubmit: this.handleSubmit, className: 'sessionForm' },
-	                this.renderErrors(),
 	                _react2.default.createElement(
 	                  'div',
 	                  { className: 'sessionInputBox' },
 	                  _react2.default.createElement(
 	                    'div',
 	                    { className: 'sessionUsernameBox' },
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'usernameWord' },
-	                      'Username'
-	                    ),
+	                    this.renderUsernameTitle(),
 	                    _react2.default.createElement(
 	                      'div',
 	                      { className: 'usernameInputLine' },
@@ -32625,11 +32669,7 @@
 	                  _react2.default.createElement(
 	                    'div',
 	                    { className: 'sessionPasswordBox' },
-	                    _react2.default.createElement(
-	                      'div',
-	                      { className: 'passwordWord' },
-	                      'Password'
-	                    ),
+	                    this.renderPasswordTitle(),
 	                    _react2.default.createElement(
 	                      'div',
 	                      { className: 'passwordInputLine' },

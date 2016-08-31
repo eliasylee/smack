@@ -30,21 +30,19 @@ class FrontPage extends React.Component {
         </header>
         <content className="frontPageBody">
           <div className="frontPageContentBox">
-            <div className="frontPageLogoBoxLarge">
-              <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
-            </div>
             <div className="frontPageTagLineBox">
-              <span className="frontPageTagLine">
-                We know you can walk the walk, but...
-              </span>
+              So we know you can walk the walk... But can you talk the talk?
             </div>
-            <div className="FrontPageSessionBox">
+            <div className="frontPageButtonBox">
               <button className="frontPageButton" onClick={this._routeToSignUp}>
-                Click here Smack talk!
+                Start Smack-talking
               </button>
               <button className="frontPageButton" onClick={this._routeToLogIn}>
-                I've BEEN Smack-talking, son!
+                Continue Talking Smack
               </button>
+            </div>
+            <div className="frontPageLogoBoxLarge">
+              <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
             </div>
           </div>
         </content>
