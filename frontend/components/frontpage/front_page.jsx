@@ -35,20 +35,16 @@ class FrontPage extends React.Component {
             </div>
             <div className="frontPageTagLineBox">
               <span className="frontPageTagLine">
-                So you can walk the walk, but can you talk the talk?
+                We know you can walk the walk, but...
               </span>
             </div>
             <div className="FrontPageSessionBox">
-              <div className="FrontPageSignUpBox">
-                <button className="SignUpButton" onClick={this._routeToSignUp}>
-                  Start Smack-talking!
-                </button>
-              </div>
-              <div className="FrontPageSignInBox">
-                <button className="LogInButton" onClick={this._routeToLogIn}>
-                  I've BEEN Smack-talking, son!
-                </button>
-              </div>
+              <button className="frontPageButton" onClick={this._routeToSignUp}>
+                Start Smack-talking!
+              </button>
+              <button className="frontPageButton" onClick={this._routeToLogIn}>
+                I've BEEN Smack-talking, son!
+              </button>
             </div>
           </div>
         </content>

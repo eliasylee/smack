@@ -21,7 +21,7 @@ class AppRouter extends React.Component {
   _redirectIfLoggedIn (nextState, replace) {
     const currentUser = this.props.currentUser;
     if (currentUser) {
-      replace('/');
+      replace('/channels/me');
     }
   }
 

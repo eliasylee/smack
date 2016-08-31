@@ -26684,7 +26684,7 @@
 	    value: function _redirectIfLoggedIn(nextState, replace) {
 	      var currentUser = this.props.currentUser;
 	      if (currentUser) {
-	        replace('/');
+	        replace('/channels/me');
 	      }
 	    }
 	  }, {
@@ -32272,11 +32272,7 @@
 	  };
 	};
 	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_front_page2.default);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps)(_front_page2.default);
 
 /***/ },
 /* 375 */
@@ -32363,29 +32359,21 @@
 	              _react2.default.createElement(
 	                'span',
 	                { className: 'frontPageTagLine' },
-	                'So you can walk the walk, but can you talk the talk?'
+	                'We know you can walk the walk, but...'
 	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'FrontPageSessionBox' },
 	              _react2.default.createElement(
-	                'div',
-	                { className: 'FrontPageSignUpBox' },
-	                _react2.default.createElement(
-	                  'button',
-	                  { className: 'SignUpButton', onClick: this._routeToSignUp },
-	                  'Start Smack-talking!'
-	                )
+	                'button',
+	                { className: 'frontPageButton', onClick: this._routeToSignUp },
+	                'Start Smack-talking!'
 	              ),
 	              _react2.default.createElement(
-	                'div',
-	                { className: 'FrontPageSignInBox' },
-	                _react2.default.createElement(
-	                  'button',
-	                  { className: 'LogInButton', onClick: this._routeToLogIn },
-	                  'I\'ve BEEN Smack-talking, son!'
-	                )
+	                'button',
+	                { className: 'frontPageButton', onClick: this._routeToLogIn },
+	                'I\'ve BEEN Smack-talking, son!'
 	              )
 	            )
 	          )
@@ -32519,13 +32507,13 @@
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'sessionFormHeader' },
-	          'Welcome back'
+	          'WELCOME BACK.'
 	        );
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'sessionFormHeader' },
-	          'Join the fray'
+	          'JOIN THE FRAY.'
 	        );
 	      }
 	    }
@@ -32557,6 +32545,15 @@
 	      }
 	    }
 	  }, {
+	    key: 'background',
+	    value: function background() {
+	      if (this.props.formType === "login") {
+	        return "loginBackground";
+	      } else {
+	        return "signupBackground";
+	      }
+	    }
+	  }, {
 	    key: 'renderErrors',
 	    value: function renderErrors() {
 	      return _react2.default.createElement(
@@ -32576,38 +32573,59 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'sessionFormBox' },
-	        this.navLinkHeader(),
+	        { className: 'sessionView' },
 	        _react2.default.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit, className: 'sessionForm' },
-	          this.renderErrors(),
+	          'div',
+	          { className: 'authBackgroundWrap' },
+	          _react2.default.createElement('div', { className: this.background() })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'sessionFormBox' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'sessionInputBox' },
+	            { className: 'sessionFormBoxLeft' },
 	            _react2.default.createElement(
-	              'label',
-	              null,
-	              ' Username:',
-	              _react2.default.createElement('input', { type: 'text',
-	                value: this.state.username,
-	                onChange: this.update("username"),
-	                className: 'sessionInput' })
-	            ),
+	              'div',
+	              { className: 'sessionFormLogo' },
+	              _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'sessionFormBoxRight' },
+	            this.navLinkHeader(),
 	            _react2.default.createElement(
-	              'label',
-	              null,
-	              ' Password:',
-	              _react2.default.createElement('input', { type: 'password',
-	                value: this.state.password,
-	                onChange: this.update("password"),
-	                className: 'sessionInput' })
+	              'form',
+	              { onSubmit: this.handleSubmit, className: 'sessionForm' },
+	              this.renderErrors(),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'sessionInputBox' },
+	                _react2.default.createElement(
+	                  'label',
+	                  null,
+	                  ' Username:',
+	                  _react2.default.createElement('input', { type: 'text',
+	                    value: this.state.username,
+	                    onChange: this.update("username"),
+	                    className: 'sessionInput' })
+	                ),
+	                _react2.default.createElement(
+	                  'label',
+	                  null,
+	                  ' Password:',
+	                  _react2.default.createElement('input', { type: 'password',
+	                    value: this.state.password,
+	                    onChange: this.update("password"),
+	                    className: 'sessionInput' })
+	                ),
+	                _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+	              )
 	            ),
-	            _react2.default.createElement('br', null),
-	            _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+	            this.navLinkFooter()
 	          )
-	        ),
-	        this.navLinkFooter()
+	        )
 	      );
 	    }
 	  }]);

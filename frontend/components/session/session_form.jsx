@@ -35,13 +35,13 @@ class SessionForm extends React.Component {
     if (this.props.formType === "login") {
       return (
         <div className="sessionFormHeader">
-          Welcome back
+          WELCOME BACK.
         </div>
       )
     } else {
       return (
         <div className="sessionFormHeader">
-          Join the fray
+          JOIN THE FRAY.
         </div>
       )
     }
@@ -63,6 +63,18 @@ class SessionForm extends React.Component {
     }
   }
 
+  background () {
+    if (this.props.formType === "login") {
+      return (
+        "loginBackground"
+      )
+    } else {
+      return (
+        "signupBackground"
+      )
+    }
+  }
+
   renderErrors () {
     return (
       <ul>
@@ -77,30 +89,41 @@ class SessionForm extends React.Component {
 
   render () {
     return (
-      <div className="sessionFormBox">
-        { this.navLinkHeader() }
-        <form onSubmit={this.handleSubmit} className="sessionForm">
-          { this.renderErrors() }
-          <div className="sessionInputBox">
-            <label> Username:
-              <input type="text"
-                value={this.state.username}
-                onChange={this.update("username")}
-                className="sessionInput" />
-            </label>
-
-            <label> Password:
-              <input type="password"
-                value={this.state.password}
-                onChange={this.update("password")}
-                className="sessionInput" />
-            </label>
-
-            <br />
-            <input type="submit" value="Submit" />
+      <div className="sessionView">
+        <div className="authBackgroundWrap">
+          <div className={this.background()}></div>
+        </div>
+        <div className="sessionFormBox">
+          <div className="sessionFormBoxLeft">
+            <div className="sessionFormLogo">
+              <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
+            </div>
           </div>
-        </form>
-        { this.navLinkFooter() }
+          <div className="sessionFormBoxRight">
+            { this.navLinkHeader() }
+            <form onSubmit={this.handleSubmit} className="sessionForm">
+              { this.renderErrors() }
+              <div className="sessionInputBox">
+                <label> Username:
+                  <input type="text"
+                    value={this.state.username}
+                    onChange={this.update("username")}
+                    className="sessionInput" />
+                </label>
+
+                <label> Password:
+                  <input type="password"
+                    value={this.state.password}
+                    onChange={this.update("password")}
+                    className="sessionInput" />
+                </label>
+
+                <input type="submit" value="Submit" />
+              </div>
+            </form>
+            { this.navLinkFooter() }
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,3 +1,5 @@
+/* Reset */
+
 html, body, header, nav, h1, a,
 ul, li, strong, main, button, i,
 section, img, div, h2, p, form,
@@ -17,6 +19,10 @@ span, article, footer, time, small {
 }
 
 ul {
+  list-style: none;
+}
+
+li {
   list-style: none;
 }
 
@@ -40,6 +46,11 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+body, html {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 /* Clearfix */
 
 .group:after {
@@ -48,9 +59,16 @@ input[type="submit"] {
   clear: both;
 }
 
+/* Front Page */
+
+:root {
+  --main-bg-color: #4d4d4d;
+}
+
 .frontPageView {
   height: 100%;
   width: 100%;
+  background: var(--main-bg-color);
 }
 
 .frontPageHeader {
@@ -68,6 +86,118 @@ input[type="submit"] {
   width: 100px;
 }
 
+.frontPageBody {
+  width: 100%;
+}
+
+.frontPageContentBox {
+  width: 500px;
+  height: 100vh;
+  margin: auto;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: bold;
+}
+
 .frontPageLogoBoxLarge img {
+  width: 300px;
+  margin: auto;
+}
+
+.frontPageTagLineBox {
+  padding-top: 5px;
+  padding-bottom: 25px;
+  margin: auto;
+}
+
+.frontPageTagLine {
+  text-align: center;
+  font-size: 32px;
+  color: #ffffff;
+}
+
+.frontPageSessionBox {
   width: 400px;
+  height: 50px;
+}
+
+.frontPageButton {
+  border-radius: 3px;
+  padding: 15px;
+  margin-left: 25px;
+  margin-right: 25px;
+  height: 50px;
+  width: 200px;
+  text-align: center;
+  background: #ffffff;
+  color: var(--main-bg-color);
+}
+
+/* Log In & Sign Up */
+
+.sessionView {
+  justify-content: center;
+  position: fixed;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.loginBackground {
+  background-image: url("http://wallpapercave.com/wp/rxXhHYr.jpg");
+  background-position: center center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.signupBackground {
+  background-image: url("http://www.zastavki.com/pictures/originals/2015/Games_The_battle_in_the_game_World_of_Warcraft_Mists_of_Pandaria_101685_.png");
+  background-position: center center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.sessionFormBox {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  margin-bottom: ;
+  width: 450px;
+  height: 300px;
+}
+
+.sessionFormBoxLeft {
+  float: left;
+  justify-content: center;
+  margin: auto;
+  width: 150px;
+  height: 100%;
+}
+
+.sessionformLogo {
+  margin: auto;
+}
+
+.sessionFormLogo img {
+  width: 100px;
+}
+
+.sessionFormBoxRight {
+  justify-content: center;
+  width: 300px;
+  height: 100%;
+}
+
+.sessionInputBox {
+  
 }
