@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   after_initialize :ensure_session_token
 
-  has_many: :channels,
+  has_many :channels,
     foreign_key: :admin_id
 
   attr_reader :password
