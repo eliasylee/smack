@@ -81,14 +81,6 @@ class TextChannelNav extends React.Component {
           })}
         </div>
       )
-    } else {
-      return (
-        <div className="loadingScreen">
-          <div className="sessionFormLogo">
-            <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
-          </div>
-        </div>
-      )
     }
   }
 
@@ -102,13 +94,12 @@ class TextChannelNav extends React.Component {
             </span>
           </span>
           <span className="textChannelNavBarTitleBox">
-            <span className="textChannelNavBarTitle">Text Channels</span>
+            <span className="textChannelNavBarTitle">
+              <span>Text Channels</span>
+            </span>
           </span>
           <div className="navBarSeparator"></div>
           {this.waitForTextChannels()}
-          <div className="createTextChannelButtonBox">
-            <button className="createTextChannelButton">+</button>
-          </div>
         </div>
         <div className="createTextChannelFormBoxOuter">
           {this.createTextChannelForm()}

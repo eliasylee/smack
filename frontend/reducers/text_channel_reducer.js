@@ -10,7 +10,7 @@ const TextChannelReducer = (state = defaultState, action) => {
   switch (action.type) {
     case TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
       let textChannel = action.textChannel;
-      return merge({}, state, { textChannel });
+      return textChannel;
     case TextChannelConstants.RECEIVE_ERRORS:
       let errors = action.errors;
       return merge({}, state, { errors });

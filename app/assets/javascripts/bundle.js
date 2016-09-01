@@ -25938,7 +25938,7 @@
 	  switch (action.type) {
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
 	      var textChannel = action.textChannel;
-	      return (0, _merge2.default)({}, state, { textChannel: textChannel });
+	      return textChannel;
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ERRORS:
 	      var errors = action.errors;
 	      return (0, _merge2.default)({}, state, { errors: errors });
@@ -33710,16 +33710,6 @@
 	              key: textChannel.id });
 	          })
 	        );
-	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'loadingScreen' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'sessionFormLogo' },
-	            _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
-	          )
-	        );
 	      }
 	    }
 	  }, {
@@ -33750,20 +33740,15 @@
 	            _react2.default.createElement(
 	              'span',
 	              { className: 'textChannelNavBarTitle' },
-	              'Text Channels'
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                'Text Channels'
+	              )
 	            )
 	          ),
 	          _react2.default.createElement('div', { className: 'navBarSeparator' }),
-	          this.waitForTextChannels(),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'createTextChannelButtonBox' },
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'createTextChannelButton' },
-	              '+'
-	            )
-	          )
+	          this.waitForTextChannels()
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -33812,9 +33797,13 @@
 	    'button',
 	    { onClick: changeTextChannel(textChannel, channelId, router), className: 'textChannelButton' },
 	    _react2.default.createElement(
-	      'span',
+	      'ul',
 	      null,
-	      '#',
+	      '#'
+	    ),
+	    _react2.default.createElement(
+	      'ul',
+	      null,
 	      textChannel.title
 	    )
 	  );
