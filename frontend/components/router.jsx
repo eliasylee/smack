@@ -4,7 +4,6 @@ import App from './app';
 import FrontPageContainer from './frontpage/front_page_container';
 import SessionFormContainer from './session/session_form_container';
 import ChannelNavContainer from './channels/channel_nav_container';
-import TextChannelContainer from './textchannels/text_channel_container';
 import { fetchAllChannels, fetchOneChannel } from '../actions/channel_actions';
 
 class AppRouter extends React.Component {
@@ -44,9 +43,7 @@ class AppRouter extends React.Component {
           <IndexRoute component={FrontPageContainer} />
           <Route path="/signup" component={SessionFormContainer} onEnter={this._redirectIfLoggedIn} />
           <Route path="/login" component={SessionFormContainer} onEnter={this._redirectIfLoggedIn} />
-          <Route path="/channels" component={ChannelNavContainer} onEnter={this._fetchAllChannelsOnEnter}>
-            <Route path="/channels/:id" component={TextChannelContainer} onEnter={this._fetchOneChannelOnEnter}/>
-          </Route>
+          <Route path="/channels/me" component={ChannelNavContainer} onEnter={this._fetchAllChannelsOnEnter} />
         </Route>
       </Router>
     )

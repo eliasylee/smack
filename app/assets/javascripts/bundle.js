@@ -26891,10 +26891,6 @@
 	
 	var _channel_nav_container2 = _interopRequireDefault(_channel_nav_container);
 	
-	var _text_channel_container = __webpack_require__(387);
-	
-	var _text_channel_container2 = _interopRequireDefault(_text_channel_container);
-	
 	var _channel_actions = __webpack_require__(299);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -26961,11 +26957,7 @@
 	          _react2.default.createElement(_reactRouter.IndexRoute, { component: _front_page_container2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _session_form_container2.default, onEnter: this._redirectIfLoggedIn }),
 	          _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _session_form_container2.default, onEnter: this._redirectIfLoggedIn }),
-	          _react2.default.createElement(
-	            _reactRouter.Route,
-	            { path: '/channels', component: _channel_nav_container2.default, onEnter: this._fetchAllChannelsOnEnter },
-	            _react2.default.createElement(_reactRouter.Route, { path: '/channels/:id', component: _text_channel_container2.default, onEnter: this._fetchOneChannelOnEnter })
-	          )
+	          _react2.default.createElement(_reactRouter.Route, { path: '/channels/me', component: _channel_nav_container2.default, onEnter: this._fetchAllChannelsOnEnter })
 	        )
 	      );
 	    }
@@ -33353,53 +33345,6 @@
 	};
 	
 	exports.default = (0, _reactRouter.withRouter)(MeChannelItem);
-
-/***/ },
-/* 387 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(307);
-	
-	var _text_channels = __webpack_require__(388);
-	
-	var _text_channels2 = _interopRequireDefault(_text_channels);
-	
-	var _channel_actions = __webpack_require__(299);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {
-	    channels: state.channels.channels,
-	    channel: state.channel.channel,
-	    errors: state.channel.errors
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    fetchOneChannel: function fetchOneChannel(channel) {
-	      return dispatch((0, _channel_actions.fetchOneChannel)(channel));
-	    },
-	    createChannel: function createChannel(channel) {
-	      return dispatch((0, _channel_actions.createChannel)(channel));
-	    }
-	  };
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_text_channels2.default);
-
-/***/ },
-/* 388 */
-/***/ function(module, exports) {
-
-	"use strict";
 
 /***/ }
 /******/ ]);
