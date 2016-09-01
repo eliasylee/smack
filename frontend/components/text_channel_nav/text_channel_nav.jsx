@@ -8,6 +8,7 @@ class TextChannelNav extends React.Component {
       title: "",
       description: ""
     };
+    this.textChannels = this.props.textChannels;
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -66,21 +67,45 @@ class TextChannelNav extends React.Component {
     )
   }
 
-  render () {
+  waitForTextChannels () {
     const { textChannels, channel } = this.props;
     const channelId = channel.id;
 
+    if (textChannels) {
+      return (
+        <div className="textChannelNavBarButtons">
+          {textChannels.map( textChannel => {
+            return <TextChannelNavItem textChannel={textChannel}
+                                       channelId={channel.id}
+                                       key={textChannel.id} />
+          })}
+        </div>
+      )
+    } else {
+      return (
+        <div className="loadingScreen">
+          <div className="sessionFormLogo">
+            <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
+          </div>
+        </div>
+      )
+    }
+  }
+
+  render () {
     return (
       <div className="textChannelNavBarBackground">
         <div className="textChannelNavBar">
+          <span className="textChannelNavBarHeaderBox">
+            <span className="textChannelTitleHeader">
+              <span>{this.props.channel.title}</span>
+            </span>
+          </span>
+          <span className="textChannelNavBarTitleBox">
+            <span className="textChannelNavBarTitle">Text Channels</span>
+          </span>
           <div className="navBarSeparator"></div>
-          <div className="textChannelNavBarButtons">
-            {textChannels && textChannels.map( textChannel => {
-              return <TextChannelNavItem textChannel={textChannel}
-                                         channelId={channelId}
-                                         key={textChannel.id} />
-            })}
-          </div>
+          {this.waitForTextChannels()}
           <div className="createTextChannelButtonBox">
             <button className="createTextChannelButton">+</button>
           </div>

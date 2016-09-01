@@ -8,7 +8,7 @@ const changeTextChannel = (textChannel, channelId, router) => (
 const TextChannelNavItem = ({ textChannel, channelId, router }) => {
   return (
     <button onClick={changeTextChannel(textChannel, channelId, router)} className="textChannelButton">
-      {textChannel.title}
+      <span>#{textChannel.title}</span>
     </button>
   )
 }

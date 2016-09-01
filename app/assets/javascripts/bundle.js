@@ -68,6 +68,8 @@
 	  var store = (0, _store2.default)();
 	  var root = document.getElementById('root');
 	
+	  window.store = store;
+	
 	  _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 	});
 
@@ -33534,7 +33536,7 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    channel: state.channel.channel,
-	    textChannels: state.channel.textChannels,
+	    textChannels: state.channel.channel.attachments,
 	    errors: state.channel.errors
 	  };
 	};
@@ -33591,6 +33593,7 @@
 	      title: "",
 	      description: ""
 	    };
+	    _this.textChannels = _this.props.textChannels;
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    return _this;
 	  }
@@ -33689,30 +33692,69 @@
 	      );
 	    }
 	  }, {
-	    key: 'render',
-	    value: function render() {
+	    key: 'waitForTextChannels',
+	    value: function waitForTextChannels() {
 	      var _props = this.props;
 	      var textChannels = _props.textChannels;
 	      var channel = _props.channel;
 	
 	      var channelId = channel.id;
 	
+	      if (textChannels) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelNavBarButtons' },
+	          textChannels.map(function (textChannel) {
+	            return _react2.default.createElement(_text_channel_nav_item2.default, { textChannel: textChannel,
+	              channelId: channel.id,
+	              key: textChannel.id });
+	          })
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'loadingScreen' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'sessionFormLogo' },
+	            _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
+	          )
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'textChannelNavBarBackground' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'textChannelNavBar' },
-	          _react2.default.createElement('div', { className: 'navBarSeparator' }),
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'textChannelNavBarButtons' },
-	            textChannels && textChannels.map(function (textChannel) {
-	              return _react2.default.createElement(_text_channel_nav_item2.default, { textChannel: textChannel,
-	                channelId: channelId,
-	                key: textChannel.id });
-	            })
+	            'span',
+	            { className: 'textChannelNavBarHeaderBox' },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'textChannelTitleHeader' },
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                this.props.channel.title
+	              )
+	            )
 	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'textChannelNavBarTitleBox' },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'textChannelNavBarTitle' },
+	              'Text Channels'
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: 'navBarSeparator' }),
+	          this.waitForTextChannels(),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'createTextChannelButtonBox' },
@@ -33769,7 +33811,12 @@
 	  return _react2.default.createElement(
 	    'button',
 	    { onClick: changeTextChannel(textChannel, channelId, router), className: 'textChannelButton' },
-	    textChannel.title
+	    _react2.default.createElement(
+	      'span',
+	      null,
+	      '#',
+	      textChannel.title
+	    )
 	  );
 	};
 	
