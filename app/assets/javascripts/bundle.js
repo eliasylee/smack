@@ -33437,6 +33437,18 @@
 	  return result;
 	};
 	
+	var prepChannelLength = function prepChannelLength(channel) {
+	  var title = channel.title;
+	
+	  if (title.length < 13) {
+	    return title;
+	  } else {
+	    var newTitle = title.slice(0, 10);
+	    newTitle += "...";
+	    return newTitle;
+	  }
+	};
+	
 	var changeChannel = function changeChannel(channel, router) {
 	  return function () {
 	    return router.push('/channels/' + channel.id);
@@ -33459,13 +33471,18 @@
 	          height: '50',
 	          size: '50',
 	          className: 'channelNavBarButtonImage' })
+	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { className: 'channelNavHover' },
+	        prepChannelLength(channel)
 	      )
 	    );
 	  } else {
 	    return _react2.default.createElement(
 	      'button',
 	      { onClick: changeChannel(channel, router), className: 'channelButton' },
-	      undefined.prepChannelName(channel)
+	      prepChannelName(channel)
 	    );
 	  }
 	};

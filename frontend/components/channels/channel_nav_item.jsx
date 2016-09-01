@@ -9,6 +9,18 @@ const prepChannelName = (channel) => {
   return result;
 }
 
+const prepChannelLength = (channel) => {
+  let title = channel.title;
+
+  if (title.length < 13) {
+    return title
+  } else {
+    let newTitle = title.slice(0, 10);
+    newTitle += "...";
+    return newTitle;
+  }
+}
+
 const changeChannel = (channel, router) => (
   () => router.push(`/channels/${channel.id}`)
 );
@@ -24,12 +36,13 @@ const ChannelNavItem = ({ channel, router }) => {
                      size="50"
                      className="channelNavBarButtonImage"/>
         </button>
+        <span className="channelNavHover">{prepChannelLength(channel)}</span>
       </div>
     )
   } else {
     return (
       <button onClick={changeChannel(channel, router)} className="channelButton">
-        {this.prepChannelName(channel)}
+        {prepChannelName(channel)}
       </button>
     )
   }
