@@ -9,6 +9,7 @@ class SessionForm extends React.Component {
       password: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.guestLogIn = this.guestLogIn.bind(this);
   }
 
   componentDidUpdate () {
@@ -61,6 +62,14 @@ class SessionForm extends React.Component {
         </div>
       )
     }
+  }
+
+  guestLogIn () {
+    let user = {
+      username: "guest",
+      password: "password"
+    };
+    this.props.processForm({user});
   }
 
   background () {
@@ -155,7 +164,12 @@ class SessionForm extends React.Component {
                   </div>
                 </div>
               </form>
-              { this.navLinkFooter() }
+              <div className="sessionFooterBox">
+                { this.navLinkFooter() }
+                <button className="guestLogIn" onClick={this.guestLogIn}>
+                  Guest
+                </button>
+              </div>
             </div>
           </div>
         </div>

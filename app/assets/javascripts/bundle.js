@@ -32920,6 +32920,7 @@
 	      password: ""
 	    };
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.guestLogIn = _this.guestLogIn.bind(_this);
 	    return _this;
 	  }
 	
@@ -32994,6 +32995,15 @@
 	          )
 	        );
 	      }
+	    }
+	  }, {
+	    key: 'guestLogIn',
+	    value: function guestLogIn() {
+	      var user = {
+	        username: "guest",
+	        password: "password"
+	      };
+	      this.props.processForm({ user: user });
 	    }
 	  }, {
 	    key: 'background',
@@ -33145,7 +33155,16 @@
 	                  )
 	                )
 	              ),
-	              this.navLinkFooter()
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'sessionFooterBox' },
+	                this.navLinkFooter(),
+	                _react2.default.createElement(
+	                  'button',
+	                  { className: 'guestLogIn', onClick: this.guestLogIn },
+	                  'Guest'
+	                )
+	              )
 	            )
 	          )
 	        )
@@ -33552,6 +33571,7 @@
 	
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
+	    currentUser: state.session.currentUser,
 	    channel: state.channel.channel,
 	    textChannels: state.channel.channel.attachments,
 	    errors: state.channel.errors
@@ -33765,7 +33785,17 @@
 	            )
 	          ),
 	          _react2.default.createElement('div', { className: 'navBarSeparator' }),
-	          this.waitForTextChannels()
+	          this.waitForTextChannels(),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'navBarCurrentUserOuterBox' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'navBarCurrentUserInnerBox' },
+	              _react2.default.createElement('div', { className: 'navBarCurrentUserLogo' }),
+	              _react2.default.createElement('div', { className: 'navBarCurrentUserUsername' })
+	            )
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',

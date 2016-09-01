@@ -1,4 +1,4 @@
-User.create!(username: "elias", password: "password")
+User.create!(username: "guest", password: "password")
 
 Channel.create!(admin_id: 1, title: "Smash", description: "Get smashed", icon_url: "https://www.facebookbrand.com/img/fb-art.jpg")
 Channel.create!(admin_id: 1, title: "Starcraft", description: "4 pool gg no re", icon_url: "http://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png")

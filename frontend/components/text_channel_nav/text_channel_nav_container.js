@@ -3,6 +3,7 @@ import TextChannelNav from './text_channel_nav';
 import { createTextChannel } from '../../actions/text_channel_actions';
 
 const mapStateToProps = state => ({
+  currentUser: state.session.currentUser,
   channel: state.channel.channel,
   textChannels: state.channel.channel.attachments,
   errors: state.channel.errors
