@@ -77,10 +77,6 @@ class ChannelNav extends React.Component {
     )
   }
 
-  showCreateForm () {
-
-  }
-
   render () {
     const { channels } = this.props;
     return (

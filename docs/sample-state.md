@@ -66,8 +66,6 @@
       ],
     }
   ],
-  errors: {
-    errors: []
-  },
+  errors: []
 }
 ```

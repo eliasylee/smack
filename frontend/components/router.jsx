@@ -1,10 +1,14 @@
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from './app';
+
 import FrontPageContainer from './frontpage/front_page_container';
 import SessionFormContainer from './session/session_form_container';
 import ChannelNavContainer from './channels/channel_nav_container';
+import TextChannelNavContainer from './text_channel_nav/text_channel_nav_container';
+
 import { fetchAllChannels, fetchOneChannel } from '../actions/channel_actions';
+import { fetchOneTextChannel } from '../actions/text_channel_actions';
 
 class AppRouter extends React.Component {
   constructor () {
@@ -36,6 +40,10 @@ class AppRouter extends React.Component {
     this.context.store.dispatch(fetchOneChannel());
   }
 
+  _fetchOneTextChannelOnEnter ({ store }) {
+    this.context.store.dispatch(fetchOneTextChannel());
+  }
+
   render () {
     return (
       <Router history={hashHistory}>
@@ -43,7 +51,11 @@ class AppRouter extends React.Component {
           <IndexRoute component={FrontPageContainer} />
           <Route path="/signup" component={SessionFormContainer} onEnter={this._redirectIfLoggedIn} />
           <Route path="/login" component={SessionFormContainer} onEnter={this._redirectIfLoggedIn} />
-          <Route path="/channels/me" component={ChannelNavContainer} onEnter={this._fetchAllChannelsOnEnter} />
+          <Route path="/channels" component={ChannelNavContainer} onEnter={this._fetchAllChannelsOnEnter}>
+            <Route path="/:id" component={TextChannelNavContainer} onEnter={this._fetchOneChannelOnEnter}>
+              <Route path="/:id" component={TextChannelContainer} onEnter={this._fetchOneTextChannelOnEnter} />
+            </Route>
+          </Route>
         </Route>
       </Router>
     )
