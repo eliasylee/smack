@@ -138,7 +138,6 @@ body, html {
 }
 
 .frontPageButton:active {
-  box-shadow: 0 0px #27496d;
   transform: translateY(3px);
 }
 
@@ -310,7 +309,6 @@ body, html {
 }
 
 .sessionSubmitButton:active {
-  box-shadow: 0 0px #27496d;
   transform: translateY(3px);
 }
 

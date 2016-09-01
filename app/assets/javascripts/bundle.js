@@ -22319,10 +22319,15 @@
 	
 	var _session_reducer2 = _interopRequireDefault(_session_reducer);
 	
+	var _channel_reducer = __webpack_require__(381);
+	
+	var _channel_reducer2 = _interopRequireDefault(_channel_reducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
-	  session: _session_reducer2.default
+	  session: _session_reducer2.default,
+	  channel: _channel_reducer2.default
 	});
 	
 	exports.default = RootReducer;
@@ -25757,9 +25762,13 @@
 	
 	var _session_middleware2 = _interopRequireDefault(_session_middleware);
 	
+	var _channel_middleware = __webpack_require__(378);
+	
+	var _channel_middleware2 = _interopRequireDefault(_channel_middleware);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default);
+	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _channel_middleware2.default);
 	
 	exports.default = RootMiddleware;
 
@@ -25778,7 +25787,6 @@
 	var _session_api_util = __webpack_require__(300);
 	
 	var SessionMiddleware = function SessionMiddleware(_ref) {
-	  var getState = _ref.getState;
 	  var dispatch = _ref.dispatch;
 	  return function (next) {
 	    return function (action) {
@@ -26623,6 +26631,10 @@
 	
 	var _session_form_container2 = _interopRequireDefault(_session_form_container);
 	
+	var _channel_nav_container = __webpack_require__(383);
+	
+	var _channel_nav_container2 = _interopRequireDefault(_channel_nav_container);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26671,7 +26683,8 @@
 	          { path: '/', component: _app2.default, onEnter: this._redirectIfLoggedIn },
 	          _react2.default.createElement(_reactRouter.IndexRoute, { component: _front_page_container2.default }),
 	          _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _session_form_container2.default, onEnter: this._redirectIfLoggedIn }),
-	          _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _session_form_container2.default, onEnter: this._redirectIfLoggedIn })
+	          _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _session_form_container2.default, onEnter: this._redirectIfLoggedIn }),
+	          _react2.default.createElement(_reactRouter.Route, { path: '/channels', component: _channel_nav_container2.default })
 	        )
 	      );
 	    }
@@ -32258,8 +32271,6 @@
 	
 	var _reactRedux = __webpack_require__(302);
 	
-	var _session_actions = __webpack_require__(189);
-	
 	var _front_page = __webpack_require__(375);
 	
 	var _front_page2 = _interopRequireDefault(_front_page);
@@ -32702,6 +32713,266 @@
 	}(_react2.default.Component);
 	
 	exports.default = SessionForm;
+
+/***/ },
+/* 378 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _channel_actions = __webpack_require__(379);
+	
+	var _channel_api_util = __webpack_require__(380);
+	
+	var ChannelMiddleware = function ChannelMiddleware(_ref) {
+	  var dispatch = _ref.dispatch;
+	  return function (next) {
+	    return function (action) {
+	      var fetchAllSuccess = function fetchAllSuccess(data) {
+	        return dispatch((0, _channel_actions.receiveAllChannels)(data));
+	      };
+	      var fetchOneSuccess = function fetchOneSuccess(data) {
+	        return dispatch((0, _channel_actions.receiveOneChannel)(data));
+	      };
+	      var createChannelSuccess = function createChannelSuccess(data) {
+	        return dispatch((0, _channel_actions.receiveOneChannel)());
+	      };
+	      var updateChannelSuccess = function updateChannelSuccess(data) {
+	        return dispatch((0, _channel_actions.receiveOneChannel)());
+	      };
+	      var errors = function errors(data) {
+	        return dispatch((0, _channel_actions.receiveErrors)(data));
+	      };
+	
+	      switch (action.type) {
+	        case _channel_actions.ChannelConstants.FETCH_ALL_CHANNELS:
+	          (0, _channel_api_util.fetchAllChannels)(fetchAllSuccess, errors);
+	          return next(action);
+	        case _channel_actions.ChannelConstants.FETCH_ONE_CHANNEL:
+	          (0, _channel_api_util.fetchOneChannel)(action.channel, fetchOneSuccess, errors);
+	          return next(action);
+	        case _channel_actions.ChannelConstants.CREATE_CHANNEL:
+	          (0, _channel_api_util.createChannel)(action.channel, createChannelSuccess, errors);
+	          return next(action);
+	        case _channel_actions.ChannelConstants.UPDATE_CHANNEL:
+	          (0, _channel_api_util.updateChannel)(action.channel, updateChannelSuccess, errors);
+	          return next(action);
+	        default:
+	          return next(action);
+	      }
+	    };
+	  };
+	};
+	
+	exports.default = ChannelMiddleware;
+
+/***/ },
+/* 379 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var ChannelConstants = exports.ChannelConstants = {
+	  FETCH_ALL_CHANNELS: 'FETCH_ALL_CHANNELS',
+	  RECEIVE_ALL_CHANNELS: 'RECEIVE_ALL_CHANNELS',
+	  FETCH_ONE_CHANNEL: 'FETCH_ONE_CHANNEL',
+	  CREATE_CHANNEL: 'CREATE_CHANNEL',
+	  RECEIVE_ONE_CHANNEL: 'RECEIVE_ONE_CHANNEL',
+	  UPDATE_CHANNEL: 'UPDATE_CHANNEL',
+	  DESTROY_CHANNEL: 'DESTROY_CHANNEL',
+	  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
+	};
+	
+	var fetchAllChannels = exports.fetchAllChannels = function fetchAllChannels() {
+	  return {
+	    type: ChannelConstants.FETCH_ALL_CHANNELS
+	  };
+	};
+	
+	var receiveAllChannels = exports.receiveAllChannels = function receiveAllChannels(channels) {
+	  return {
+	    type: ChannelConstants.RECEIVE_ALL_CHANNELS,
+	    channels: channels
+	
+	  };
+	};
+	
+	var fetchOneChannel = exports.fetchOneChannel = function fetchOneChannel() {
+	  return {
+	    type: ChannelConstants.FETCH_ONE_CHANNEL
+	  };
+	};
+	
+	var receiveOneChannel = exports.receiveOneChannel = function receiveOneChannel(channel) {
+	  return {
+	    type: ChannelConstants.RECEIVE_ONE_CHANNEL,
+	    channel: channel
+	
+	  };
+	};
+	
+	var createChannel = exports.createChannel = function createChannel(channel) {
+	  return {
+	    type: ChannelConstants.CREATE_CHANNEL,
+	    channel: channel
+	
+	  };
+	};
+	
+	var updateChannel = exports.updateChannel = function updateChannel(channel) {
+	  return {
+	    type: ChannelConstants.UPDATE_CHANNEL,
+	    channel: channel
+	  };
+	};
+	
+	var receiveErrors = exports.receiveErrors = function receiveErrors(errors) {
+	  return {
+	    type: ChannelConstants.RECEIVE_ERRORS,
+	    errors: errors
+	  };
+	};
+
+/***/ },
+/* 380 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var fetchAllChannels = exports.fetchAllChannels = function fetchAllChannels(success, error) {
+	  $.ajax({
+	    method: 'GET',
+	    url: '/api/channels',
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var fetchOneChannel = exports.fetchOneChannel = function fetchOneChannel(channel, success, error) {
+	  $.ajax({
+	    method: 'GET',
+	    url: '/api/channels/' + channel.id,
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var createChannel = exports.createChannel = function createChannel(channel, success, error) {
+	  $.ajax({
+	    method: 'POST',
+	    url: '/api/channels',
+	    data: channel,
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var updateChannel = exports.updateChannel = function updateChannel(channel, success, error) {
+	  $.ajax({
+	    method: 'POST',
+	    url: '/api/channels',
+	    data: channel,
+	    success: success,
+	    error: error
+	  });
+	};
+
+/***/ },
+/* 381 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _channel_actions = __webpack_require__(379);
+	
+	var _merge = __webpack_require__(190);
+	
+	var _merge2 = _interopRequireDefault(_merge);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var defaultState = {
+	  channels: [],
+	  channel: null,
+	  errors: []
+	};
+	
+	var ChannelReducer = function ChannelReducer() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _channel_actions.ChannelConstants.RECEIVE_ALL_CHANNELS:
+	      var channels = action.channels;
+	      return (0, _merge2.default)({}, state, { channels: channels });
+	    case _channel_actions.ChannelConstants.RECEIVE_ONE_CHANNEL:
+	      var channel = action.channel;
+	      return (0, _merge2.default)({}, state, { channel: channel });
+	    case _channel_actions.ChannelConstants.RECEIVE_ERRORS:
+	      var errors = action.errors;
+	      return (0, _merge2.default)({}, state, { errors: errors });
+	  }
+	};
+	
+	exports.default = ChannelReducer;
+
+/***/ },
+/* 382 */,
+/* 383 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(302);
+	
+	var _channel_nav = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./channel_nav\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	
+	var _channel_nav2 = _interopRequireDefault(_channel_nav);
+	
+	var _channel_actions = __webpack_require__(379);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    channels: state.channels,
+	    errors: state.errors
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchOneChannel: function fetchOneChannel(channel) {
+	      return dispatch((0, _channel_actions.fetchOneChannel)(channel));
+	    },
+	    createChannel: function createChannel(channel) {
+	      return dispatch((0, _channel_actions.createChannel)(channel));
+	    },
+	    fetchPersonalChannel: function fetchPersonalChannel(channel) {
+	      return dispatch((0, _channel_actions.fetchPersonalChannel)());
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_channel_nav2.default);
 
 /***/ }
 /******/ ]);

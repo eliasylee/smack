@@ -2,49 +2,72 @@
 {
   current_user: {
     id: 1,
-    iconUrl: "http://imghostingsite.com/HaikuEsqueUrl",
-    username: "username"
+    username: "username",
+    friends: [
+      { id: 2,
+        iconUrl: "",
+        username: "second_username",
+      }
+    ],
+    direct_messages: [
+      { id: 1,
+        user_id_one: 1,
+        user_id_two: 2,
+        messages: [
+          { author_id: 1,
+            author_username: "username",
+            body: "Hi!",
+          }, {
+            author_id: 1,
+            author_username: "username",
+            body: "!!!"
+          }
+        ]
+      }
+    ],
   },
-  friends: {
-    1: {
-      id: 2,
-      iconUrl: "",
-      username: "second_username",
+  channels: [
+    { id: 1,
+      title: "Channel Title",
+      icon_url: "http://imghostingsite.com/AnotherHaikuCool"
     }
+  ],
+  channel: {
+    id: 1,
+    iconUrl: "http://imghostingsite.com/AnotherHaikuCool"
+    title: "ChannelTitle",
+    description: "Channel description"
+    text_channels: [
+      {
+        id: 1,
+        title: "TextChannelTitle",
+        description: "Text channel description"
+      },
+      {
+        id: 2,
+        title: "YetAnotherTextChannel",
+        description: "Second text channel"
+      }
+    ]
   },
-  channels: {
-    1: {
-      id: 1,
-      iconUrl: "http://imghostingsite.com/AnotherHaikuCool"
-      title: "ChannelTitle",
-      description: "Channel description"
-    }
-  },
-  text_channels: {
-    1: {
-      id: 1,
+  text_channel: [
+    { id: 1,
       title: "TextChannelTitle",
       description: "Text channel description"
+      messages: [
+        { author_id: 1,
+          author_username: "username",
+          body: "Hello, is anyone there?"
+        },
+        { author_id: 1,
+          author_username: "username",
+          body: "I'm lonely :("
+        }
+      ],
     }
+  ],
+  errors: {
+    errors: []
   },
-  direct_message:{
-    id: 1,
-    user_id_one: 1,
-    user_id_two: 2
-  },
-  messages: {
-    1: {
-      author_id: 1,
-      body: "Hello, is anyone there?",
-      chatable_type: "text_channel",
-      chatable_id: 1
-    },
-    2: {
-      author_id: 1,
-      body: "I'm lonely :("
-      chatable_type: "text_channel",
-      chatable_id: 1
-    }
-  }
 }
 ```

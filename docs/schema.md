@@ -9,7 +9,7 @@ icon_url        | string    |
 password_digest | string    | not null
 session_token   | string    | not null, indexed, unique
 
-## friends
+## friendships
 column name     | data type | details
 ----------------|-----------|-----------------------
 user_id_one     | integer   | not null
@@ -20,6 +20,12 @@ column name     | data type | details
 ----------------|-----------|-----------------------
 user_id         | integer   | not null
 channel_id      | integer   | not null
+
+## personal_channel
+column name    | data type | details
+---------------|-----------|-----------------------
+user_id        | integer   | not null, foreign key (references users)
+channel_id     | integer   | not null, foreign key (references channels)
 
 ## channels
 column name    | data type | details

@@ -1,8 +1,10 @@
 import { applyMiddleware } from 'redux';
-import SessionMiddleWare from './session_middleware';
+import SessionMiddleware from './session_middleware';
+import ChannelMiddleware from './channel_middleware';
 
 const RootMiddleware = applyMiddleware(
-  SessionMiddleWare
+  SessionMiddleware,
+  ChannelMiddleware
 );
 
 export default RootMiddleware;
