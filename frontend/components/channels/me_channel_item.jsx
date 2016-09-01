@@ -1,15 +1,13 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
-const changeChannel = () => {
-  this.props.router.push({
-    pathname: `/channels/me`
-  });
-}
+const changeChannel = (router) => (
+  () => router.push(`/channels/me`)
+);
 
-const MeChannelItem = () => {
+const MeChannelItem = ({ channel, router }) => {
   return (
-    <button onClick={changeChannel()} className="personalChannelButton">
+    <button onClick={changeChannel(router)} className="personalChannelButton">
       <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="personal-channel-icon" />
     </button>
   )

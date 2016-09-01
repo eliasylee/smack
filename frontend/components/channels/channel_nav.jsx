@@ -55,7 +55,7 @@ class ChannelNav extends React.Component {
                 <input type="text"
                   value={this.state.description}
                   onChange={this.update("description")}
-                  className="sessionInput" />
+                  className="channelInput" />
               </div>
             </div>
             <div className="createChannelUrlBox">
@@ -64,7 +64,7 @@ class ChannelNav extends React.Component {
                 <input type="text"
                   value={this.state.icon_url}
                   onChange={this.update("icon_url")}
-                  className="sessionInput" />
+                  className="channelInput" />
               </div>
             </div>
             <div className="channelSubmitBoxOuter">
@@ -78,19 +78,18 @@ class ChannelNav extends React.Component {
     )
   }
 
-  meChannelButton () {
-    return {
+  meChannelButton ({ currentUser }) {
+    return (
       <MeChannelItem />
-    }
+    )
   }
 
   createChannelButton () {
-
+    <button>Create Channel</button>
   }
 
   render () {
     const { channels } = this.props;
-
     return (
       <div className="channelNavBar">
         <div className="meChannelButtonBox">
@@ -103,6 +102,9 @@ class ChannelNav extends React.Component {
         </div>
         <div className="createChannelButtonBox">
           {this.createChannelButton()}
+        </div>
+        <div className="createChannelFormBox">
+          {this.createChannelForm()}
         </div>
       </div>
     );

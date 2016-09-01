@@ -5,18 +5,8 @@ class User < ApplicationRecord
 
   after_initialize :ensure_session_token
 
-  has_many :owned_channels,
-    foreign_key: :admin_id
-
-  has_many :subscriptions
   has_many :channels,
-    through: :subscriptions,
-    source: :channels
-
-  has_many :friendships
-  has_many :friends,
-    through: :friendships,
-    source: :users
+    foreign_key: :admin_id
 
   attr_reader :password
 

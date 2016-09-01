@@ -19,7 +19,7 @@ const ChannelNavItem = ({ channel }) => {
   if (channel.icon_url) {
     return (
       <button onClick={changeChannel(channel)} className="channelButton">
-              <img src={channel.icon_url}alt="channel-button" />
+              <img src={channel.icon_url} alt="channel-button" />
       </button>
     )
   } else {

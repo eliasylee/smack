@@ -4,12 +4,14 @@ import App from './app';
 import FrontPageContainer from './frontpage/front_page_container';
 import SessionFormContainer from './session/session_form_container';
 import ChannelNavContainer from './channels/channel_nav_container';
+import { fetchAllChannels } from '../actions/channel_actions';
 
 class AppRouter extends React.Component {
-  constructor (props) {
-    super(props);
+  constructor () {
+    super();
     this._ensureLoggedIn = this._ensureLoggedIn.bind(this);
     this._redirectIfLoggedIn = this._redirectIfLoggedIn.bind(this);
+    this._fetchAllChannelsOnEnter = this._fetchAllChannelsOnEnter.bind(this);
   }
 
   _ensureLoggedIn (nextState, replace) {
@@ -26,6 +28,10 @@ class AppRouter extends React.Component {
     }
   }
 
+  _fetchAllChannelsOnEnter ({ store }) {
+    this.context.store.dispatch(fetchAllChannels());
+  }
+
   render () {
     return (
       <Router history={hashHistory}>
@@ -33,11 +39,15 @@ class AppRouter extends React.Component {
           <IndexRoute component={FrontPageContainer} />
           <Route path="/signup" component={SessionFormContainer} onEnter={this._redirectIfLoggedIn} />
           <Route path="/login" component={SessionFormContainer} onEnter={this._redirectIfLoggedIn} />
-          <Route path="/channels" component={ChannelNavContainer} />
+          <Route path="/channels/me" component={ChannelNavContainer} onEnter={this._fetchAllChannelsOnEnter}/>
         </Route>
       </Router>
     )
   }
 }
+
+AppRouter.contextTypes = {
+  store: React.PropTypes.object.isRequired
+};
 
 export default AppRouter;
