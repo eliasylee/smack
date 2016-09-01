@@ -78,27 +78,30 @@ class ChannelNav extends React.Component {
   }
 
   render () {
-    const { channels } = this.props;
+    const { channels, children } = this.props;
     return (
-      <div className="channelNavBarBackground">
-        <div className="channelNavBar">
-          <div className="meChannelButtonBox">
-            <MeChannelItem />
+      <div className="channelTextChannelBox">
+        <div className="channelNavBarBackground">
+          <div className="channelNavBar">
+            <div className="meChannelButtonBox">
+              <MeChannelItem />
+            </div>
+            <div className="navBarSeparator">
+            </div>
+            <div className="channelNavBarButtons">
+              {channels.map( channel => {
+                return <ChannelNavItem channel={channel} key={channel.id} />
+              })}
+            </div>
+            <div className="createChannelButtonBox">
+              <button className="createChannelButton">+</button>
+            </div>
           </div>
-          <div className="navBarSeparator">
-          </div>
-          <div className="channelNavBarButtons">
-            {channels.map( channel => {
-              return <ChannelNavItem channel={channel} key={channel.id} />
-            })}
-          </div>
-          <div className="createChannelButtonBox">
-            <button className="createChannelButton">+</button>
+          <div className="createChannelFormBoxOuter">
+            {this.createChannelForm()}
           </div>
         </div>
-        <div className="createChannelFormBoxOuter">
-          {this.createChannelForm()}
-        </div>
+        {children}
       </div>
     );
   }

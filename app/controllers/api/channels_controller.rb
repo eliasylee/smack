@@ -4,12 +4,13 @@ class Api::ChannelsController < ApplicationController
   end
 
   def show
-    @channel = Channel.find_by_id(params[:id]).includes(:text_channels)
+    @channel = Channel.find_by_id(params[:id])
   end
 
   def create
     @channel = Channel.new(channel_params)
     @channel.admin_id = current_user.id
+    TextChannel.create!(channel_id: @channel.id, title: "General")
 
     if @channel.save
       render :show

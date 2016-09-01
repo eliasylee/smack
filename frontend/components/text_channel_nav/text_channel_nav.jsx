@@ -21,6 +21,18 @@ class TextChannelNav extends React.Component {
     return e => this.setState({[property]: e.target.value});
   }
 
+  renderTitleTitle () {
+    let errors = this.props.errors.map( error => {
+      return error
+    });
+
+    if (errors === []) {
+      return <div className="titleWord">Title</div>;
+    } else {
+      return <div className="titleWord channelErrors">{errors[0]}</div>;
+    }
+  }
+
   createTextChannelForm () {
     return (
       <div className="createTextChannelFormBoxInner">
@@ -55,14 +67,15 @@ class TextChannelNav extends React.Component {
   }
 
   render () {
-    const { textChannels } = this.props.channel;
-    const channelId = this.props.channel.id;
+    const { textChannels, channel } = this.props;
+    const channelId = channel.id;
+
     return (
       <div className="textChannelNavBarBackground">
         <div className="textChannelNavBar">
           <div className="navBarSeparator"></div>
           <div className="textChannelNavBarButtons">
-            {textChannels.map( textChannel => {
+            {textChannels && textChannels.map( textChannel => {
               return <TextChannelNavItem textChannel={textChannel}
                                          channelId={channelId}
                                          key={textChannel.id} />

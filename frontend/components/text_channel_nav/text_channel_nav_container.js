@@ -4,6 +4,7 @@ import { createTextChannel } from '../../actions/text_channel_actions';
 
 const mapStateToProps = state => ({
   channel: state.channel.channel,
+  textChannels: state.channel.textChannels,
   errors: state.channel.errors
 });
 

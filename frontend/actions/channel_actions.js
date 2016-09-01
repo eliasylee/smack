@@ -18,14 +18,14 @@ export const receiveAllChannels = channels => ({
   channels
 })
 
-export const fetchOneChannel = () => ({
-  type: ChannelConstants.FETCH_ONE_CHANNEL
+export const fetchOneChannel = channel => ({
+  type: ChannelConstants.FETCH_ONE_CHANNEL,
+  channel
 })
 
 export const receiveOneChannel = channel => ({
   type: ChannelConstants.RECEIVE_ONE_CHANNEL,
   channel
-
 })
 
 export const createChannel = channel => ({

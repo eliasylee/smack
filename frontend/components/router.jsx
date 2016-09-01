@@ -10,60 +10,45 @@ import TextChannelNavContainer from './text_channel_nav/text_channel_nav_contain
 import { fetchAllChannels, fetchOneChannel } from '../actions/channel_actions';
 import { fetchOneTextChannel } from '../actions/text_channel_actions';
 
-class AppRouter extends React.Component {
-  constructor () {
-    super();
-    this._ensureLoggedIn = this._ensureLoggedIn.bind(this);
-    this._redirectIfLoggedIn = this._redirectIfLoggedIn.bind(this);
-    this._fetchAllChannelsOnEnter = this._fetchAllChannelsOnEnter.bind(this);
-  }
-
-  _ensureLoggedIn (nextState, replace) {
-    const currentUser = this.props.currentUser;
+const AppRouter = ({ store }) => {
+  const ensureLoggedIn = (nextState, replace) => {
+    const currentUser = currentUser;
     if (!currentUser) {
       replace('/login');
     }
   }
 
-  _redirectIfLoggedIn (nextState, replace) {
-    const currentUser = this.props.currentUser;
+  const redirectIfLoggedIn = (nextState, replace) => {
+    const currentUser = currentUser;
     if (currentUser) {
-      replace('/channels/me');
+      replace('/channels/1');
     }
   }
 
-  _fetchAllChannelsOnEnter ({ store }) {
-    this.context.store.dispatch(fetchAllChannels());
+  const fetchAllChannelsOnEnter = () => {
+    store.dispatch(fetchAllChannels());
   }
 
-  _fetchOneChannelOnEnter ({ store }) {
-    this.context.store.dispatch(fetchOneChannel());
+  const fetchOneChannelOnEnter = (nextState) => {
+    store.dispatch(fetchOneChannel(nextState.params.id));
   }
 
-  _fetchOneTextChannelOnEnter ({ store }) {
-    this.context.store.dispatch(fetchOneTextChannel());
+  const fetchOneTextChannelOnEnter = () => {
+    store.dispatch(fetchOneTextChannel());
   }
 
-  render () {
-    return (
-      <Router history={hashHistory}>
-        <Route path="/" component={App} onEnter={this._redirectIfLoggedIn}>
-          <IndexRoute component={FrontPageContainer} />
-          <Route path="/signup" component={SessionFormContainer} onEnter={this._redirectIfLoggedIn} />
-          <Route path="/login" component={SessionFormContainer} onEnter={this._redirectIfLoggedIn} />
-          <Route path="/channels" component={ChannelNavContainer} onEnter={this._fetchAllChannelsOnEnter}>
-            <Route path="/:id" component={TextChannelNavContainer} onEnter={this._fetchOneChannelOnEnter}>
-              <Route path="/:id" component={TextChannelContainer} onEnter={this._fetchOneTextChannelOnEnter} />
-            </Route>
-          </Route>
+  return (
+    <Router history={hashHistory}>
+      <Route path="/" component={App} onEnter={redirectIfLoggedIn}>
+        <IndexRoute component={FrontPageContainer} />
+        <Route path="/signup" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
+        <Route path="/login" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
+        <Route path="/channels" component={ChannelNavContainer} onEnter={fetchAllChannelsOnEnter}>
+          <Route path="/channels/:id" component={TextChannelNavContainer} onEnter={fetchOneChannelOnEnter} />
         </Route>
-      </Router>
-    )
-  }
+      </Route>
+    </Router>
+  )
 }
-
-AppRouter.contextTypes = {
-  store: React.PropTypes.object.isRequired
-};
 
 export default AppRouter;

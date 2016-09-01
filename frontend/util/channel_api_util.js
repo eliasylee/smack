@@ -10,7 +10,7 @@ export const fetchAllChannels = (success, error) => {
 export const fetchOneChannel = (channel, success, error) => {
   $.ajax({
     method: 'GET',
-    url: `/api/channels/${channel.id}`,
+    url: `/api/channels/${channel}`,
     success,
     error
   });
@@ -29,7 +29,7 @@ export const createChannel = (channel, success, error) => {
 export const updateChannel = (channel, success, error) => {
   $.ajax({
     method: 'POST',
-    url: '/api/channels',
+    url: `/api/channels/${channel.id}`,
     data: channel,
     success,
     error
