@@ -7,8 +7,12 @@ const changeChannel = (router) => (
 
 const MeChannelItem = ({ channel, router }) => {
   return (
-    <button onClick={changeChannel(router)} className="personalChannelButton">
-      <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="personal-channel-icon" />
+    <button onClick={changeChannel(router)} className="meChannelButton">
+      <img src="https://images.designtrends.com/wp-content/uploads/2016/01/12111017/Multiple-users-silhouettes.png"
+           alt="personal-channel-icon"
+           height="50"
+           width="50"
+           className="meChannelButtonImage"/>
     </button>
   )
 }

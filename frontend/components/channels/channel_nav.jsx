@@ -37,73 +37,70 @@ class ChannelNav extends React.Component {
 
   createChannelForm () {
     return (
-      <div className="createChannelFormBoxOuter">
-        <div className="createChannelFormBoxInner">
-          <form onClick={this.handleSubmit} className="createChannelForm">
-            <div className="createChannelNameBox">
-              {this.renderTitleTitle()}
-              <div className="titleInputLine">
-                <input type="text"
-                  value={this.state.title}
-                  onChange={this.update("title")}
-                  className="sessionInput" />
-              </div>
+      <div className="createChannelFormBoxInner">
+        <span className="closeCreateChannelForm">x</span>
+        <form onClick={this.handleSubmit} className="createChannelForm">
+          <div className="createChannelNameBox">
+            {this.renderTitleTitle()}
+            <div className="titleInputLine">
+              <input type="text"
+                value={this.state.title}
+                onChange={this.update("title")}
+                className="sessionInput" />
             </div>
-            <div className="createChannelDescriptionBox">
-              <div className="descriptionWord">Description</div>
-              <div className="descriptionInputLine">
-                <input type="text"
-                  value={this.state.description}
-                  onChange={this.update("description")}
-                  className="channelInput" />
-              </div>
+          </div>
+          <div className="createChannelDescriptionBox">
+            <div className="descriptionWord">Description</div>
+            <div className="descriptionInputLine">
+              <input type="text"
+                value={this.state.description}
+                onChange={this.update("description")}
+                className="channelInput" />
             </div>
-            <div className="createChannelUrlBox">
-              <div className="iconurlWord">Icon URL</div>
-              <div className="urlInputLine">
-                <input type="text"
-                  value={this.state.icon_url}
-                  onChange={this.update("icon_url")}
-                  className="channelInput" />
-              </div>
+          </div>
+          <div className="createChannelUrlBox">
+            <div className="iconurlWord">Icon URL</div>
+            <div className="urlInputLine">
+              <input type="text"
+                value={this.state.icon_url}
+                onChange={this.update("icon_url")}
+                className="channelInput" />
             </div>
-            <div className="channelSubmitBoxOuter">
-              <div className="channelSubmitBoxInner">
-                <input className="channelSubmitButton" type="submit" value="Submit" />
-              </div>
+          </div>
+          <div className="channelSubmitBoxOuter">
+            <div className="channelSubmitBoxInner">
+              <input className="channelSubmitButton" type="submit" value="Submit" />
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     )
   }
 
-  meChannelButton ({ currentUser }) {
-    return (
-      <MeChannelItem />
-    )
-  }
+  showCreateForm () {
 
-  createChannelButton () {
-    <button>Create Channel</button>
   }
 
   render () {
     const { channels } = this.props;
     return (
-      <div className="channelNavBar">
-        <div className="meChannelButtonBox">
-          <MeChannelItem />
+      <div className="channelNavBarBackground">
+        <div className="channelNavBar">
+          <div className="meChannelButtonBox">
+            <MeChannelItem />
+          </div>
+          <div className="navBarSeparator">
+          </div>
+          <div className="channelNavBarButtons">
+            {channels.map( channel => {
+              return <ChannelNavItem channel={channel} key={channel.id} />
+            })}
+          </div>
+          <div className="createChannelButtonBox">
+            <button className="createChannelButton">+</button>
+          </div>
         </div>
-        <div className="channelNavBarButtons">
-          {channels.map( channel => {
-            return <ChannelNavItem channel={channel} />
-          })};
-        </div>
-        <div className="createChannelButtonBox">
-          {this.createChannelButton()}
-        </div>
-        <div className="createChannelFormBox">
+        <div className="createChannelFormBoxOuter">
           {this.createChannelForm()}
         </div>
       </div>
