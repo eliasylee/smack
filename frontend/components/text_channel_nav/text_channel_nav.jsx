@@ -76,7 +76,7 @@ class TextChannelNav extends React.Component {
   }
 
   waitForTextChannels () {
-    const { textChannels, channel } = this.props;
+    const { textChannels, channel, clearTextChannels } = this.props;
     const channelId = channel.id;
 
     if (textChannels) {
@@ -97,6 +97,7 @@ class TextChannelNav extends React.Component {
   }
 
   render () {
+    let user = this.props.currentUser || { username: "" }
     return (
       <div className="textChannelNavBarBackground">
         <div className="textChannelNavBarBackgroundInner">
@@ -122,7 +123,7 @@ class TextChannelNav extends React.Component {
                 </div>
               </div>
               <div className="currentUsernameBox">
-                <span className="currentUsername">{this.props.currentUser.username}</span>
+                <span className="currentUsername">{user.username}</span>
               </div>
             </div>
             <div className='NavBarCurrentUserRightBox'>

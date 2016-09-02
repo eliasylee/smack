@@ -25794,6 +25794,10 @@
 	    case _channel_actions.ChannelConstants.RECEIVE_ONE_CHANNEL:
 	      var channel = action.channel;
 	      return (0, _merge2.default)({}, state, { channel: channel });
+	    case _channel_actions.ChannelConstants.CLEAR_TEXT_CHANNELS:
+	      var emptyChannelState = (0, _merge2.default)({}, state);
+	      emptyChannelState.channel.attachments = [];
+	      return emptyChannelState;
 	    case _channel_actions.ChannelConstants.RECEIVE_ERRORS:
 	      var errors = action.errors;
 	      return (0, _merge2.default)({}, state, { errors: errors });
@@ -25821,6 +25825,7 @@
 	  RECEIVE_ONE_CHANNEL: 'RECEIVE_ONE_CHANNEL',
 	  UPDATE_CHANNEL: 'UPDATE_CHANNEL',
 	  DESTROY_CHANNEL: 'DESTROY_CHANNEL',
+	  CLEAR_TEXT_CHANNELS: 'CLEAR_TEXT_CHANNELS',
 	  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
 	};
 	
@@ -25862,6 +25867,12 @@
 	  return {
 	    type: ChannelConstants.UPDATE_CHANNEL,
 	    channel: channel
+	  };
+	};
+	
+	var clearTextChannels = exports.clearTextChannels = function clearTextChannels() {
+	  return {
+	    type: ChannelConstants.CLEAR_TEXT_CHANNELS
 	  };
 	};
 	
@@ -33217,6 +33228,9 @@
 	  return {
 	    createChannel: function createChannel(channel) {
 	      return dispatch((0, _channel_actions.createChannel)(channel));
+	    },
+	    clearTextChannels: function clearTextChannels() {
+	      return dispatch((0, _channel_actions.clearTextChannels)());
 	    }
 	  };
 	};
@@ -33390,6 +33404,7 @@
 	      var _props = this.props;
 	      var channels = _props.channels;
 	      var children = _props.children;
+	      var clearTextChannels = _props.clearTextChannels;
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -33410,7 +33425,9 @@
 	              'div',
 	              { className: 'channelNavBarButtons' },
 	              channels.map(function (channel) {
-	                return _react2.default.createElement(_channel_nav_item2.default, { channel: channel, key: channel.id });
+	                return _react2.default.createElement(_channel_nav_item2.default, { channel: channel,
+	                  clearTextChannels: clearTextChannels,
+	                  key: channel.id });
 	              })
 	            ),
 	            _react2.default.createElement(
@@ -33477,15 +33494,17 @@
 	  }
 	};
 	
-	var changeChannel = function changeChannel(channel, router) {
+	var changeChannel = function changeChannel(channel, router, clearTextChannels) {
 	  return function () {
-	    return router.push('/channels/' + channel.id);
+	    clearTextChannels();
+	    router.push('/channels/' + channel.id);
 	  };
 	};
 	
 	var ChannelNavItem = function ChannelNavItem(_ref) {
 	  var channel = _ref.channel;
 	  var router = _ref.router;
+	  var clearTextChannels = _ref.clearTextChannels;
 	
 	  if (channel.icon_url) {
 	    return _react2.default.createElement(
@@ -33493,7 +33512,7 @@
 	      { className: 'channelButtonBox' },
 	      _react2.default.createElement(
 	        'button',
-	        { onClick: changeChannel(channel, router), className: 'channelButton' },
+	        { onClick: changeChannel(channel, router, clearTextChannels), className: 'channelButton' },
 	        _react2.default.createElement('img', { src: channel.icon_url,
 	          alt: 'channel-button',
 	          height: '50',
@@ -33589,7 +33608,7 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    createText: function createText(textChannel) {
+	    createTextChannel: function createTextChannel(textChannel) {
 	      return dispatch((0, _text_channel_actions.createTextChannel)(textChannel));
 	    },
 	    logout: function logout() {
@@ -33756,6 +33775,7 @@
 	      var _props = this.props;
 	      var textChannels = _props.textChannels;
 	      var channel = _props.channel;
+	      var clearTextChannels = _props.clearTextChannels;
 	
 	      var channelId = channel.id;
 	
@@ -33779,6 +33799,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var user = this.props.currentUser || { username: "" };
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'textChannelNavBarBackground' },
@@ -33842,7 +33863,7 @@
 	                _react2.default.createElement(
 	                  'span',
 	                  { className: 'currentUsername' },
-	                  this.props.currentUser.username
+	                  user.username
 	                )
 	              )
 	            ),
@@ -33899,7 +33920,7 @@
 	
 	var changeTextChannel = function changeTextChannel(textChannel, channelId, router) {
 	  return function () {
-	    return router.push('/channels/' + channelId + '/' + textChannel.id);
+	    router.push('/channels/' + channelId + '/' + textChannel.id);
 	  };
 	};
 	

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ChannelNav from './channel_nav';
-import { createChannel } from '../../actions/channel_actions';
+import { createChannel, clearTextChannels } from '../../actions/channel_actions';
 
 const mapStateToProps = state => ({
   channels: state.channels.channels,
@@ -8,7 +8,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createChannel: channel => dispatch(createChannel(channel))
+  createChannel: channel => dispatch(createChannel(channel)),
+  clearTextChannels: () => dispatch(clearTextChannels())
 });
 
 export default connect(

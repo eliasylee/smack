@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createText: textChannel => dispatch(createTextChannel(textChannel)),
+  createTextChannel: textChannel => dispatch(createTextChannel(textChannel)),
   logout: () => dispatch(logout())
 });
 

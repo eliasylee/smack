@@ -78,7 +78,7 @@ class ChannelNav extends React.Component {
   }
 
   render () {
-    const { channels, children } = this.props;
+    const { channels, children, clearTextChannels } = this.props;
     return (
       <div className="channelTextChannelBox">
         <div className="channelNavBarBackground">
@@ -90,7 +90,9 @@ class ChannelNav extends React.Component {
             </div>
             <div className="channelNavBarButtons">
               {channels.map( channel => {
-                return <ChannelNavItem channel={channel} key={channel.id} />
+                return <ChannelNavItem channel={channel}
+                                       clearTextChannels={clearTextChannels}
+                                       key={channel.id} />
               })}
             </div>
             <div className="createChannelButtonBox">
