@@ -36,7 +36,7 @@
     id: 1,
     iconUrl: "http://imghostingsite.com/AnotherHaikuCool"
     title: "ChannelTitle",
-    description: "Channel description"
+    description: "Channel description",
     text_channels: [
       {
         id: 1,
@@ -54,16 +54,18 @@
     { id: 1,
       title: "TextChannelTitle",
       description: "Text channel description"
-      messages: [
-        { author_id: 1,
-          author_username: "username",
-          body: "Hello, is anyone there?"
-        },
-        { author_id: 1,
-          author_username: "username",
-          body: "I'm lonely :("
-        }
-      ],
+    }
+  ],
+  messages: [
+    1: { id: 1,
+         author_id: 1,
+         author_username: "username",
+         body: "Hello, is anyone there?"
+    },
+    2: { id: 2,
+         author_id: 1,
+         author_username: "username",
+         body: "I'm lonely :("
     }
   ],
   errors: []

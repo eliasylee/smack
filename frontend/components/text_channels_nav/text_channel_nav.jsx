@@ -85,7 +85,8 @@ class TextChannelNav extends React.Component {
           {textChannels.map( textChannel => {
             return <TextChannelNavItem textChannel={textChannel}
                                        channelId={channel.id}
-                                       key={textChannel.id} />
+                                       key={textChannel.id}
+                                       clearTextMessages={this.clearTextMessages}/>
           })}
         </div>
       )

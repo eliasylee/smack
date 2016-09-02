@@ -26041,9 +26041,13 @@
 	
 	var _text_channel_middleware2 = _interopRequireDefault(_text_channel_middleware);
 	
+	var _message_middleware = __webpack_require__(394);
+	
+	var _message_middleware2 = _interopRequireDefault(_message_middleware);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _channel_middleware2.default, _text_channel_middleware2.default);
+	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _channel_middleware2.default, _text_channel_middleware2.default, _message_middleware2.default);
 	
 	exports.default = RootMiddleware;
 
@@ -27100,6 +27104,10 @@
 	
 	var _text_channel_nav_container2 = _interopRequireDefault(_text_channel_nav_container);
 	
+	var _text_channel_chat_container = __webpack_require__(397);
+	
+	var _text_channel_chat_container2 = _interopRequireDefault(_text_channel_chat_container);
+	
 	var _channel_actions = __webpack_require__(299);
 	
 	var _text_channel_actions = __webpack_require__(302);
@@ -27146,7 +27154,11 @@
 	      _react2.default.createElement(
 	        _reactRouter.Route,
 	        { path: '/channels', component: _channel_nav_container2.default, onEnter: fetchAllChannelsOnEnter },
-	        _react2.default.createElement(_reactRouter.Route, { path: '/channels/:id', component: _text_channel_nav_container2.default, onEnter: fetchOneChannelOnEnter })
+	        _react2.default.createElement(
+	          _reactRouter.Route,
+	          { path: '/channels/:id', component: _text_channel_nav_container2.default, onEnter: fetchOneChannelOnEnter },
+	          _react2.default.createElement(_reactRouter.Route, { path: 'channels/:id/:id', component: _text_channel_chat_container2.default, onEnter: fetchOneTextChannelOnEnter })
+	        )
 	      )
 	    )
 	  );
@@ -33595,6 +33607,8 @@
 	
 	var _session_actions = __webpack_require__(189);
 	
+	var _message_actions = __webpack_require__(395);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state) {
@@ -33610,6 +33624,9 @@
 	  return {
 	    createTextChannel: function createTextChannel(textChannel) {
 	      return dispatch((0, _text_channel_actions.createTextChannel)(textChannel));
+	    },
+	    clearTextMessages: function clearTextMessages() {
+	      return dispatch((0, _message_actions.clearTextMessages)());
 	    },
 	    logout: function logout() {
 	      return dispatch((0, _session_actions.logout)());
@@ -33772,6 +33789,8 @@
 	  }, {
 	    key: 'waitForTextChannels',
 	    value: function waitForTextChannels() {
+	      var _this3 = this;
+	
 	      var _props = this.props;
 	      var textChannels = _props.textChannels;
 	      var channel = _props.channel;
@@ -33786,7 +33805,8 @@
 	          textChannels.map(function (textChannel) {
 	            return _react2.default.createElement(_text_channel_nav_item2.default, { textChannel: textChannel,
 	              channelId: channel.id,
-	              key: textChannel.id });
+	              key: textChannel.id,
+	              clearTextMessages: _this3.clearTextMessages });
 	          })
 	        );
 	      }
@@ -33918,8 +33938,9 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var changeTextChannel = function changeTextChannel(textChannel, channelId, router) {
+	var changeTextChannel = function changeTextChannel(textChannel, channelId, router, clearTextMessages) {
 	  return function () {
+	    clearTextMessages();
 	    router.push('/channels/' + channelId + '/' + textChannel.id);
 	  };
 	};
@@ -33928,10 +33949,11 @@
 	  var textChannel = _ref.textChannel;
 	  var channelId = _ref.channelId;
 	  var router = _ref.router;
+	  var clearTextMessages = _ref.clearTextMessages;
 	
 	  return _react2.default.createElement(
 	    'button',
-	    { onClick: changeTextChannel(textChannel, channelId, router), className: 'textChannelButton' },
+	    { onClick: changeTextChannel(textChannel, channelId, router, clearTextMessages), className: 'textChannelButton' },
 	    _react2.default.createElement(
 	      'ul',
 	      null,
@@ -33946,6 +33968,205 @@
 	};
 	
 	exports.default = (0, _reactRouter.withRouter)(TextChannelNavItem);
+
+/***/ },
+/* 394 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _message_actions = __webpack_require__(395);
+	
+	var _message_api_util = __webpack_require__(396);
+	
+	var MessageMiddleware = function MessageMiddleware(_ref) {
+	  var dispatch = _ref.dispatch;
+	  return function (next) {
+	    return function (action) {
+	      var fetchOneSuccess = function fetchOneSuccess(data) {
+	        return dispatch((0, _message_actions.receiveOneMessage)(data));
+	      };
+	      var createMessageSuccess = function createMessageSuccess(data) {
+	        return dispatch((0, _message_actions.receiveOneMessage)());
+	      };
+	      var updateMessageSuccess = function updateMessageSuccess(data) {
+	        return dispatch((0, _message_actions.receiveOneMessage)());
+	      };
+	      var errors = function errors(data) {
+	        return dispatch((0, _message_actions.receiveErrors)(data));
+	      };
+	      switch (action.type) {
+	        case _message_actions.MessageConstants.FETCH_ONE_MESSAGE:
+	          (0, _message_api_util.fetchOneMessage)(action.channel, fetchOneSuccess, errors);
+	          return next(action);
+	        case _message_actions.MessageConstants.CREATE_MESSAGE:
+	          (0, _message_api_util.createMessage)(action.channel, createMessageSuccess, errors);
+	          return next(action);
+	        case _message_actions.MessageConstants.UPDATE_MESSAGE:
+	          (0, _message_api_util.updateMessage)(action.channel, updateMessageSuccess, errors);
+	          return next(action);
+	        default:
+	          return next(action);
+	      }
+	    };
+	  };
+	};
+	
+	exports.default = MessageMiddleware;
+
+/***/ },
+/* 395 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var MessageConstants = exports.MessageConstants = {
+	  CREATE_MESSAGE: 'CREATE_MESSAGE',
+	  RECEIVE_ONE_MESSAGE: 'RECEIVE_ONE_MESSAGE',
+	  UPDATE_MESSAGE: 'UPDATE_MESSAGE',
+	  DESTROY_MESSAGE: 'DESTROY_MESSAGE',
+	  CLEAR_TEXT_MESSAGES: 'CLEAR_TEXT_MESSAGES',
+	  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
+	};
+	
+	var createMessage = exports.createMessage = function createMessage(channel) {
+	  return {
+	    type: MessageConstants.CREATE_MESSAGE,
+	    channel: channel
+	  };
+	};
+	
+	var receiveOneMessage = exports.receiveOneMessage = function receiveOneMessage(channel) {
+	  return {
+	    type: MessageConstants.RECEIVE_ONE_MESSAGE,
+	    channel: channel
+	  };
+	};
+	
+	var updateMessage = exports.updateMessage = function updateMessage(channel) {
+	  return {
+	    type: MessageConstants.UPDATE_MESSAGE,
+	    channel: channel
+	  };
+	};
+	
+	var destroyMessage = exports.destroyMessage = function destroyMessage(channel) {
+	  return {
+	    type: MessageConstants.DESTROY_MESSAGE,
+	    channel: channel
+	  };
+	};
+	
+	var clearTextMessages = exports.clearTextMessages = function clearTextMessages() {
+	  return {
+	    type: MessageConstants.CLEAR_TEXT_MESSAGES
+	  };
+	};
+	
+	var receiveErrors = exports.receiveErrors = function receiveErrors(errors) {
+	  return {
+	    type: MessageConstants.RECEIVE_ERRORS,
+	    errors: errors
+	  };
+	};
+
+/***/ },
+/* 396 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var createMessage = exports.createMessage = function createMessage(message, success, error) {
+	  $.ajax({
+	    method: 'POST',
+	    url: '/api/messages',
+	    data: message,
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var updateMessage = exports.updateMessage = function updateMessage(message, success, error) {
+	  $.ajax({
+	    method: 'POST',
+	    url: '/api/messages/' + message.id,
+	    data: message,
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var destroyMessage = exports.destroyMessage = function destroyMessage(message, success, error) {
+	  $.ajax({
+	    method: 'DELETE',
+	    url: '/api/messages/' + message.id,
+	    data: message,
+	    success: success,
+	    error: error
+	  });
+	};
+
+/***/ },
+/* 397 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(311);
+	
+	var _text_channel_chat = __webpack_require__(398);
+	
+	var _text_channel_chat2 = _interopRequireDefault(_text_channel_chat);
+	
+	var _message_actions = __webpack_require__(395);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	;
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    currentUser: state.session.currentUser,
+	    messages: state.text_channel.attachments,
+	    errors: state.text_channel.errors
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createMessage: function createMessage(message) {
+	      return dispatch((0, _message_actions.createMessage)(message));
+	    },
+	    updateMessage: function updateMessage(message) {
+	      return dispatch((0, _message_actions.updateMessage)(message));
+	    },
+	    destroyMessage: function destroyMessage(message) {
+	      return dispatch((0, _message_actions.destroyMessage)(message));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_text_channel_chat2.default);
+
+/***/ },
+/* 398 */
+/***/ function(module, exports) {
+
+	"use strict";
 
 /***/ }
 /******/ ]);
