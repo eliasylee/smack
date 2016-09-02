@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   has_many :channels,
     foreign_key: :admin_id
+  has_many :messages,
+    foreign_key: :author_id
 
   attr_reader :password
 

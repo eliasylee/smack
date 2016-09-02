@@ -1,16 +1,13 @@
-json.text_channel do
-  json.id @text_channel.id
-  json.title @text_channel.title
-  json.description @text_channel.description
+json.extract! @text_channel, :id, :title, :description
 
-  json.messages @text_channel.messages do |message|
-    json.id message.id
-    json.timestamps message.timestamps
-    json.body message.body
+json.attachments @text_channel.messages do |message|
+  json.id message.id
+  json.created_at message.created_at
+  json.updated_at message.updated_at
+  json.body message.body
 
-    json.author do
-      json.id message.author.id
-      json.username message.author.username
-    end
+  json.author do
+    json.id message.author.id
+    json.username message.author.username
   end
 end
