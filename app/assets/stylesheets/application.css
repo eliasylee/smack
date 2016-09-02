@@ -138,6 +138,7 @@ body, html {
 }
 
 .frontPageButton:active {
+  box-shadow: 0 0px #27496d;
   transform: translateY(3px);
 }
 
@@ -322,6 +323,7 @@ body, html {
 }
 
 .sessionSubmitButton:active {
+  box-shadow: 0 0px #27496d;
   transform: translateY(3px);
 }
 
@@ -352,12 +354,13 @@ body, html {
 }
 
 .guestLogIn:hover {
-  box-shadow: 0 2px #27496d;
-  transform: translateY(3px);
+  box-shadow: 0 3px #27496d;
+  transform: translateY(2px);
 }
 
 .guestLogIn:active {
-  transform: translateY(2px);
+  box-shadow: 0 0px #27496d;
+  transform: translateY(3px);
 }
 
 .sessionFormFooter a, a:visited, a:link, a:active {
@@ -584,7 +587,7 @@ body, html {
 .textChannelNavBarBackground {
   position: fixed;
   top: 0;
-  bottom: 0;
+  bottom: 0px;
   left: 80px;
   height: 100%;
   width: 240px;
@@ -712,7 +715,37 @@ body, html {
   padding-right: 5px;
 }
 
-.textChannelButton :nth-child(1) {
+.navBarCurrentUserOuterBox {
+  height: 56px;
+  width: 100%;
+  border-top: 2px solid #24272B;
+  background-color: #282B30;
+  display: flex;
+  justify-content: left;
+}
+
+.navBarCurrentUserInnerBox {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.currentLogoBox {
+  padding-left: 20px;
+}
+
+.guestLogo {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #2E3136;
+}
+
+.currentUsernameBox {
+
+}
+
+.currentUsername {
 
 }
 

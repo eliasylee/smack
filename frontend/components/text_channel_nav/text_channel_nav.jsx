@@ -102,11 +102,11 @@ class TextChannelNav extends React.Component {
           {this.waitForTextChannels()}
           <div className="navBarCurrentUserOuterBox">
             <div className="navBarCurrentUserInnerBox">
-              <div className="navBarCurrentUserLogo">
-                
+              <div className="currentLogoBox">
+                <span className="guestLogo">Guest</span>
               </div>
-              <div className="navBarCurrentUserUsername">
-
+              <div className="currentUsernameBox">
+                <span className="currentUsername">{this.props.currentUser.username}</span>
               </div>
             </div>
           </div>

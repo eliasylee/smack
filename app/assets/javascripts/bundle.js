@@ -65,11 +65,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	document.addEventListener('DOMContentLoaded', function () {
-	  var store = (0, _store2.default)();
-	  var root = document.getElementById('root');
+	  var store = void 0;
+	  if (window.currentUser) {
+	    var initialState = { session: { currentUser: window.currentUser } };
+	    store = (0, _store2.default)(initialState);
+	  } else {
+	    store = (0, _store2.default)();
+	  }
 	
 	  window.store = store;
-	
+	  var root = document.getElementById('root');
 	  _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 	});
 
@@ -21431,7 +21436,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	   value: true
+	  value: true
 	});
 	
 	var _redux = __webpack_require__(173);
@@ -21447,8 +21452,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var configureStore = function configureStore() {
-	   var preloadedState = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-	   return (0, _redux.createStore)(_root_reducer2.default, preloadedState, _root_middleware2.default);
+	  var preloadedState = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  return (0, _redux.createStore)(_root_reducer2.default, preloadedState, _root_middleware2.default);
 	};
 	
 	exports.default = configureStore;
@@ -26319,7 +26324,7 @@
 	
 	var _reactRedux = __webpack_require__(311);
 	
-	var _router = __webpack_require__(320);
+	var _router = __webpack_require__(394);
 	
 	var _router2 = _interopRequireDefault(_router);
 	
@@ -27049,97 +27054,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 320 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(321);
-	
-	var _app = __webpack_require__(382);
-	
-	var _app2 = _interopRequireDefault(_app);
-	
-	var _front_page_container = __webpack_require__(383);
-	
-	var _front_page_container2 = _interopRequireDefault(_front_page_container);
-	
-	var _session_form_container = __webpack_require__(385);
-	
-	var _session_form_container2 = _interopRequireDefault(_session_form_container);
-	
-	var _channel_nav_container = __webpack_require__(387);
-	
-	var _channel_nav_container2 = _interopRequireDefault(_channel_nav_container);
-	
-	var _text_channel_nav_container = __webpack_require__(391);
-	
-	var _text_channel_nav_container2 = _interopRequireDefault(_text_channel_nav_container);
-	
-	var _channel_actions = __webpack_require__(299);
-	
-	var _text_channel_actions = __webpack_require__(302);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var AppRouter = function AppRouter(_ref) {
-	  var store = _ref.store;
-	
-	  var ensureLoggedIn = function ensureLoggedIn(nextState, replace) {
-	    var currentUser = currentUser;
-	    if (!currentUser) {
-	      replace('/login');
-	    }
-	  };
-	
-	  var redirectIfLoggedIn = function redirectIfLoggedIn(nextState, replace) {
-	    var currentUser = currentUser;
-	    if (currentUser) {
-	      replace('/channels/1');
-	    }
-	  };
-	
-	  var fetchAllChannelsOnEnter = function fetchAllChannelsOnEnter() {
-	    store.dispatch((0, _channel_actions.fetchAllChannels)());
-	  };
-	
-	  var fetchOneChannelOnEnter = function fetchOneChannelOnEnter(nextState) {
-	    store.dispatch((0, _channel_actions.fetchOneChannel)(nextState.params.id));
-	  };
-	
-	  var fetchOneTextChannelOnEnter = function fetchOneTextChannelOnEnter() {
-	    store.dispatch((0, _text_channel_actions.fetchOneTextChannel)());
-	  };
-	
-	  return _react2.default.createElement(
-	    _reactRouter.Router,
-	    { history: _reactRouter.hashHistory },
-	    _react2.default.createElement(
-	      _reactRouter.Route,
-	      { path: '/', component: _app2.default, onEnter: redirectIfLoggedIn },
-	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _front_page_container2.default }),
-	      _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _session_form_container2.default, onEnter: redirectIfLoggedIn }),
-	      _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _session_form_container2.default, onEnter: redirectIfLoggedIn }),
-	      _react2.default.createElement(
-	        _reactRouter.Route,
-	        { path: '/channels', component: _channel_nav_container2.default, onEnter: fetchAllChannelsOnEnter },
-	        _react2.default.createElement(_reactRouter.Route, { path: '/channels/:id', component: _text_channel_nav_container2.default, onEnter: fetchOneChannelOnEnter })
-	      )
-	    )
-	  );
-	};
-	
-	exports.default = AppRouter;
-
-/***/ },
+/* 320 */,
 /* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32925,6 +32840,11 @@
 	  }
 	
 	  _createClass(SessionForm, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.redirectIfLoggedIn();
+	    }
+	  }, {
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate() {
 	      this.redirectIfLoggedIn();
@@ -33017,17 +32937,17 @@
 	  }, {
 	    key: 'renderUsernameTitle',
 	    value: function renderUsernameTitle() {
+	      if (this.props.errors === undefined) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'passwordWord' },
+	          'Username'
+	        );
+	      };
+	
 	      var errors = this.props.errors.map(function (error) {
 	        return error;
 	      });
-	
-	      if (errors === []) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'usernameWord' },
-	          'Username'
-	        );
-	      }
 	
 	      for (var i = 0; i < errors.length; i++) {
 	        if (errors[i].slice(0, 8) === "Username") {
@@ -33048,17 +32968,17 @@
 	  }, {
 	    key: 'renderPasswordTitle',
 	    value: function renderPasswordTitle() {
-	      var errors = this.props.errors.map(function (error) {
-	        return error;
-	      });
-	
-	      if (errors === []) {
+	      if (this.props.errors === undefined) {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'passwordWord' },
 	          'Password'
 	        );
-	      }
+	      };
+	
+	      var errors = this.props.errors.map(function (error) {
+	        return error;
+	      });
 	
 	      for (var i = 0; i < errors.length; i++) {
 	        if (errors[i].slice(0, 8) === "Password") {
@@ -33792,8 +33712,24 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'navBarCurrentUserInnerBox' },
-	              _react2.default.createElement('div', { className: 'navBarCurrentUserLogo' }),
-	              _react2.default.createElement('div', { className: 'navBarCurrentUserUsername' })
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'currentLogoBox' },
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'guestLogo' },
+	                  'Guest'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'currentUsernameBox' },
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'currentUsername' },
+	                  this.props.currentUser.username
+	                )
+	              )
 	            )
 	          )
 	        ),
@@ -33857,6 +33793,96 @@
 	};
 	
 	exports.default = (0, _reactRouter.withRouter)(TextChannelNavItem);
+
+/***/ },
+/* 394 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(321);
+	
+	var _app = __webpack_require__(382);
+	
+	var _app2 = _interopRequireDefault(_app);
+	
+	var _front_page_container = __webpack_require__(383);
+	
+	var _front_page_container2 = _interopRequireDefault(_front_page_container);
+	
+	var _session_form_container = __webpack_require__(385);
+	
+	var _session_form_container2 = _interopRequireDefault(_session_form_container);
+	
+	var _channel_nav_container = __webpack_require__(387);
+	
+	var _channel_nav_container2 = _interopRequireDefault(_channel_nav_container);
+	
+	var _text_channel_nav_container = __webpack_require__(391);
+	
+	var _text_channel_nav_container2 = _interopRequireDefault(_text_channel_nav_container);
+	
+	var _channel_actions = __webpack_require__(299);
+	
+	var _text_channel_actions = __webpack_require__(302);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var AppRouter = function AppRouter(_ref) {
+	  var currentUser = _ref.currentUser;
+	  var store = _ref.store;
+	
+	  var ensureLoggedIn = function ensureLoggedIn(nextState, replace) {
+	    if (!currentUser) {
+	      replace('/login');
+	    }
+	  };
+	
+	  var redirectIfLoggedIn = function redirectIfLoggedIn(nextState, replace) {
+	    if (currentUser) {
+	      replace('/channels/1');
+	    }
+	  };
+	
+	  var fetchAllChannelsOnEnter = function fetchAllChannelsOnEnter() {
+	    store.dispatch((0, _channel_actions.fetchAllChannels)());
+	  };
+	
+	  var fetchOneChannelOnEnter = function fetchOneChannelOnEnter(nextState) {
+	    store.dispatch((0, _channel_actions.fetchOneChannel)(nextState.params.id));
+	  };
+	
+	  var fetchOneTextChannelOnEnter = function fetchOneTextChannelOnEnter() {
+	    store.dispatch((0, _text_channel_actions.fetchOneTextChannel)());
+	  };
+	
+	  return _react2.default.createElement(
+	    _reactRouter.Router,
+	    { history: _reactRouter.hashHistory },
+	    _react2.default.createElement(
+	      _reactRouter.Route,
+	      { path: '/', component: _app2.default, onEnter: redirectIfLoggedIn },
+	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _front_page_container2.default }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _session_form_container2.default, onEnter: redirectIfLoggedIn }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _session_form_container2.default, onEnter: redirectIfLoggedIn }),
+	      _react2.default.createElement(
+	        _reactRouter.Route,
+	        { path: '/channels', component: _channel_nav_container2.default, onEnter: fetchAllChannelsOnEnter },
+	        _react2.default.createElement(_reactRouter.Route, { path: '/channels/:id', component: _text_channel_nav_container2.default, onEnter: fetchOneChannelOnEnter })
+	      )
+	    )
+	  );
+	};
+	
+	exports.default = AppRouter;
 
 /***/ }
 /******/ ]);

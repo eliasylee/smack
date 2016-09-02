@@ -12,6 +12,10 @@ class SessionForm extends React.Component {
     this.guestLogIn = this.guestLogIn.bind(this);
   }
 
+  componentDidMount () {
+    this.redirectIfLoggedIn();
+  }
+
   componentDidUpdate () {
     this.redirectIfLoggedIn();
   }
@@ -85,13 +89,13 @@ class SessionForm extends React.Component {
   }
 
   renderUsernameTitle () {
+    if (this.props.errors === undefined) {
+      return <div className="passwordWord">Username</div>;
+    };
+
     let errors = this.props.errors.map( error => {
       return error;
     });
-
-    if (errors === []) {
-      return <div className="usernameWord">Username</div>;
-    }
 
     for (var i = 0; i < errors.length; i++) {
       if (errors[i].slice(0, 8) === "Username") {
@@ -103,13 +107,13 @@ class SessionForm extends React.Component {
   }
 
   renderPasswordTitle () {
+    if (this.props.errors === undefined) {
+      return <div className="passwordWord">Password</div>;
+    };
+
     let errors = this.props.errors.map( error => {
       return error
     });
-
-    if (errors === []) {
-      return <div className="passwordWord">Password</div>;
-    }
 
     for (var i = 0; i < errors.length; i++) {
       if (errors[i].slice(0, 8) === "Password") {
