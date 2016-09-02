@@ -4,8 +4,8 @@ import App from '../app';
 
 import FrontPageContainer from '../frontpage/front_page_container';
 import SessionFormContainer from '../session/session_form_container';
-import ChannelNavContainer from '../channels/channel_nav_container';
-import TextChannelNavContainer from '../text_channel_nav/text_channel_nav_container';
+import ChannelNavContainer from '../channels_nav/channel_nav_container';
+import TextChannelNavContainer from '../text_channels_nav/text_channel_nav_container';
 
 import { fetchAllChannels, fetchOneChannel } from '../../actions/channel_actions';
 import { fetchOneTextChannel } from '../../actions/text_channel_actions';

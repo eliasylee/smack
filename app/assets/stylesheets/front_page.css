@@ -1,0 +1,82 @@
+/* Front Page */
+
+:root {
+  --main-bg-color: #4d4d4d;
+}
+
+.frontPageView {
+  height: 100%;
+  width: 100%;
+  background: var(--main-bg-color);
+}
+
+.frontPageHeader {
+  height: 100px;
+  width: 100%;
+}
+
+.frontPageLogoBoxSmall {
+  float: left;
+  height: 100px;
+  width: 100px;
+}
+
+.frontPageLogoBoxSmall img {
+  width: 100px;
+}
+
+.frontPageBody {
+  width: 100%;
+}
+
+.frontPageContentBox {
+  width: 500px;
+  height: 100vh;
+  margin: auto;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: bold;
+}
+
+.frontPageLogoBoxLarge img {
+  width: 300px;
+  margin: auto;
+}
+
+.frontPageTagLineBox {
+  padding-top: 5px;
+  padding-bottom: 25px;
+  margin: auto;
+  text-align: center;
+  font-size: 32px;
+  color: #ffffff;
+}
+
+.frontPageButtonBox {
+  width: 500px;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.frontPageButton {
+  border-radius: 3px;
+  margin-bottom: 30px;
+  margin-left: 25px;
+  margin-right: 25px;
+  height: 50px;
+  width: 200px;
+  text-align: center;
+  background: #ffffff;
+  color: var(--main-bg-color);
+  box-shadow: 0 5px #27496d;
+}
+
+.frontPageButton:hover {
+  box-shadow: 0 3px #27496d;
+  transform: translateY(2px);
+}
+
+.frontPageButton:active {
+  box-shadow: 0 0px #27496d;
+  transform: translateY(3px);
+}

@@ -1,0 +1,272 @@
+/* Text Channel Nav Bar */
+
+.textChannelNavBarBackground {
+  position: fixed;
+  top: 0;
+  bottom: 0px;
+  left: 80px;
+  height: 100%;
+  width: 240px;
+  display: flex;
+  justify-content: center;
+  background-color: #2E3136;
+  font-family: 'Open Sans', sans-serif;
+  color: #6C6E72;
+  z-index: -1;
+}
+
+.textChannelNavBarBackgroundInner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.textChannelNavBar {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.textChannelNavBarHeaderBox {
+  height: 56px;
+  width: 100%;
+  border-bottom: 2px solid #24272B;
+  display: flex;
+  justify-content: left;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.textChannelNavBarHeaderBox:hover {
+  background-color: #282B30;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.textChannelTitleHeader {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 25px;
+}
+
+.textChannelTitleHeader span {
+  width: 100%;
+  height: 50%;
+  font-size: 12px;
+  color: #fff;
+  line-height: 28px;
+}
+
+.textChannelNavBarTitleBox {
+  height: 46px;
+  width: 240px;
+}
+
+.textChannelNavBarTitle {
+  padding-left: 20px;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.textChannelNavBarTitle span {
+  width: 50%;
+  height: 50%;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 56px;
+}
+
+.textChannelNavBarTitle:hover {
+  color: #fff;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.textChannelNavBarButtons {
+  height: 40px;
+  width: 240px;
+  font-size: 14px;
+}
+
+.textChannelButton {
+  height: 40px;
+  width: 240px;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+  display: flex;
+  justify-content: left;
+}
+
+.textChannelButton:hover {
+  background-color: #282B30;
+  color: #fff;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.textChannelButton :nth-child(1) {
+  color: #494C52;
+  font-size: 17px;
+  line-height: 20px;
+  padding-left: 20px;
+  padding-right: 5px;
+}
+
+.navBarCurrentUserOuterBox {
+  height: 56px;
+  width: 100%;
+  border-top: 2px solid #24272B;
+  background-color: #282B30;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navBarCurrentUserLeftBox {
+  display: flex;
+  justify-content: left;
+}
+
+.currentLogoBox {
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: default;
+}
+
+.guestLogo {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #2E3136;
+  font-size: 15px;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.currentUsernameBox {
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.currentUsername {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #fff;
+}
+
+.navBarCurrentUserRightBox {
+  display: flex;
+  justify-content: right;
+}
+
+.logOutButton {
+  height: 30px;
+  width: 70px;
+  display: none;
+  background-color: #F36C6C;
+}
+
+.logOutIconBoxOuter {
+  display: flex;
+  justify-content: center;
+  height: 56px;
+}
+
+.logOutIconBoxInner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 15px;
+}
+
+.logOutIcon {
+  text-align: center;
+  font-size: 20px;
+  height: 30px;
+  width: 50px;
+  background-color: #282B30;
+  color: #fff;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.logOutIconBoxOuter:hover .logOutIcon {
+  background-color: #F04747;
+  border-radius: 2px;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+/* Modal Create Text Channel Form */
+
+.createTextChannelFormBoxOuter {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.createTextChannelFormBoxInner {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.closeCreateTextChannelForm {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.closeCreateTextChannelForm:hover,
+.closeCreateTextChannelForm:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -25954,7 +25954,7 @@
 	  switch (action.type) {
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
 	      var textChannel = action.textChannel;
-	      return textChannel;
+	      return (0, _merge2.default)({}, state, { textChannel: textChannel });
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ERRORS:
 	      var errors = action.errors;
 	      return (0, _merge2.default)({}, state, { errors: errors });

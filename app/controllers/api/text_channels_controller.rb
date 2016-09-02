@@ -1,6 +1,6 @@
 class Api::TextChannelsController < ApplicationController
   def show
-    @text_channel = TextChannel.find_by_id(params[:id]).includes(:messages).includes(:author)
+    @text_channel = TextChannel.find_by_id(params[:id])
   end
 
   def create

@@ -21,4 +21,8 @@ class ApplicationController < ActionController::Base
     current_user = nil
     session[:session_token] = nil
   end
+
+  def require_author
+    logout_user!
+  end
 end
