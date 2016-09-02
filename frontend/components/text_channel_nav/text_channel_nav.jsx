@@ -1,5 +1,6 @@
 import React from 'react';
 import TextChannelNavItem from './text_channel_nav_item';
+import { withRouter } from 'react-router';
 
 class TextChannelNav extends React.Component {
   constructor (props) {
@@ -10,6 +11,13 @@ class TextChannelNav extends React.Component {
     };
     this.textChannels = this.props.textChannels;
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
+  }
+
+  componentWillReceiveProps (newProps) {
+    if (!newProps.currentUser) {
+      this.props.router.push(`/login`);
+    }
   }
 
   handleSubmit (e) {
@@ -84,29 +92,44 @@ class TextChannelNav extends React.Component {
     }
   }
 
+  handleLogOut () {
+    this.props.logout();
+  }
+
   render () {
     return (
       <div className="textChannelNavBarBackground">
-        <div className="textChannelNavBar">
-          <span className="textChannelNavBarHeaderBox">
-            <span className="textChannelTitleHeader">
-              <span>{this.props.channel.title}</span>
+        <div className="textChannelNavBarBackgroundInner">
+          <div className="textChannelNavBar">
+            <span className="textChannelNavBarHeaderBox">
+              <span className="textChannelTitleHeader">
+                <span>{this.props.channel.title}</span>
+              </span>
             </span>
-          </span>
-          <span className="textChannelNavBarTitleBox">
-            <span className="textChannelNavBarTitle">
-              <span>Text Channels</span>
+            <span className="textChannelNavBarTitleBox">
+              <span className="textChannelNavBarTitle">
+                <span>Text Channels</span>
+              </span>
             </span>
-          </span>
-          <div className="navBarSeparator"></div>
-          {this.waitForTextChannels()}
+            <div className="navBarSeparator"></div>
+            {this.waitForTextChannels()}
+          </div>
           <div className="navBarCurrentUserOuterBox">
-            <div className="navBarCurrentUserInnerBox">
+            <div className="navBarCurrentUserLeftBox">
               <div className="currentLogoBox">
-                <span className="guestLogo">Guest</span>
+                <div className="guestLogo">
+                  <div>G</div>
+                </div>
               </div>
               <div className="currentUsernameBox">
                 <span className="currentUsername">{this.props.currentUser.username}</span>
+              </div>
+            </div>
+            <div className='NavBarCurrentUserRightBox'>
+              <div className="logOutIconBoxOuter">
+                <div className="logOutIconBoxInner">
+                  <button className="logOutIcon" onClick={this.handleLogOut}>>>></button>
+                </div>
               </div>
             </div>
           </div>
@@ -119,4 +142,4 @@ class TextChannelNav extends React.Component {
   }
 }
 
-export default TextChannelNav;
+export default withRouter(TextChannelNav);

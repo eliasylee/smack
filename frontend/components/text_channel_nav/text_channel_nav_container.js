@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import TextChannelNav from './text_channel_nav';
 import { createTextChannel } from '../../actions/text_channel_actions';
+import { logout } from '../../actions/session_actions';
 
 const mapStateToProps = state => ({
   currentUser: state.session.currentUser,
@@ -10,7 +11,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createText: textChannel => dispatch(createTextChannel(textChannel))
+  createText: textChannel => dispatch(createTextChannel(textChannel)),
+  logout: () => dispatch(logout())
 });
 
 export default connect(

@@ -41,7 +41,7 @@ const ChannelNavItem = ({ channel, router }) => {
     )
   } else {
     return (
-      <button onClick={changeChannel(channel, router)} className="channelButton">
+      <button onClick={changeChannel(channel, router)} className="channelButtonText">
         {prepChannelName(channel)}
       </button>
     )
