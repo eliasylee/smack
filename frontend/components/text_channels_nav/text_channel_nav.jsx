@@ -86,7 +86,7 @@ class TextChannelNav extends React.Component {
             return <TextChannelNavItem textChannel={textChannel}
                                        channelId={channel.id}
                                        key={textChannel.id}
-                                       clearTextMessages={this.clearTextMessages}/>
+                                       clearTextMessages={this.props.clearTextMessages}/>
           })}
         </div>
       )

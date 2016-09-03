@@ -5,14 +5,13 @@ import { createMessage,
          destroyMessage } from '../../actions/message_actions';;
 
 const mapStateToProps = state => ({
+  textChannel: state.textChannel.textChannel,
   currentUser: state.session.currentUser,
-  messages: state.text_channel.attachments,
-  errors: state.text_channel.errors
+  messages: state.textChannel.textChannel.attachments,
+  errors: state.textChannel.errors
 });
 
 const mapDispatchToProps = dispatch => ({
-  createMessage: message => dispatch(createMessage(message)),
-  updateMessage: message => dispatch(updateMessage(message)),
   destroyMessage: message => dispatch(destroyMessage(message))
 });
 

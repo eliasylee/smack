@@ -53,21 +53,22 @@
   text_channel: [
     { id: 1,
       title: "TextChannelTitle",
-      description: "Text channel description"
+      description: "Text channel description",
+      messages: [
+        1: { id: 1,
+             author_id: 1,
+             author_username: "username",
+             body: "Hello, is anyone there?"
+        },
+        2: { id: 2,
+             author_id: 1,
+             author_username: "username",
+             body: "I'm lonely :("
+        }
+      ]
     }
   ],
-  messages: [
-    1: { id: 1,
-         author_id: 1,
-         author_username: "username",
-         body: "Hello, is anyone there?"
-    },
-    2: { id: 2,
-         author_id: 1,
-         author_username: "username",
-         body: "I'm lonely :("
-    }
-  ],
+
   errors: []
 }
 ```
