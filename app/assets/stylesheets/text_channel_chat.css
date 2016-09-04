@@ -6,20 +6,57 @@
   bottom: 0px;
   left: 320px;
   height: 100%;
-  width: 800px;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   background-color: #fff;
   font-family: 'Open Sans', sans-serif;
 }
 
 .textChannelChatBox {
   display: flex;
+  width: 100%;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .textChannelChatBoxHeader {
-  width: 800px;
-  height: 58px;
+  width: 100%;
+  min-height: 57px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #eceeef;
+}
+
+.textChannelChatBoxHash {
+  color: #8a8e94;
+  font-size: 20px;
+  font-weight: 300;
+  padding-left: 20px;
+  padding-right: 3px;
+}
+
+.textChannelChatBoxName {
+  color: #4f545c;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1px;
+}
+
+.textChannelChatBoxSeparator {
+  color: #e9e7e7;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 25px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.textChannelChatBoxDescription {
+  color: #cdcdcd;
+  font-size: 14px;
+}
+
+.textChannelMessagesBox {
+  
 }

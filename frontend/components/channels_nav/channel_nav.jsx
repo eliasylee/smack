@@ -86,8 +86,7 @@ class ChannelNav extends React.Component {
             <div className="meChannelButtonBox">
               <MeChannelItem />
             </div>
-            <div className="navBarSeparator">
-            </div>
+            <div className="navBarSeparator"></div>
             <div className="channelNavBarButtons">
               {channels.map( channel => {
                 return <ChannelNavItem channel={channel}

@@ -21,11 +21,35 @@ const prepChannelLength = (channel) => {
   }
 }
 
-const changeChannel = (stateChannel, channel, router, clearTextChannels, clearTextMessages) => (
+const isDisabled = (stateChannel, channel) => {
+  if (channel.id === stateChannel.id) {
+    return "disabled";
+  } else {
+    return "";
+  }
+}
+
+const isActive = (stateChannel, channel) => {
+  if (channel.id === stateChannel.id) {
+    return "activeChannelNavBarButtonImage";
+  } else {
+    return "inactiveChannelNavBarButtonImage";
+  }
+}
+
+const isActiveChannelBar = (stateChannel, channel) => {
+  if (channel.id === stateChannel.id) {
+    return "activeChannelBar";
+  } else {
+    return "inactiveChannelBar";
+  }
+}
+
+const changeChannel = (channel, router, clearTextChannels, clearTextMessages) => (
   () => {
     clearTextChannels();
     clearTextMessages();
-    router.push(`/channels/${channel.id}/${stateChannel.attachments[0].id}`)
+    router.push(`/channels/${channel.id}/${channel.attachments[0].id}`)
   }
 );
 
@@ -33,12 +57,13 @@ const ChannelNavItem = ({ stateChannel, channel, router, clearTextChannels, clea
   if (channel.icon_url) {
     return (
       <div className="channelButtonBox" >
-        <button onClick={changeChannel(stateChannel, channel, router, clearTextChannels, clearTextMessages )} className="channelButton">
+        <div className={isActiveChannelBar(stateChannel, channel)}></div>
+        <button onClick={changeChannel(channel, router, clearTextChannels, clearTextMessages)}
+                className="channelButton"
+                disabled={isDisabled(stateChannel, channel)} >
                 <img src={channel.icon_url}
                      alt="channel-button"
-                     height="50"
-                     size="50"
-                     className="channelNavBarButtonImage"/>
+                     className={isActive(stateChannel, channel)}/>
         </button>
         <span className="channelNavHover">{prepChannelLength(channel)}</span>
       </div>

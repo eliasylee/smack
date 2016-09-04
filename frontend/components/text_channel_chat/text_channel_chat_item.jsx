@@ -5,10 +5,12 @@ class TextChannelChatItem extends React.Component {
   constructor (props) {
     super(props);
     this.state = { view: true }
+    this.handleDestroyMessage = this.handleDestroyMessage.bind(this);
+    this.message = this.props.message;
   }
 
-  handleDestroyMessage (message, destroyMessage) {
-    this.props.destroyMessage(message);
+  handleDestroyMessage () {
+    this.props.destroyMessage(this.message);
   }
 
   toggleUpdate () {
@@ -24,7 +26,7 @@ class TextChannelChatItem extends React.Component {
             <button onClick={this.toggleUpdate}>Update</button>
           </div>
           <div className="TextChannelMessageDelete">
-            <button onClick={this.handleDestroyMessage(message)}>Delete</button>
+            <button onClick={this.handleDestroyMessage}>Delete</button>
           </div>
         </div>
       )

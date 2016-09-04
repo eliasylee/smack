@@ -25940,6 +25940,10 @@
 	
 	var _messages_reducer = __webpack_require__(304);
 	
+	var _message_selector = __webpack_require__(403);
+	
+	var _message_selector2 = _interopRequireDefault(_message_selector);
+	
 	var _merge = __webpack_require__(190);
 	
 	var _merge2 = _interopRequireDefault(_merge);
@@ -25947,7 +25951,9 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var defaultState = {
-	  textChannel: {},
+	  textChannel: {
+	    messages: {}
+	  },
 	  errors: []
 	};
 	
@@ -25955,17 +25961,22 @@
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
 	  var action = arguments[1];
 	
+	  var newState = (0, _merge2.default)({}, state);
 	  switch (action.type) {
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
 	      var textChannel = action.textChannel;
-	      return (0, _merge2.default)({}, state, { textChannel: textChannel });
-	    case _message_actions.MessageConstants.CLEAR_TEXT_MESSAGES:
-	      var newState = (0, _merge2.default)({}, state);
-	      newState.textChannel.attachments = [];
+	      var keyedMessages = (0, _message_selector2.default)(textChannel.attachments);
+	      newState.textChannel.id = textChannel.id;
+	      newState.textChannel.description = textChannel.description;
+	      newState.textChannel.messages = keyedMessages;
 	      return newState;
+	    case _message_actions.MessageConstants.CLEAR_TEXT_MESSAGES:
+	      newState.textChannel.attachments = [];
+	      return (0, _merge2.default)({}, state, newState);
 	    case _message_actions.MessageConstants.RECEIVE_ONE_MESSAGE:
-	      var messages = (0, _messages_reducer.MessagesReducer)(state.messages, action);
-	      return (0, _merge2.default)({}, state, { messages: messages });
+	      var newMessages = (0, _messages_reducer.MessagesReducer)(state.textChannel.messages, action);
+	      newState = defaultState.textChannel.messages = newMessages;
+	      return (0, _merge2.default)({}, state, newState);
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ERRORS:
 	      var errors = action.errors;
 	      return (0, _merge2.default)({}, state, { errors: errors });
@@ -33715,11 +33726,35 @@
 	  }
 	};
 	
-	var changeChannel = function changeChannel(stateChannel, channel, router, clearTextChannels, clearTextMessages) {
+	var isDisabled = function isDisabled(stateChannel, channel) {
+	  if (channel.id === stateChannel.id) {
+	    return "disabled";
+	  } else {
+	    return "";
+	  }
+	};
+	
+	var isActive = function isActive(stateChannel, channel) {
+	  if (channel.id === stateChannel.id) {
+	    return "activeChannelNavBarButtonImage";
+	  } else {
+	    return "inactiveChannelNavBarButtonImage";
+	  }
+	};
+	
+	var isActiveChannelBar = function isActiveChannelBar(stateChannel, channel) {
+	  if (channel.id === stateChannel.id) {
+	    return "activeChannelBar";
+	  } else {
+	    return "inactiveChannelBar";
+	  }
+	};
+	
+	var changeChannel = function changeChannel(channel, router, clearTextChannels, clearTextMessages) {
 	  return function () {
 	    clearTextChannels();
 	    clearTextMessages();
-	    router.push('/channels/' + channel.id + '/' + stateChannel.attachments[0].id);
+	    router.push('/channels/' + channel.id + '/' + channel.attachments[0].id);
 	  };
 	};
 	
@@ -33734,14 +33769,15 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'channelButtonBox' },
+	      _react2.default.createElement('div', { className: isActiveChannelBar(stateChannel, channel) }),
 	      _react2.default.createElement(
 	        'button',
-	        { onClick: changeChannel(stateChannel, channel, router, clearTextChannels, clearTextMessages), className: 'channelButton' },
+	        { onClick: changeChannel(channel, router, clearTextChannels, clearTextMessages),
+	          className: 'channelButton',
+	          disabled: isDisabled(stateChannel, channel) },
 	        _react2.default.createElement('img', { src: channel.icon_url,
 	          alt: 'channel-button',
-	          height: '50',
-	          size: '50',
-	          className: 'channelNavBarButtonImage' })
+	          className: isActive(stateChannel, channel) })
 	      ),
 	      _react2.default.createElement(
 	        'span',
@@ -34072,7 +34108,6 @@
 	                  )
 	                )
 	              ),
-	              _react2.default.createElement('div', { className: 'navBarSeparator' }),
 	              this.waitForTextChannels()
 	            ),
 	            _react2.default.createElement(
@@ -34215,7 +34250,7 @@
 	  return {
 	    textChannel: state.textChannel.textChannel,
 	    currentUser: state.session.currentUser,
-	    messages: state.textChannel.textChannel.attachments,
+	    messages: state.textChannel.textChannel.messages,
 	    errors: state.textChannel.errors
 	  };
 	};
@@ -34291,14 +34326,15 @@
 	
 	
 	      if (messages) {
+	        var messageKeys = Object.keys(messages).reverse();
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'textChannelMessagesBox' },
-	          messages.reverse().map(function (message) {
-	            return _react2.default.createElement(_text_channel_chat_item2.default, { message: message,
+	          messageKeys.reverse().map(function (messageKey) {
+	            return _react2.default.createElement(_text_channel_chat_item2.default, { message: messages[messageKey],
 	              currentUser: currentUser,
 	              destroyMessage: destroyMessage,
-	              key: message.id });
+	              key: messageKey });
 	          })
 	        );
 	      }
@@ -34389,13 +34425,15 @@
 	    var _this = _possibleConstructorReturn(this, (TextChannelChatItem.__proto__ || Object.getPrototypeOf(TextChannelChatItem)).call(this, props));
 	
 	    _this.state = { view: true };
+	    _this.handleDestroyMessage = _this.handleDestroyMessage.bind(_this);
+	    _this.message = _this.props.message;
 	    return _this;
 	  }
 	
 	  _createClass(TextChannelChatItem, [{
 	    key: 'handleDestroyMessage',
-	    value: function handleDestroyMessage(message, destroyMessage) {
-	      this.props.destroyMessage(message);
+	    value: function handleDestroyMessage() {
+	      this.props.destroyMessage(this.message);
 	    }
 	  }, {
 	    key: 'toggleUpdate',
@@ -34424,7 +34462,7 @@
 	            { className: 'TextChannelMessageDelete' },
 	            _react2.default.createElement(
 	              'button',
-	              { onClick: this.handleDestroyMessage(message) },
+	              { onClick: this.handleDestroyMessage },
 	              'Delete'
 	            )
 	          )
@@ -34675,6 +34713,24 @@
 	}(_react2.default.Component);
 	
 	exports.default = MessageForm;
+
+/***/ },
+/* 403 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var messageSelector = function messageSelector(messages) {
+	  return messages.reduce(function (obj, message) {
+	    obj[message.id] = message;
+	    return obj;
+	  }, {});
+	};
+	
+	exports.default = messageSelector;
 
 /***/ }
 /******/ ]);

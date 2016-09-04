@@ -63,3 +63,8 @@ body, html {
   display: block;
   clear: both;
 }
+
+.mainView {
+  width: 100%;
+  height: 100%;
+}

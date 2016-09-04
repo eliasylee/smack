@@ -19,7 +19,7 @@
 }
 
 .meChannelButtonBox {
-  padding: 10px;
+  padding: 5px 10px 5px 10px;
   display: flex;
   justify-content: center;
 }
@@ -51,23 +51,41 @@
 }
 
 .navBarSeparator {
-  position: absolute;
-  top: 0;
-  left: 20%;
-  right: 20%;
-  content: ' ';
+  margin-left: 20px;
+  margin-bottom: 13px;
+  width: 40px;
   height: 2px;
-  background: #2e3136;
+  background: #616365;
 }
 
 .channelNavBarButtons {
   border-radius: 15px;
 }
 
+.channelNavBarButtonImage {
+  height: 50px;
+  size: 50px;
+}
+
 .channelButtonBox {
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  align-items: center;
   position: relative;
+}
+
+.activeChannelBar {
+  left: 6px;
+  width: 6px;
+  height: 40px;
+  background-color: #fff;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.inactiveChannelBar {
+  width: 6px;
+  background-color: #1E2124;
 }
 
 .channelNavHoverBox {
@@ -103,12 +121,11 @@
 }
 
 .channelButton {
-  padding: 5px;
+  padding: 5px 5px 5px 9px;
+  border-radius: 15px;
 }
 
 .channelButtonText {
-  height: 50px;
-  width: 50px;
   border-radius: 50%;
   background-color: #2E3136;
   font-size: 20px;
@@ -116,23 +133,38 @@
   text-align: center;
 }
 
-.channelNavBarButtonImage {
+.inactiveChannelNavBarButtonImage {
   padding: 0px;
   border-radius: 50%;
-  -webkit-transition: all 300ms ease;
-  -moz-transition: all 300ms ease;
-  -ms-transition: all 300ms ease;
-  -o-transition: all 300ms ease;
-  transition: all 300ms ease;
+  height: 50px;
+  width: 50px;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
 }
 
-.channelNavBarButtonImage:hover {
+.activeChannelNavBarButtonImage {
   border-radius: 15px;
-  -webkit-transition: all 300ms ease;
-  -moz-transition: all 300ms ease;
-  -ms-transition: all 300ms ease;
-  -o-transition: all 300ms ease;
-  transition: all 300ms ease;
+  height: 50px;
+  width: 50px;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.inactiveChannelNavBarButtonImage:hover {
+  border-radius: 15px;
+  height: 50px;
+  width: 50px;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
 }
 
 .createChannelButtonBox {

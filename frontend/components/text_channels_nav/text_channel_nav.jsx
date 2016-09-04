@@ -115,7 +115,6 @@ class TextChannelNav extends React.Component {
                   <span>Text Channels</span>
                 </span>
               </span>
-              <div className="navBarSeparator"></div>
               {this.waitForTextChannels()}
             </div>
             <div className="navBarCurrentUserOuterBox">

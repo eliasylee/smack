@@ -14,13 +14,14 @@ class TextChannelChat extends React.Component {
     const { textChannel, messages, currentUser, destroyMessage } = this.props;
 
     if (messages) {
+      let messageKeys = Object.keys(messages).reverse()
       return (
         <div className="textChannelMessagesBox">
-          {messages.reverse().map( message => {
-            return <TextChannelChatItem message={message}
+          {messageKeys.reverse().map( messageKey => {
+            return <TextChannelChatItem message={messages[messageKey]}
                                    currentUser={currentUser}
                                    destroyMessage={destroyMessage}
-                                   key={message.id} />
+                                   key={messageKey} />
           })}
         </div>
       )
