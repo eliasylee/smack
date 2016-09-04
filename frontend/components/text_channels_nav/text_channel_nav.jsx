@@ -76,7 +76,7 @@ class TextChannelNav extends React.Component {
   }
 
   waitForTextChannels () {
-    const { textChannels, channel, clearTextChannels } = this.props;
+    const { stateTextChannel, textChannels, channel, clearTextChannels } = this.props;
     const channelId = channel.id;
 
     if (textChannels) {
@@ -84,6 +84,7 @@ class TextChannelNav extends React.Component {
         <div className="textChannelNavBarButtons">
           {textChannels.map( textChannel => {
             return <TextChannelNavItem textChannel={textChannel}
+                                       stateTextChannel={stateTextChannel}
                                        channelId={channel.id}
                                        key={textChannel.id}
                                        clearTextMessages={this.props.clearTextMessages}/>

@@ -33866,6 +33866,7 @@
 	  return {
 	    currentUser: state.session.currentUser,
 	    channel: state.channel.channel,
+	    stateTextChannel: state.textChannel.textChannel,
 	    textChannels: state.channel.channel.attachments,
 	    errors: state.channel.errors
 	  };
@@ -34043,6 +34044,7 @@
 	      var _this3 = this;
 	
 	      var _props = this.props;
+	      var stateTextChannel = _props.stateTextChannel;
 	      var textChannels = _props.textChannels;
 	      var channel = _props.channel;
 	      var clearTextChannels = _props.clearTextChannels;
@@ -34055,6 +34057,7 @@
 	          { className: 'textChannelNavBarButtons' },
 	          textChannels.map(function (textChannel) {
 	            return _react2.default.createElement(_text_channel_nav_item2.default, { textChannel: textChannel,
+	              stateTextChannel: stateTextChannel,
 	              channelId: channel.id,
 	              key: textChannel.id,
 	              clearTextMessages: _this3.props.clearTextMessages });
@@ -34195,6 +34198,22 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var isActive = function isActive(stateTextChannel, textChannel) {
+	  if (textChannel.id === stateTextChannel.id) {
+	    return "activeTextChannelButton";
+	  } else {
+	    return "inactiveTextChannelButton";
+	  }
+	};
+	
+	var isDisabled = function isDisabled(stateTextChannel, textChannel) {
+	  if (textChannel.id === stateTextChannel.id) {
+	    return "disabled";
+	  } else {
+	    return "";
+	  }
+	};
+	
 	var changeTextChannel = function changeTextChannel(textChannel, channelId, router, clearTextMessages) {
 	  return function () {
 	    clearTextMessages();
@@ -34203,6 +34222,7 @@
 	};
 	
 	var TextChannelNavItem = function TextChannelNavItem(_ref) {
+	  var stateTextChannel = _ref.stateTextChannel;
 	  var textChannel = _ref.textChannel;
 	  var channelId = _ref.channelId;
 	  var router = _ref.router;
@@ -34210,7 +34230,9 @@
 	
 	  return _react2.default.createElement(
 	    'button',
-	    { onClick: changeTextChannel(textChannel, channelId, router, clearTextMessages), className: 'textChannelButton' },
+	    { onClick: changeTextChannel(textChannel, channelId, router, clearTextMessages),
+	      className: isActive(stateTextChannel, textChannel),
+	      disabled: isDisabled(stateTextChannel, textChannel) },
 	    _react2.default.createElement(
 	      'ul',
 	      null,
@@ -34457,7 +34479,7 @@
 	            { className: 'textChannelMessageChange' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'textChannelMessageEditButton' },
+	              { className: 'messageEditButton' },
 	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.toggleUpdate },
@@ -34466,7 +34488,7 @@
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'textChannelMessageDeleteButton' },
+	              { className: 'messageDeleteButton' },
 	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.handleDestroyMessage },

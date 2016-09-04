@@ -107,29 +107,26 @@
   font-size: 14px;
 }
 
-.textChannelButton {
+.activeTextChannelButton {
   height: 40px;
   width: 240px;
-  -webkit-transition: all 500ms ease;
-  -moz-transition: all 500ms ease;
-  -ms-transition: all 500ms ease;
-  -o-transition: all 500ms ease;
-  transition: all 500ms ease;
   display: flex;
   justify-content: left;
 }
 
-.textChannelButton:hover {
-  background-color: #282B30;
-  color: #fff;
-  -webkit-transition: all 500ms ease;
-  -moz-transition: all 500ms ease;
-  -ms-transition: all 500ms ease;
-  -o-transition: all 500ms ease;
-  transition: all 500ms ease;
+.inactiveTextChannelButton {
+  height: 40px;
+  width: 240px;
+  display: flex;
+  justify-content: left;
 }
 
-.textChannelButton :nth-child(1) {
+.inactiveTextChannelButton:hover, .activeTextChannelButton  {
+  background-color: #282B30;
+  color: #fff;
+}
+
+.activeTextChannelButton :nth-child(1), .inactiveTextChannelButton :nth-child(1) {
   color: #494C52;
   font-size: 17px;
   line-height: 20px;

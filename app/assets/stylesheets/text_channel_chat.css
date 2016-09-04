@@ -54,7 +54,7 @@
 
 .textChannelChatBoxDescription {
   color: #cdcdcd;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .textChannelMessagesBox {
@@ -102,23 +102,27 @@
 }
 
 .textChannelMessageChange {
-  display: none;
   min-width: 70px;
   display: flex;
   justify-content: space-between;;
 }
 
-.textChannelMessageChange:hover {
-  display: flex;
+.messageEditButton {
+  display: none;
 }
 
-.textChannelMessageEditButton {
-
+.messageDeleteButton {
+  display: none;
 }
 
-.textChannelMessageDeleteButton {
-
+.messageEditButton:hover {
+  display: block;
 }
+
+.messageDeleteButton:hover {
+  display: block;
+}
+
 
 .messageBoxOuter {
   border-top: 1px solid #eceeef;

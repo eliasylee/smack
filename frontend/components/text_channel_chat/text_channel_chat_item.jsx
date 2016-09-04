@@ -25,10 +25,10 @@ class TextChannelChatItem extends React.Component {
       if (message.author.id === currentUser.id) {
         return (
           <div className="textChannelMessageChange">
-            <div className="textChannelMessageEditButton">
+            <div className="messageEditButton">
               <button onClick={this.toggleUpdate}>Edit</button>
             </div>
-            <div className="textChannelMessageDeleteButton">
+            <div className="messageDeleteButton">
               <button onClick={this.handleDestroyMessage}>Delete</button>
             </div>
           </div>
