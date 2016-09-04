@@ -9,13 +9,18 @@ const mapStateToProps = (state, ownProps) => {
     tempMessageBody = ownProps.messageBody;
   }
 
+  let tempErrors = [];
+  if (state.textChannel) {
+    tempErrors = state.textChannel.errors
+  }
+
   return {
     currentUser: state.session.currentUser,
     chatType: ownProps.chatType,
     chatId: ownProps.chatId,
     messageBody: tempMessageBody,
     action: ownProps.action,
-    errors: state.text_channel.errors
+    errors: tempErrors
   }
 };
 

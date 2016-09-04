@@ -98,47 +98,51 @@ class TextChannelNav extends React.Component {
   }
 
   render () {
+    const { children } = this.props;
     let user = this.props.currentUser || { username: "" }
     return (
-      <div className="textChannelNavBarBackground">
-        <div className="textChannelNavBarBackgroundInner">
-          <div className="textChannelNavBar">
-            <span className="textChannelNavBarHeaderBox">
-              <span className="textChannelTitleHeader">
-                <span>{this.props.channel.title}</span>
+      <div className="mainView">
+        <div className="textChannelNavBarBackground">
+          <div className="textChannelNavBarBackgroundInner">
+            <div className="textChannelNavBar">
+              <span className="textChannelNavBarHeaderBox">
+                <span className="textChannelTitleHeader">
+                  <span>{this.props.channel.title}</span>
+                </span>
               </span>
-            </span>
-            <span className="textChannelNavBarTitleBox">
-              <span className="textChannelNavBarTitle">
-                <span>Text Channels</span>
+              <span className="textChannelNavBarTitleBox">
+                <span className="textChannelNavBarTitle">
+                  <span>Text Channels</span>
+                </span>
               </span>
-            </span>
-            <div className="navBarSeparator"></div>
-            {this.waitForTextChannels()}
-          </div>
-          <div className="navBarCurrentUserOuterBox">
-            <div className="navBarCurrentUserLeftBox">
-              <div className="currentLogoBox">
-                <div className="guestLogo">
-                  <div>G</div>
+              <div className="navBarSeparator"></div>
+              {this.waitForTextChannels()}
+            </div>
+            <div className="navBarCurrentUserOuterBox">
+              <div className="navBarCurrentUserLeftBox">
+                <div className="currentLogoBox">
+                  <div className="guestLogo">
+                    <div>G</div>
+                  </div>
+                </div>
+                <div className="currentUsernameBox">
+                  <span className="currentUsername">{user.username}</span>
                 </div>
               </div>
-              <div className="currentUsernameBox">
-                <span className="currentUsername">{user.username}</span>
-              </div>
-            </div>
-            <div className='NavBarCurrentUserRightBox'>
-              <div className="logOutIconBoxOuter">
-                <div className="logOutIconBoxInner">
-                  <button className="logOutIcon" onClick={this.handleLogOut}>>>></button>
+              <div className='NavBarCurrentUserRightBox'>
+                <div className="logOutIconBoxOuter">
+                  <div className="logOutIconBoxInner">
+                    <button className="logOutIcon" onClick={this.handleLogOut}>>>></button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="createTextChannelFormBoxOuter">
+            {this.createTextChannelForm()}
+          </div>
         </div>
-        <div className="createTextChannelFormBoxOuter">
-          {this.createTextChannelForm()}
-        </div>
+        { children }
       </div>
     );
   }

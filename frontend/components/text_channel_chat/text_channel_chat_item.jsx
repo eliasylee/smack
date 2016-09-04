@@ -21,7 +21,7 @@ class TextChannelChatItem extends React.Component {
       return (
         <div className="TextChannelMessageChange">
           <div className="TextChannelMessageEdit">
-            <button onClick={this.toggleUpdate()}>Update</button>
+            <button onClick={this.toggleUpdate}>Update</button>
           </div>
           <div className="TextChannelMessageDelete">
             <button onClick={this.handleDestroyMessage(message)}>Delete</button>
@@ -35,10 +35,10 @@ class TextChannelChatItem extends React.Component {
     let created = message.created_at.slice(0, 10).split("-");
     let updated = message.created_at.slice(0, 10).split("-");
 
-    let neatCreated = `${created[2]}/${created[3]}/${created[1]}`
-    let neatUpdated = `(Updated at ${updated[2]}/${updated[3]}/${updated[1]})`
+    let neatCreated = `${created[1]}/${created[2]}/${created[0]}`
+    let neatUpdated = `(Updated at ${updated[1]}/${updated[2]}/${updated[0]})`
 
-    if (created === updated) {
+    if (created[0] === updated[0] && created[1] === updated[1] && created[2] === updated[2]) {
       return neatCreated;
     } else {
       return neatCreated + neatUpdated;
@@ -48,13 +48,13 @@ class TextChannelChatItem extends React.Component {
   displayBodyOrUpdate (message) {
     if (this.state.view) {
       return (
-        <div classname="TextChannelMessageBody">
+        <div className="TextChannelMessageBody">
           {message.body}
         </div>
       )
     } else {
       return (
-        <div classname="TextChannelMessageUpdate">
+        <div className="TextChannelMessageUpdate">
           <MessageFormContainer chatType="TextChannel"
                                 chatId={message.chatId}
                                 messageBody={message.body}
@@ -67,12 +67,12 @@ class TextChannelChatItem extends React.Component {
   render () {
     const { message, currentUser, destroyMessage } = this.props
     return (
-      <div classname="TextChannelMessageBox">
-        <div classname="TextChannelMessageHeader">
-          <div classname="TextChannelMessageAuthor">
+      <div className="TextChannelMessageBox">
+        <div className="TextChannelMessageHeader">
+          <div className="TextChannelMessageAuthor">
             {message.author.username}
           </div>
-          <div classname="TextChannelMessageTime">
+          <div className="TextChannelMessageTime">
             {this.prepTimeDisplay(message)}
           </div>
         </div>

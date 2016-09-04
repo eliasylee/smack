@@ -1,0 +1,25 @@
+/* Text Channel Chat Box */
+
+.textChannelChatBoxBackground {
+  position: fixed;
+  top: 0;
+  bottom: 0px;
+  left: 320px;
+  height: 100%;
+  width: 800px;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.textChannelChatBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.textChannelChatBoxHeader {
+  width: 800px;
+  height: 58px;
+}

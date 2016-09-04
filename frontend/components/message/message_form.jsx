@@ -11,7 +11,7 @@ class MessageForm extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault();
-    const message = Object.assign({}, this.state);
+    const message = this.state;
 
     if (this.props.type === "create") {
       this.props.createMessage({ message });
@@ -26,8 +26,8 @@ class MessageForm extends React.Component {
     return e => { this.setState({ [field]: e.currentTarget.value }) };
   }
 
-  render () {
-    <div className="createMessageBox">
+  createMessageForm () {
+    return (
       <form onClick={this.handleSubmit} className="createMessageForm">
         <div className="messageSubmitButton">
           <button type="submit">^</button>
@@ -46,7 +46,15 @@ class MessageForm extends React.Component {
           </div>
         </div>
       </form>
-    </div>
+    )
+  }
+
+  render () {
+    return (
+      <div className="createMessageBox">
+        {this.createMessageForm()}
+      </div>
+    )
   }
 }
 

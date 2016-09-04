@@ -25994,9 +25994,10 @@
 	  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
 	};
 	
-	var fetchOneTextChannel = exports.fetchOneTextChannel = function fetchOneTextChannel() {
+	var fetchOneTextChannel = exports.fetchOneTextChannel = function fetchOneTextChannel(textChannel) {
 	  return {
-	    type: TextChannelConstants.FETCH_ONE_TEXT_CHANNEL
+	    type: TextChannelConstants.FETCH_ONE_TEXT_CHANNEL,
+	    textChannel: textChannel
 	  };
 	};
 	
@@ -26377,7 +26378,7 @@
 	        return dispatch((0, _text_channel_actions.receiveErrors)(data));
 	      };
 	      switch (action.type) {
-	        case _text_channel_actions.TextChannelConstants.FETCH_ONE_CHANNEL:
+	        case _text_channel_actions.TextChannelConstants.FETCH_ONE_TEXT_CHANNEL:
 	          (0, _text_channel_api_util.fetchOneTextChannel)(action.textChannel, fetchOneSuccess, errors);
 	          return next(action);
 	        case _text_channel_actions.TextChannelConstants.CREATE_CHANNEL:
@@ -26407,7 +26408,7 @@
 	var fetchOneTextChannel = exports.fetchOneTextChannel = function fetchOneTextChannel(textChannel, success, error) {
 	  $.ajax({
 	    method: 'GET',
-	    url: '/api/textChannels/' + textChannel.id,
+	    url: '/api/text_channels/' + textChannel,
 	    success: success,
 	    error: error
 	  });
@@ -26416,7 +26417,7 @@
 	var createChannel = exports.createChannel = function createChannel(textChannel, success, error) {
 	  $.ajax({
 	    method: 'POST',
-	    url: '/api/textChannels/' + textChannel.id,
+	    url: '/api/text_channels/' + textChannel.id,
 	    data: textChannel,
 	    success: success,
 	    error: error
@@ -26426,7 +26427,7 @@
 	var updateChannel = exports.updateChannel = function updateChannel(textChannel, success, error) {
 	  $.ajax({
 	    method: 'POST',
-	    url: '/api/textChannels/' + textChannel.id,
+	    url: '/api/text_channels/' + textChannel.id,
 	    data: textChannel,
 	    success: success,
 	    error: error
@@ -27317,7 +27318,6 @@
 	  var store = _ref.store;
 	
 	  var ensureLoggedIn = function ensureLoggedIn(nextState, replace) {
-	
 	    if (!currentUser) {
 	      replace('/login');
 	    }
@@ -27325,7 +27325,7 @@
 	
 	  var redirectIfLoggedIn = function redirectIfLoggedIn(nextState, replace) {
 	    if (currentUser) {
-	      replace('/channels/1');
+	      replace('/channels/1/1');
 	    }
 	  };
 	
@@ -27334,11 +27334,11 @@
 	  };
 	
 	  var fetchOneChannelOnEnter = function fetchOneChannelOnEnter(nextState) {
-	    store.dispatch((0, _channel_actions.fetchOneChannel)(nextState.params.id));
+	    store.dispatch((0, _channel_actions.fetchOneChannel)(nextState.params.id[0]));
 	  };
 	
-	  var fetchOneTextChannelOnEnter = function fetchOneTextChannelOnEnter() {
-	    store.dispatch((0, _text_channel_actions.fetchOneTextChannel)());
+	  var fetchOneTextChannelOnEnter = function fetchOneTextChannelOnEnter(nextState) {
+	    store.dispatch((0, _text_channel_actions.fetchOneTextChannel)(nextState.params.id[1]));
 	  };
 	
 	  return _react2.default.createElement(
@@ -27356,7 +27356,7 @@
 	        _react2.default.createElement(
 	          _reactRouter.Route,
 	          { path: '/channels/:id', component: _text_channel_nav_container2.default, onEnter: fetchOneChannelOnEnter },
-	          _react2.default.createElement(_reactRouter.Route, { path: '/:id', component: _text_channel_chat_container2.default, onEnter: fetchOneTextChannelOnEnter })
+	          _react2.default.createElement(_reactRouter.Route, { path: '/channels/:id/:id', component: _text_channel_chat_container2.default, onEnter: fetchOneTextChannelOnEnter })
 	        )
 	      )
 	    )
@@ -33164,7 +33164,7 @@
 	    key: 'redirectIfLoggedIn',
 	    value: function redirectIfLoggedIn() {
 	      if (this.props.loggedIn) {
-	        _reactRouter.hashHistory.push("/channels/1");
+	        _reactRouter.hashHistory.push("/channels/1/1");
 	      }
 	    }
 	  }, {
@@ -33433,6 +33433,7 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    channels: state.channels.channels,
+	    stateChannel: state.channel.channel,
 	    errors: state.channel.errors
 	  };
 	};
@@ -33618,6 +33619,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var _props = this.props;
+	      var stateChannel = _props.stateChannel;
 	      var channels = _props.channels;
 	      var children = _props.children;
 	      var clearTextChannels = _props.clearTextChannels;
@@ -33625,7 +33627,7 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'channelTextChannelBox' },
+	        { className: 'mainView' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'channelNavBarBackground' },
@@ -33643,6 +33645,7 @@
 	              { className: 'channelNavBarButtons' },
 	              channels.map(function (channel) {
 	                return _react2.default.createElement(_channel_nav_item2.default, { channel: channel,
+	                  stateChannel: stateChannel,
 	                  clearTextChannels: clearTextChannels,
 	                  clearTextMessages: clearTextMessages,
 	                  key: channel.id });
@@ -33712,15 +33715,16 @@
 	  }
 	};
 	
-	var changeChannel = function changeChannel(channel, router, clearTextChannels, clearTextMessages) {
+	var changeChannel = function changeChannel(stateChannel, channel, router, clearTextChannels, clearTextMessages) {
 	  return function () {
 	    clearTextChannels();
 	    clearTextMessages();
-	    router.push('/channels/' + channel.id);
+	    router.push('/channels/' + channel.id + '/' + stateChannel.attachments[0].id);
 	  };
 	};
 	
 	var ChannelNavItem = function ChannelNavItem(_ref) {
+	  var stateChannel = _ref.stateChannel;
 	  var channel = _ref.channel;
 	  var router = _ref.router;
 	  var clearTextChannels = _ref.clearTextChannels;
@@ -33732,7 +33736,7 @@
 	      { className: 'channelButtonBox' },
 	      _react2.default.createElement(
 	        'button',
-	        { onClick: changeChannel(channel, router, clearTextChannels, clearTextMessages), className: 'channelButton' },
+	        { onClick: changeChannel(stateChannel, channel, router, clearTextChannels, clearTextMessages), className: 'channelButton' },
 	        _react2.default.createElement('img', { src: channel.icon_url,
 	          alt: 'channel-button',
 	          height: '50',
@@ -34027,98 +34031,105 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var children = this.props.children;
+	
 	      var user = this.props.currentUser || { username: "" };
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'textChannelNavBarBackground' },
+	        { className: 'mainView' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'textChannelNavBarBackgroundInner' },
+	          { className: 'textChannelNavBarBackground' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'textChannelNavBar' },
-	            _react2.default.createElement(
-	              'span',
-	              { className: 'textChannelNavBarHeaderBox' },
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'textChannelTitleHeader' },
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  this.props.channel.title
-	                )
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'span',
-	              { className: 'textChannelNavBarTitleBox' },
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'textChannelNavBarTitle' },
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  'Text Channels'
-	                )
-	              )
-	            ),
-	            _react2.default.createElement('div', { className: 'navBarSeparator' }),
-	            this.waitForTextChannels()
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'navBarCurrentUserOuterBox' },
+	            { className: 'textChannelNavBarBackgroundInner' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'navBarCurrentUserLeftBox' },
+	              { className: 'textChannelNavBar' },
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'textChannelNavBarHeaderBox' },
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'textChannelTitleHeader' },
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    this.props.channel.title
+	                  )
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'textChannelNavBarTitleBox' },
+	                _react2.default.createElement(
+	                  'span',
+	                  { className: 'textChannelNavBarTitle' },
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    'Text Channels'
+	                  )
+	                )
+	              ),
+	              _react2.default.createElement('div', { className: 'navBarSeparator' }),
+	              this.waitForTextChannels()
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'navBarCurrentUserOuterBox' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'currentLogoBox' },
+	                { className: 'navBarCurrentUserLeftBox' },
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'guestLogo' },
+	                  { className: 'currentLogoBox' },
 	                  _react2.default.createElement(
 	                    'div',
-	                    null,
-	                    'G'
+	                    { className: 'guestLogo' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      null,
+	                      'G'
+	                    )
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'currentUsernameBox' },
+	                  _react2.default.createElement(
+	                    'span',
+	                    { className: 'currentUsername' },
+	                    user.username
 	                  )
 	                )
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'currentUsernameBox' },
-	                _react2.default.createElement(
-	                  'span',
-	                  { className: 'currentUsername' },
-	                  user.username
-	                )
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'NavBarCurrentUserRightBox' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'logOutIconBoxOuter' },
+	                { className: 'NavBarCurrentUserRightBox' },
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'logOutIconBoxInner' },
+	                  { className: 'logOutIconBoxOuter' },
 	                  _react2.default.createElement(
-	                    'button',
-	                    { className: 'logOutIcon', onClick: this.handleLogOut },
-	                    '>>>'
+	                    'div',
+	                    { className: 'logOutIconBoxInner' },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { className: 'logOutIcon', onClick: this.handleLogOut },
+	                      '>>>'
+	                    )
 	                  )
 	                )
 	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'createTextChannelFormBoxOuter' },
+	            this.createTextChannelForm()
 	          )
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'createTextChannelFormBoxOuter' },
-	          this.createTextChannelForm()
-	        )
+	        children
 	      );
 	    }
 	  }]);
@@ -34189,15 +34200,16 @@
 	
 	var _reactRedux = __webpack_require__(315);
 	
+	var _message_actions = __webpack_require__(303);
+	
 	var _text_channel_chat = __webpack_require__(399);
 	
 	var _text_channel_chat2 = _interopRequireDefault(_text_channel_chat);
 	
-	var _message_actions = __webpack_require__(303);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	;
+	
 	
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
@@ -34234,11 +34246,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _text_channel_chat_item = __webpack_require__(401);
+	var _reactRouter = __webpack_require__(325);
+	
+	var _text_channel_chat_item = __webpack_require__(400);
 	
 	var _text_channel_chat_item2 = _interopRequireDefault(_text_channel_chat_item);
 	
-	var _message_form_container = __webpack_require__(400);
+	var _message_form_container = __webpack_require__(401);
 	
 	var _message_form_container2 = _interopRequireDefault(_message_form_container);
 	
@@ -34260,21 +34274,46 @@
 	  }
 	
 	  _createClass(TextChannelChat, [{
-	    key: 'render',
-	    value: function render() {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (!newProps.currentUser) {
+	        this.props.router.push('/login');
+	      }
+	    }
+	  }, {
+	    key: 'waitForMessages',
+	    value: function waitForMessages() {
 	      var _props = this.props;
 	      var textChannel = _props.textChannel;
-	      var currentUser = _props.currentUser;
 	      var messages = _props.messages;
-	      var updateMessage = _props.updateMessage;
+	      var currentUser = _props.currentUser;
 	      var destroyMessage = _props.destroyMessage;
+	
+	
+	      if (messages) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessagesBox' },
+	          messages.reverse().map(function (message) {
+	            return _react2.default.createElement(_text_channel_chat_item2.default, { message: message,
+	              currentUser: currentUser,
+	              destroyMessage: destroyMessage,
+	              key: message.id });
+	          })
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var textChannel = this.props.textChannel;
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'textChannelChatBoxOuter' },
+	        { className: 'textChannelChatBoxBackground' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'textChannelChatBoxInner' },
+	          { className: 'textChannelChatBox' },
 	          _react2.default.createElement(
 	            'header',
 	            { className: 'textChannelChatBoxHeader' },
@@ -34286,7 +34325,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'textChannelChatBoxName' },
-	              textChannel.name
+	              textChannel.title
 	            ),
 	            _react2.default.createElement(
 	              'div',
@@ -34299,16 +34338,7 @@
 	              textChannel.description
 	            )
 	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'textChannelMessagesBox' },
-	            messages.map(function (message) {
-	              return _react2.default.createElement(_text_channel_chat_item2.default, { message: message,
-	                currentUser: currentUser,
-	                destroyMessage: destroyMessage,
-	                key: textChannel.id });
-	            })
-	          ),
+	          this.waitForMessages(),
 	          _react2.default.createElement(_message_form_container2.default, { chatType: 'TextChannel',
 	            chatId: textChannel.id,
 	            action: 'create' })
@@ -34320,61 +34350,10 @@
 	  return TextChannelChat;
 	}(_react2.default.Component);
 	
-	exports.default = TextChannelChat;
+	exports.default = (0, _reactRouter.withRouter)(TextChannelChat);
 
 /***/ },
 /* 400 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(315);
-	
-	var _message_form = __webpack_require__(402);
-	
-	var _message_form2 = _interopRequireDefault(_message_form);
-	
-	var _message_actions = __webpack_require__(303);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	;
-	
-	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	  var tempMessageBody = "";
-	  if (ownProps.messageBody) {
-	    tempMessageBody = ownProps.messageBody;
-	  }
-	
-	  return {
-	    currentUser: state.session.currentUser,
-	    chatType: ownProps.chatType,
-	    chatId: ownProps.chatId,
-	    messageBody: tempMessageBody,
-	    action: ownProps.action,
-	    errors: state.text_channel.errors
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    createMessage: function createMessage(message) {
-	      return dispatch((0, _message_actions.createMessage)(message));
-	    },
-	    updateMessage: function updateMessage(message) {
-	      return dispatch((0, _message_actions.updateMessage)(message));
-	    }
-	  };
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_message_form2.default);
-
-/***/ },
-/* 401 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34389,7 +34368,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _message_form_container = __webpack_require__(400);
+	var _message_form_container = __webpack_require__(401);
 	
 	var _message_form_container2 = _interopRequireDefault(_message_form_container);
 	
@@ -34436,7 +34415,7 @@
 	            { className: 'TextChannelMessageEdit' },
 	            _react2.default.createElement(
 	              'button',
-	              { onClick: this.toggleUpdate() },
+	              { onClick: this.toggleUpdate },
 	              'Update'
 	            )
 	          ),
@@ -34458,10 +34437,10 @@
 	      var created = message.created_at.slice(0, 10).split("-");
 	      var updated = message.created_at.slice(0, 10).split("-");
 	
-	      var neatCreated = created[2] + '/' + created[3] + '/' + created[1];
-	      var neatUpdated = '(Updated at ' + updated[2] + '/' + updated[3] + '/' + updated[1] + ')';
+	      var neatCreated = created[1] + '/' + created[2] + '/' + created[0];
+	      var neatUpdated = '(Updated at ' + updated[1] + '/' + updated[2] + '/' + updated[0] + ')';
 	
-	      if (created === updated) {
+	      if (created[0] === updated[0] && created[1] === updated[1] && created[2] === updated[2]) {
 	        return neatCreated;
 	      } else {
 	        return neatCreated + neatUpdated;
@@ -34473,13 +34452,13 @@
 	      if (this.state.view) {
 	        return _react2.default.createElement(
 	          'div',
-	          { classname: 'TextChannelMessageBody' },
+	          { className: 'TextChannelMessageBody' },
 	          message.body
 	        );
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
-	          { classname: 'TextChannelMessageUpdate' },
+	          { className: 'TextChannelMessageUpdate' },
 	          _react2.default.createElement(_message_form_container2.default, { chatType: 'TextChannel',
 	            chatId: message.chatId,
 	            messageBody: message.body,
@@ -34497,18 +34476,18 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { classname: 'TextChannelMessageBox' },
+	        { className: 'TextChannelMessageBox' },
 	        _react2.default.createElement(
 	          'div',
-	          { classname: 'TextChannelMessageHeader' },
+	          { className: 'TextChannelMessageHeader' },
 	          _react2.default.createElement(
 	            'div',
-	            { classname: 'TextChannelMessageAuthor' },
+	            { className: 'TextChannelMessageAuthor' },
 	            message.author.username
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { classname: 'TextChannelMessageTime' },
+	            { className: 'TextChannelMessageTime' },
 	            this.prepTimeDisplay(message)
 	          )
 	        ),
@@ -34522,6 +34501,62 @@
 	}(_react2.default.Component);
 	
 	exports.default = TextChannelChatItem;
+
+/***/ },
+/* 401 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(315);
+	
+	var _message_form = __webpack_require__(402);
+	
+	var _message_form2 = _interopRequireDefault(_message_form);
+	
+	var _message_actions = __webpack_require__(303);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	;
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  var tempMessageBody = "";
+	  if (ownProps.messageBody) {
+	    tempMessageBody = ownProps.messageBody;
+	  }
+	
+	  var tempErrors = [];
+	  if (state.textChannel) {
+	    tempErrors = state.textChannel.errors;
+	  }
+	
+	  return {
+	    currentUser: state.session.currentUser,
+	    chatType: ownProps.chatType,
+	    chatId: ownProps.chatId,
+	    messageBody: tempMessageBody,
+	    action: ownProps.action,
+	    errors: tempErrors
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createMessage: function createMessage(message) {
+	      return dispatch((0, _message_actions.createMessage)(message));
+	    },
+	    updateMessage: function updateMessage(message) {
+	      return dispatch((0, _message_actions.updateMessage)(message));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_message_form2.default);
 
 /***/ },
 /* 402 */
@@ -34568,7 +34603,7 @@
 	    key: "handleSubmit",
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
-	      var message = Object.assign({}, this.state);
+	      var message = this.state;
 	
 	      if (this.props.type === "create") {
 	        this.props.createMessage({ message: message });
@@ -34588,45 +34623,50 @@
 	      };
 	    }
 	  }, {
-	    key: "render",
-	    value: function render() {
-	      _react2.default.createElement(
-	        "div",
-	        { className: "createMessageBox" },
+	    key: "createMessageForm",
+	    value: function createMessageForm() {
+	      return _react2.default.createElement(
+	        "form",
+	        { onClick: this.handleSubmit, className: "createMessageForm" },
 	        _react2.default.createElement(
-	          "form",
-	          { onClick: this.handleSubmit, className: "createMessageForm" },
+	          "div",
+	          { className: "messageSubmitButton" },
+	          _react2.default.createElement(
+	            "button",
+	            { type: "submit" },
+	            "^"
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "createMessageBodyBox" },
 	          _react2.default.createElement(
 	            "div",
-	            { className: "messageSubmitButton" },
-	            _react2.default.createElement(
-	              "button",
-	              { type: "submit" },
-	              "^"
-	            )
-	          ),
+	            { className: "bodyInputLine" },
+	            _react2.default.createElement("input", { type: "text",
+	              value: this.state.body,
+	              onChange: this.update("body"),
+	              className: "messageInput" })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "channelSubmitBoxOuter" },
 	          _react2.default.createElement(
 	            "div",
-	            { className: "createMessageBodyBox" },
-	            _react2.default.createElement(
-	              "div",
-	              { className: "bodyInputLine" },
-	              _react2.default.createElement("input", { type: "text",
-	                value: this.state.body,
-	                onChange: this.update("body"),
-	                className: "messageInput" })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "channelSubmitBoxOuter" },
-	            _react2.default.createElement(
-	              "div",
-	              { className: "channelSubmitBoxInner" },
-	              _react2.default.createElement("input", { className: "channelSubmitButton", type: "submit", value: "Submit" })
-	            )
+	            { className: "channelSubmitBoxInner" },
+	            _react2.default.createElement("input", { className: "channelSubmitButton", type: "submit", value: "Submit" })
 	          )
 	        )
+	      );
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "createMessageBox" },
+	        this.createMessageForm()
 	      );
 	    }
 	  }]);

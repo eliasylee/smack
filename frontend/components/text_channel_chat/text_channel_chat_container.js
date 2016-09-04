@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import TextChannelChat from './text_channel_chat';
 import { createMessage,
          updateMessage,
          destroyMessage } from '../../actions/message_actions';;
+import TextChannelChat from './text_channel_chat';
 
 const mapStateToProps = state => ({
   textChannel: state.textChannel.textChannel,

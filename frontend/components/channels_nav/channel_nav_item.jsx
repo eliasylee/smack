@@ -21,19 +21,19 @@ const prepChannelLength = (channel) => {
   }
 }
 
-const changeChannel = (channel, router, clearTextChannels, clearTextMessages) => (
+const changeChannel = (stateChannel, channel, router, clearTextChannels, clearTextMessages) => (
   () => {
     clearTextChannels();
     clearTextMessages();
-    router.push(`/channels/${channel.id}`)
+    router.push(`/channels/${channel.id}/${stateChannel.attachments[0].id}`)
   }
 );
 
-const ChannelNavItem = ({ channel, router, clearTextChannels, clearTextMessages }) => {
+const ChannelNavItem = ({ stateChannel, channel, router, clearTextChannels, clearTextMessages }) => {
   if (channel.icon_url) {
     return (
       <div className="channelButtonBox" >
-        <button onClick={changeChannel(channel, router, clearTextChannels, clearTextMessages )} className="channelButton">
+        <button onClick={changeChannel(stateChannel, channel, router, clearTextChannels, clearTextMessages )} className="channelButton">
                 <img src={channel.icon_url}
                      alt="channel-button"
                      height="50"

@@ -5,6 +5,7 @@ import { clearTextMessages } from '../../actions/message_actions';
 
 const mapStateToProps = state => ({
   channels: state.channels.channels,
+  stateChannel: state.channel.channel,
   errors: state.channel.errors
 });
 

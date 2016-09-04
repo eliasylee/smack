@@ -11,7 +11,7 @@ const TextChannelMiddleware = ({ dispatch }) => next => action => {
   const updateTextChannelSuccess = data => dispatch(receiveOneTextChannel());
   const errors = data => dispatch(receiveErrors(data));
   switch (action.type) {
-    case TextChannelConstants.FETCH_ONE_CHANNEL:
+    case TextChannelConstants.FETCH_ONE_TEXT_CHANNEL:
       fetchOneTextChannel(action.textChannel, fetchOneSuccess, errors);
       return next(action);
     case TextChannelConstants.CREATE_CHANNEL:

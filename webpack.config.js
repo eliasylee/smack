@@ -16,13 +16,13 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          presets: ["es2015","react"]
+          presets: ["es2015", "react"]
         }
       }
     ]
   },
   devtool: 'source-map',
   resolve: {
-    extensions: ["", ".js", ".jsx" ]
+    extensions: ["", ".js", ".jsx"]
   }
 };
