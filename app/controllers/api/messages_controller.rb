@@ -1,6 +1,4 @@
 class Api::MessagesController < ApplicationController
-  before_action :require_author, only: [:update, :destroy]
-
   def show
     @message = Message.find_by_id(params[:id])
   end

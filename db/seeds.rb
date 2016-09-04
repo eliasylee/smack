@@ -6,10 +6,10 @@ Channel.create!(admin_id: 2, title: "Starcraft", description: "4 pool gg no re",
 Channel.create!(admin_id: 2, title: "Counter-Strike", description: "boom headshot", icon_url: "http://accs123.com/wp-content/uploads/gmail-logo-1-01.png")
 Channel.create!(admin_id: 2, title: "fremont", description: "play of the game: bastion", icon_url: "https://pbs.twimg.com/profile_images/418740478109298688/02jAQDv3.jpeg")
 
-TextChannel.create!(channel_id: 1, title: "General")
-TextChannel.create!(channel_id: 2, title: "General")
-TextChannel.create!(channel_id: 3, title: "General")
-TextChannel.create!(channel_id: 4, title: "General")
+TextChannel.create!(channel_id: 1, title: "general")
+TextChannel.create!(channel_id: 2, title: "general")
+TextChannel.create!(channel_id: 3, title: "general")
+TextChannel.create!(channel_id: 4, title: "general")
 
 TextChannel.create!(channel_id: 1, title: "replayshare", description: "share replays and help analyze")
 TextChannel.create!(channel_id: 1, title: "discussions", description: "talk about the game")

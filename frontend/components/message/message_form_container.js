@@ -6,7 +6,7 @@ import { createMessage,
 const mapStateToProps = (state, ownProps) => {
   let tempErrors = [];
   if (state.textChannel) {
-    tempErrors = state.textChannel.errors
+    tempErrors = state.textChannel.errors;
   }
 
   return {
@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
     chatId: ownProps.chatId,
     messageId: ownProps.messageId || 0,
     messageBody: ownProps.messageBody || "",
+    textChannelTitle: ownProps.textChannelTitle,
     action: ownProps.action,
     errors: tempErrors
   }

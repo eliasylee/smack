@@ -27,7 +27,7 @@ const TextChannelReducer = (state = defaultState, action) => {
       return merge({}, state, newState);
     case MessageConstants.RECEIVE_ONE_MESSAGE:
       let newMessages = MessagesReducer(state.textChannel.messages, action);
-      newState = defaultState.textChannel.messages = newMessages;
+      newState.textChannel.messages = newMessages;
       return merge({}, state, newState);
     case TextChannelConstants.RECEIVE_ERRORS:
       let errors = action.errors;

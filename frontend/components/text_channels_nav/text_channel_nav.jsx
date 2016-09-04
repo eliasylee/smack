@@ -22,6 +22,7 @@ class TextChannelNav extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault();
+    this.setState({"title": this.state.title.toLowerCase()})
     const textChannel = Object.assign({}, this.state);
     this.props.createTextChannel({textChannel});
   }

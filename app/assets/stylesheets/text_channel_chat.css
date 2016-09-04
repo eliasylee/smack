@@ -103,35 +103,38 @@
 
 .textChannelMessageChange {
   min-width: 70px;
+  padding-left: 20px;
   display: flex;
   justify-content: space-between;;
 }
 
 .messageEditButton {
-  display: none;
+  opacity: 0;
 }
 
 .messageDeleteButton {
-  display: none;
+  opacity: 0;
 }
 
-.messageEditButton:hover {
-  display: block;
+.textChannelMessageBody:hover .messageEditButton {
+  opacity: 100;
+  color: #737f8d;
 }
 
-.messageDeleteButton:hover {
-  display: block;
+.textChannelMessageBody:hover .messageDeleteButton {
+  opacity: 100;
+  color: #737f8d;
 }
-
 
 .messageBoxOuter {
-  border-top: 1px solid #eceeef;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .createMessageBox {
+  border-top: 1px solid #eceeef;
   position: absolute;
   min-height: 96px;
   width: 100%;
@@ -143,7 +146,14 @@
   color: #737f8d;
 }
 
-.messageBoxInner {
+.editMessageBox .messageBoxInner {
+  width: 100%;
+  height: 46px;
+  border-radius: 3px;
+  border: 2px solid #dadddf;
+}
+
+.createMessageBox .messageBoxInner {
   width: 60%;
   height: 46px;
   margin-left: 20px;
@@ -180,4 +190,18 @@
 
 .messageInput {
   width: 100%;
+  color: #747F8D;
+}
+
+::-webkit-input-placeholder {
+  color: #E4E6E8;
+}
+::-moz-placeholder {
+  color: #E4E6E8;
+}
+:-ms-input-placeholder {
+  color: #E4E6E8;
+}
+:-moz-placeholder {
+  color: #E4E6E8;
 }

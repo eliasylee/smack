@@ -37,7 +37,13 @@ class MessageForm extends React.Component {
     }
   }
 
-  createMessageForm () {
+  createPlaceHolder (textChannelTitle) {
+    return (
+      `Chat in ${textChannelTitle}...`
+    )
+  }
+
+  createMessageForm (textChannelTitle) {
     return (
       <form onSubmit={this.handleSubmit} className="createMessageForm">
         <div className="textMessageSubmitBox">
@@ -45,6 +51,7 @@ class MessageForm extends React.Component {
         </div>
         <div className="createMessageBodyBox">
           <input type="textarea"
+            placeholder={this.createPlaceHolder(textChannelTitle)}
             value={this.state.body}
             onChange={this.updateState("body")}
             className="messageInput" />
@@ -54,10 +61,11 @@ class MessageForm extends React.Component {
   }
 
   render () {
+    const { textChannelTitle } = this.props
     return (
       <div className={this.messageFormClass()}>
         <div className="messageBoxInner">
-          {this.createMessageForm()}
+          {this.createMessageForm(textChannelTitle)}
         </div>
       </div>
     )
