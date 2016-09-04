@@ -6,7 +6,8 @@ class TextChannelChatItem extends React.Component {
     super(props);
     this.state = { view: true }
     this.handleDestroyMessage = this.handleDestroyMessage.bind(this);
-    this.toggleUpdate = this.toggleUpdate.bind(this)
+    this.toggleUpdate = this.toggleUpdate.bind(this);
+    this.handleDestroyMessage = this.toggleUpdate.bind(this);
     this.message = this.props.message;
   }
 
@@ -20,17 +21,19 @@ class TextChannelChatItem extends React.Component {
   }
 
   displayChangeButton (currentUser, message, destroyMessage) {
-    if (message.author.id === currentUser.id) {
-      return (
-        <div className="textChannelMessageChange">
-          <div className="textChannelMessageEdit">
-            <button onClick={this.toggleUpdate}>Update</button>
+    if (currentUser) {
+      if (message.author.id === currentUser.id) {
+        return (
+          <div className="textChannelMessageChange">
+            <div className="textChannelMessageEditButton">
+              <button onClick={this.toggleUpdate}>Edit</button>
+            </div>
+            <div className="textChannelMessageDeleteButton">
+              <button onClick={this.handleDestroyMessage}>Delete</button>
+            </div>
           </div>
-          <div className="textChannelMessageDelete">
-            <button onClick={this.handleDestroyMessage}>Delete</button>
-          </div>
-        </div>
-      )
+        )
+      }
     }
   }
 
@@ -48,7 +51,7 @@ class TextChannelChatItem extends React.Component {
     }
   }
 
-  displayBodyOrUpdate (message) {
+  displayBodyOrUpdate (message, textChannelId) {
     if (this.state.view) {
       return (
         <div className="textChannelMessageMessage">
@@ -57,18 +60,17 @@ class TextChannelChatItem extends React.Component {
       )
     } else {
       return (
-        <div className="textChannelMessageUpdate">
-          <MessageFormContainer chatType="TextChannel"
-                                chatId={message.chatable_Id}
-                                messageBody={message.body}
-                                action="update" />
-        </div>
+        <MessageFormContainer chatType="TextChannel"
+                              chatId={textChannelId}
+                              messageId={message.id}
+                              messageBody={message.body}
+                              action="update" />
       )
     }
   }
 
   render () {
-    const { message, currentUser, destroyMessage } = this.props
+    const { message, currentUser, textChannelId, destroyMessage } = this.props
     return (
       <div className="textChannelMessageBox">
         <div className="textChannelMessageHeader">
@@ -80,7 +82,7 @@ class TextChannelChatItem extends React.Component {
           </div>
         </div>
         <div className="textChannelMessageBody">
-          {this.displayBodyOrUpdate(message)}
+          {this.displayBodyOrUpdate(message, textChannelId)}
           {this.displayChangeButton(currentUser, message)}
         </div>
       </div>

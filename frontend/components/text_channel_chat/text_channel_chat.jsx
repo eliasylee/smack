@@ -19,6 +19,7 @@ class TextChannelChat extends React.Component {
         <div className="textChannelMessagesBox">
           {messageKeys.reverse().map( messageKey => {
             return <TextChannelChatItem message={messages[messageKey]}
+                                   textChannelId={textChannel.id}
                                    currentUser={currentUser}
                                    destroyMessage={destroyMessage}
                                    key={messageKey} />
@@ -42,7 +43,6 @@ class TextChannelChat extends React.Component {
           {this.waitForMessages()}
           <MessageFormContainer chatType="TextChannel"
                                 chatId={textChannel.id}
-                                messageBody=""
                                 action="create" />
         </div>
       </div>

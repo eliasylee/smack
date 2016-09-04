@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     chatType: ownProps.chatType,
     chatId: ownProps.chatId,
-    messageBody: ownProps.messageBody,
+    messageId: ownProps.messageId || 0,
+    messageBody: ownProps.messageBody || "",
     action: ownProps.action,
     errors: tempErrors
   }

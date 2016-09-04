@@ -1,6 +1,10 @@
 class Api::MessagesController < ApplicationController
   before_action :require_author, only: [:update, :destroy]
 
+  def show
+    @message = Message.find_by_id(params[:id])
+  end
+
   def create
     @message = Message.new(message_params)
     @message.author_id = current_user.id
@@ -15,7 +19,7 @@ class Api::MessagesController < ApplicationController
   def update
     @message = Message.find_by_id(params[:id])
 
-    if @message.update
+    if @message.update(message_params)
       render :show
     else
       render json: @message.errors.full_messages, status: 422

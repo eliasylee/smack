@@ -3,10 +3,12 @@ import React from 'react';
 class MessageForm extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { body: this.props.messageBody,
+    this.state = { id: this.props.messageId,
+                   body: this.props.messageBody,
                    chatable_type: this.props.chatType,
                    chatable_id: this.props.chatId };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.messageFormClass = this.messageFormClass.bind(this);
   }
 
   handleSubmit (e) {
@@ -27,21 +29,25 @@ class MessageForm extends React.Component {
     return e => { this.setState({ [field]: e.currentTarget.value }) };
   }
 
+  messageFormClass () {
+    if (this.props.action === "create") {
+      return "messageBoxOuter createMessageBox"
+    } else {
+      return "messageBoxOuter editMessageBox"
+    }
+  }
+
   createMessageForm () {
     return (
       <form onSubmit={this.handleSubmit} className="createMessageForm">
-        <div className="channelSubmitBoxOuter">
-          <div className="channelSubmitBoxInner">
-            <input className="channelSubmitButton" type="submit" value="^" />
-          </div>
+        <div className="textMessageSubmitBox">
+          <input className="textMessageSubmitButton" type="submit" value="^" />
         </div>
         <div className="createMessageBodyBox">
-          <div className="bodyInputLine">
-            <input type="text"
-              value={this.state.body}
-              onChange={this.updateState("body")}
-              className="messageInput" />
-          </div>
+          <input type="textarea"
+            value={this.state.body}
+            onChange={this.updateState("body")}
+            className="messageInput" />
         </div>
       </form>
     )
@@ -49,8 +55,8 @@ class MessageForm extends React.Component {
 
   render () {
     return (
-      <div className="createMessageBoxOuter">
-        <div className="createMessageBoxInner">
+      <div className={this.messageFormClass()}>
+        <div className="messageBoxInner">
           {this.createMessageForm()}
         </div>
       </div>

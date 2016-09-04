@@ -5,6 +5,8 @@ class Api::TextChannelsController < ApplicationController
 
   def create
     @text_channel = TextChannel.new(text_channel_params)
+    welcome_message = Message.new(author_id: 1, body: "This is the beginning of the ##{@text_channel.title} channel.", chatable_id: @text_channel.id, chatable_type: "TextChannel")
+    welcome_message.save!
 
     if @text_channel.save
       render :show
@@ -16,7 +18,7 @@ class Api::TextChannelsController < ApplicationController
   def update
     @text_channel = TextChannel.find_by_id(params[:id])
 
-    if @text_channel.update
+    if @text_channel.update(text_channel_params)
       render :show
     else
       render json: @text_channel.errors.full_messages, status: 422

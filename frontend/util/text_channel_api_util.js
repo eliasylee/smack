@@ -19,7 +19,7 @@ export const createChannel = (textChannel, success, error) => {
 
 export const updateChannel = (textChannel, success, error) => {
   $.ajax({
-    method: 'POST',
+    method: 'PATCH',
     url: `/api/text_channels/${textChannel.id}`,
     data: textChannel,
     success,
