@@ -25940,6 +25940,8 @@
 	
 	var _messages_reducer = __webpack_require__(304);
 	
+	var _messages_reducer2 = _interopRequireDefault(_messages_reducer);
+	
 	var _message_selector = __webpack_require__(403);
 	
 	var _message_selector2 = _interopRequireDefault(_message_selector);
@@ -25967,6 +25969,7 @@
 	      var textChannel = action.textChannel;
 	      var keyedMessages = (0, _message_selector2.default)(textChannel.attachments);
 	      newState.textChannel.id = textChannel.id;
+	      newState.textChannel.title = textChannel.title;
 	      newState.textChannel.description = textChannel.description;
 	      newState.textChannel.messages = keyedMessages;
 	      return newState;
@@ -25974,7 +25977,7 @@
 	      newState.textChannel.attachments = [];
 	      return (0, _merge2.default)({}, state, newState);
 	    case _message_actions.MessageConstants.RECEIVE_ONE_MESSAGE:
-	      var newMessages = (0, _messages_reducer.MessagesReducer)(state.textChannel.messages, action);
+	      var newMessages = (0, _messages_reducer2.default)(state.textChannel.messages, action);
 	      newState = defaultState.textChannel.messages = newMessages;
 	      return (0, _merge2.default)({}, state, newState);
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ERRORS:
@@ -26058,31 +26061,31 @@
 	  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
 	};
 	
-	var createMessage = exports.createMessage = function createMessage(channel) {
+	var createMessage = exports.createMessage = function createMessage(message) {
 	  return {
 	    type: MessageConstants.CREATE_MESSAGE,
-	    channel: channel
+	    message: message
 	  };
 	};
 	
-	var receiveOneMessage = exports.receiveOneMessage = function receiveOneMessage(channel) {
+	var receiveOneMessage = exports.receiveOneMessage = function receiveOneMessage(message) {
 	  return {
 	    type: MessageConstants.RECEIVE_ONE_MESSAGE,
-	    channel: channel
+	    message: message
 	  };
 	};
 	
-	var updateMessage = exports.updateMessage = function updateMessage(channel) {
+	var updateMessage = exports.updateMessage = function updateMessage(message) {
 	  return {
 	    type: MessageConstants.UPDATE_MESSAGE,
-	    channel: channel
+	    message: message
 	  };
 	};
 	
-	var destroyMessage = exports.destroyMessage = function destroyMessage(channel) {
+	var destroyMessage = exports.destroyMessage = function destroyMessage(message) {
 	  return {
 	    type: MessageConstants.DESTROY_MESSAGE,
-	    channel: channel
+	    message: message
 	  };
 	};
 	
@@ -26467,23 +26470,23 @@
 	        return dispatch((0, _message_actions.receiveOneMessage)(data));
 	      };
 	      var createMessageSuccess = function createMessageSuccess(data) {
-	        return dispatch((0, _message_actions.receiveOneMessage)());
+	        return dispatch((0, _message_actions.receiveOneMessage)(data));
 	      };
 	      var updateMessageSuccess = function updateMessageSuccess(data) {
-	        return dispatch((0, _message_actions.receiveOneMessage)());
+	        return dispatch((0, _message_actions.receiveOneMessage)(data));
 	      };
 	      var errors = function errors(data) {
 	        return dispatch((0, _message_actions.receiveErrors)(data));
 	      };
 	      switch (action.type) {
 	        case _message_actions.MessageConstants.FETCH_ONE_MESSAGE:
-	          (0, _message_api_util.fetchOneMessage)(action.channel, fetchOneSuccess, errors);
+	          (0, _message_api_util.fetchOneMessage)(action.message, fetchOneSuccess, errors);
 	          return next(action);
 	        case _message_actions.MessageConstants.CREATE_MESSAGE:
-	          (0, _message_api_util.createMessage)(action.channel, createMessageSuccess, errors);
+	          (0, _message_api_util.createMessage)(action.message, createMessageSuccess, errors);
 	          return next(action);
 	        case _message_actions.MessageConstants.UPDATE_MESSAGE:
-	          (0, _message_api_util.updateMessage)(action.channel, updateMessageSuccess, errors);
+	          (0, _message_api_util.updateMessage)(action.message, updateMessageSuccess, errors);
 	          return next(action);
 	        default:
 	          return next(action);
@@ -33051,12 +33054,12 @@
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'frontPageButton', onClick: this._routeToSignUp },
-	                'Start Smack-talking'
+	                'Start Talking Smack'
 	              ),
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'frontPageButton', onClick: this._routeToLogIn },
-	                'Continue Talking Smack'
+	                'Continue Smack-Talking'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -34377,6 +34380,7 @@
 	          this.waitForMessages(),
 	          _react2.default.createElement(_message_form_container2.default, { chatType: 'TextChannel',
 	            chatId: textChannel.id,
+	            messageBody: '',
 	            action: 'create' })
 	        )
 	      );
@@ -34426,6 +34430,7 @@
 	
 	    _this.state = { view: true };
 	    _this.handleDestroyMessage = _this.handleDestroyMessage.bind(_this);
+	    _this.toggleUpdate = _this.toggleUpdate.bind(_this);
 	    _this.message = _this.props.message;
 	    return _this;
 	  }
@@ -34438,7 +34443,7 @@
 	  }, {
 	    key: 'toggleUpdate',
 	    value: function toggleUpdate() {
-	      var nextState = !this.state.viewOrEdit;
+	      var nextState = !this.state.view;
 	      this.setState({ view: nextState });
 	    }
 	  }, {
@@ -34447,10 +34452,10 @@
 	      if (message.author.id === currentUser.id) {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'TextChannelMessageChange' },
+	          { className: 'textChannelMessageChange' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'TextChannelMessageEdit' },
+	            { className: 'textChannelMessageEdit' },
 	            _react2.default.createElement(
 	              'button',
 	              { onClick: this.toggleUpdate },
@@ -34459,7 +34464,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'TextChannelMessageDelete' },
+	            { className: 'textChannelMessageDelete' },
 	            _react2.default.createElement(
 	              'button',
 	              { onClick: this.handleDestroyMessage },
@@ -34490,15 +34495,15 @@
 	      if (this.state.view) {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'TextChannelMessageBody' },
+	          { className: 'textChannelMessageMessage' },
 	          message.body
 	        );
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'TextChannelMessageUpdate' },
+	          { className: 'textChannelMessageUpdate' },
 	          _react2.default.createElement(_message_form_container2.default, { chatType: 'TextChannel',
-	            chatId: message.chatId,
+	            chatId: message.chatable_Id,
 	            messageBody: message.body,
 	            action: 'update' })
 	        );
@@ -34514,23 +34519,27 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'TextChannelMessageBox' },
+	        { className: 'textChannelMessageBox' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'TextChannelMessageHeader' },
+	          { className: 'textChannelMessageHeader' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'TextChannelMessageAuthor' },
+	            { className: 'textChannelMessageAuthor' },
 	            message.author.username
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'TextChannelMessageTime' },
+	            { className: 'textChannelMessageTime' },
 	            this.prepTimeDisplay(message)
 	          )
 	        ),
-	        this.displayBodyOrUpdate(message),
-	        this.displayChangeButton(currentUser, message)
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessageBody' },
+	          this.displayBodyOrUpdate(message),
+	          this.displayChangeButton(currentUser, message)
+	        )
 	      );
 	    }
 	  }]);
@@ -34563,21 +34572,15 @@
 	;
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	  var tempMessageBody = "";
-	  if (ownProps.messageBody) {
-	    tempMessageBody = ownProps.messageBody;
-	  }
-	
 	  var tempErrors = [];
 	  if (state.textChannel) {
 	    tempErrors = state.textChannel.errors;
 	  }
 	
 	  return {
-	    currentUser: state.session.currentUser,
 	    chatType: ownProps.chatType,
 	    chatId: ownProps.chatId,
-	    messageBody: tempMessageBody,
+	    messageBody: ownProps.messageBody,
 	    action: ownProps.action,
 	    errors: tempErrors
 	  };
@@ -34630,10 +34633,10 @@
 	
 	    var _this = _possibleConstructorReturn(this, (MessageForm.__proto__ || Object.getPrototypeOf(MessageForm)).call(this, props));
 	
-	    _this.state = { author_id: _this.props.currentUser.id,
-	      body: _this.props.messageBody,
+	    _this.state = { body: _this.props.messageBody,
 	      chatable_type: _this.props.chatType,
 	      chatable_id: _this.props.chatId };
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    return _this;
 	  }
 	
@@ -34642,8 +34645,9 @@
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
 	      var message = this.state;
+	      message.chatable_id = this.props.chatId;
 	
-	      if (this.props.type === "create") {
+	      if (this.props.action === "create") {
 	        this.props.createMessage({ message: message });
 	      } else {
 	        this.props.updateMessage({ message: message });
@@ -34652,8 +34656,8 @@
 	      this.setState({ "body": "" });
 	    }
 	  }, {
-	    key: "update",
-	    value: function update(field) {
+	    key: "updateState",
+	    value: function updateState(field) {
 	      var _this2 = this;
 	
 	      return function (e) {
@@ -34665,14 +34669,14 @@
 	    value: function createMessageForm() {
 	      return _react2.default.createElement(
 	        "form",
-	        { onClick: this.handleSubmit, className: "createMessageForm" },
+	        { onSubmit: this.handleSubmit, className: "createMessageForm" },
 	        _react2.default.createElement(
 	          "div",
-	          { className: "messageSubmitButton" },
+	          { className: "channelSubmitBoxOuter" },
 	          _react2.default.createElement(
-	            "button",
-	            { type: "submit" },
-	            "^"
+	            "div",
+	            { className: "channelSubmitBoxInner" },
+	            _react2.default.createElement("input", { className: "channelSubmitButton", type: "submit", value: "^" })
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -34683,17 +34687,8 @@
 	            { className: "bodyInputLine" },
 	            _react2.default.createElement("input", { type: "text",
 	              value: this.state.body,
-	              onChange: this.update("body"),
+	              onChange: this.updateState("body"),
 	              className: "messageInput" })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "channelSubmitBoxOuter" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "channelSubmitBoxInner" },
-	            _react2.default.createElement("input", { className: "channelSubmitButton", type: "submit", value: "Submit" })
 	          )
 	        )
 	      );
@@ -34703,8 +34698,12 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "div",
-	        { className: "createMessageBox" },
-	        this.createMessageForm()
+	        { className: "createMessageBoxOuter" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "createMessageBoxInner" },
+	          this.createMessageForm()
+	        )
 	      );
 	    }
 	  }]);

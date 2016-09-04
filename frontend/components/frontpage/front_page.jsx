@@ -35,10 +35,10 @@ class FrontPage extends React.Component {
             </div>
             <div className="frontPageButtonBox">
               <button className="frontPageButton" onClick={this._routeToSignUp}>
-                Start Smack-talking
+                Start Talking Smack
               </button>
               <button className="frontPageButton" onClick={this._routeToLogIn}>
-                Continue Talking Smack
+                Continue Smack-Talking
               </button>
             </div>
             <div className="frontPageLogoBoxLarge">

@@ -1,14 +1,14 @@
 class Api::MessagesController < ApplicationController
-  skip_before_action :require_author, only: [:create]
+  before_action :require_author, only: [:update, :destroy]
 
   def create
     @message = Message.new(message_params)
     @message.author_id = current_user.id
 
     if @message.save
-      Pusher.trigger(@message.chatable_type, 'message_changed', {})
+      render :show
     else
-      render json: {}
+      render json: @message.errors.full_messages, status: 422
     end
   end
 
@@ -16,9 +16,9 @@ class Api::MessagesController < ApplicationController
     @message = Message.find_by_id(params[:id])
 
     if @message.update
-      Pusher.trigger(@message.chatable_type, 'message_changed', {})
+      render :show
     else
-      render json: {}
+      render json: @message.errors.full_messages, status: 422
     end
   end
 
@@ -26,9 +26,9 @@ class Api::MessagesController < ApplicationController
     @message = Message.find_by_id(params[:id])
 
     if @message.destroy
-      Pusher.trigger(@message.chatable_type, 'message_changed', {})
+      render :show
     else
-      render json: {}
+      render json: @message.errors.full_messages, status: 422
     end
   end
 

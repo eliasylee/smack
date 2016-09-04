@@ -6,6 +6,7 @@ class TextChannelChatItem extends React.Component {
     super(props);
     this.state = { view: true }
     this.handleDestroyMessage = this.handleDestroyMessage.bind(this);
+    this.toggleUpdate = this.toggleUpdate.bind(this)
     this.message = this.props.message;
   }
 
@@ -14,18 +15,18 @@ class TextChannelChatItem extends React.Component {
   }
 
   toggleUpdate () {
-    let nextState = !this.state.viewOrEdit;
+    let nextState = !this.state.view;
     this.setState({ view: nextState })
   }
 
   displayChangeButton (currentUser, message, destroyMessage) {
     if (message.author.id === currentUser.id) {
       return (
-        <div className="TextChannelMessageChange">
-          <div className="TextChannelMessageEdit">
+        <div className="textChannelMessageChange">
+          <div className="textChannelMessageEdit">
             <button onClick={this.toggleUpdate}>Update</button>
           </div>
-          <div className="TextChannelMessageDelete">
+          <div className="textChannelMessageDelete">
             <button onClick={this.handleDestroyMessage}>Delete</button>
           </div>
         </div>
@@ -50,15 +51,15 @@ class TextChannelChatItem extends React.Component {
   displayBodyOrUpdate (message) {
     if (this.state.view) {
       return (
-        <div className="TextChannelMessageBody">
+        <div className="textChannelMessageMessage">
           {message.body}
         </div>
       )
     } else {
       return (
-        <div className="TextChannelMessageUpdate">
+        <div className="textChannelMessageUpdate">
           <MessageFormContainer chatType="TextChannel"
-                                chatId={message.chatId}
+                                chatId={message.chatable_Id}
                                 messageBody={message.body}
                                 action="update" />
         </div>
@@ -69,17 +70,19 @@ class TextChannelChatItem extends React.Component {
   render () {
     const { message, currentUser, destroyMessage } = this.props
     return (
-      <div className="TextChannelMessageBox">
-        <div className="TextChannelMessageHeader">
-          <div className="TextChannelMessageAuthor">
+      <div className="textChannelMessageBox">
+        <div className="textChannelMessageHeader">
+          <div className="textChannelMessageAuthor">
             {message.author.username}
           </div>
-          <div className="TextChannelMessageTime">
+          <div className="textChannelMessageTime">
             {this.prepTimeDisplay(message)}
           </div>
         </div>
-        {this.displayBodyOrUpdate(message)}
-        {this.displayChangeButton(currentUser, message)}
+        <div className="textChannelMessageBody">
+          {this.displayBodyOrUpdate(message)}
+          {this.displayChangeButton(currentUser, message)}
+        </div>
       </div>
     )
   }

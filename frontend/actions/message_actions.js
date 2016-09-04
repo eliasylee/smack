@@ -7,24 +7,24 @@ export const MessageConstants = {
   RECEIVE_ERRORS: 'RECEIVE_ERRORS'
 }
 
-export const createMessage = channel => ({
+export const createMessage = message => ({
   type: MessageConstants.CREATE_MESSAGE,
-  channel
+  message
 })
 
-export const receiveOneMessage = channel => ({
+export const receiveOneMessage = message => ({
   type: MessageConstants.RECEIVE_ONE_MESSAGE,
-  channel
+  message
 })
 
-export const updateMessage = channel => ({
+export const updateMessage = message => ({
   type: MessageConstants.UPDATE_MESSAGE,
-  channel
+  message
 })
 
-export const destroyMessage = channel => ({
+export const destroyMessage = message => ({
   type: MessageConstants.DESTROY_MESSAGE,
-  channel
+  message
 })
 
 export const clearTextMessages = () => ({

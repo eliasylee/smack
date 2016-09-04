@@ -42,6 +42,7 @@ class TextChannelChat extends React.Component {
           {this.waitForMessages()}
           <MessageFormContainer chatType="TextChannel"
                                 chatId={textChannel.id}
+                                messageBody=""
                                 action="create" />
         </div>
       </div>

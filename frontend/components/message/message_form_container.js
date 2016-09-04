@@ -4,21 +4,15 @@ import { createMessage,
          updateMessage } from '../../actions/message_actions';;
 
 const mapStateToProps = (state, ownProps) => {
-  let tempMessageBody = "";
-  if (ownProps.messageBody) {
-    tempMessageBody = ownProps.messageBody;
-  }
-
   let tempErrors = [];
   if (state.textChannel) {
     tempErrors = state.textChannel.errors
   }
 
   return {
-    currentUser: state.session.currentUser,
     chatType: ownProps.chatType,
     chatId: ownProps.chatId,
-    messageBody: tempMessageBody,
+    messageBody: ownProps.messageBody,
     action: ownProps.action,
     errors: tempErrors
   }
