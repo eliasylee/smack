@@ -22380,7 +22380,7 @@
 	    case _session_actions.SessionConstants.RECEIVE_CURRENT_USER:
 	      var currentUser = action.currentUser;
 	      return (0, _merge2.default)({}, defaultState, { currentUser: currentUser });
-	    case _session_actions.SessionConstants.RECEIVE_ERRORS:
+	    case _session_actions.SessionConstants.RECEIVE_LOGOUT_ERRORS:
 	      var errors = action.errors;
 	      return (0, _merge2.default)({}, defaultState, { errors: errors });
 	    case _session_actions.SessionConstants.LOGOUT:
@@ -22406,7 +22406,7 @@
 	  LOGOUT: 'LOGOUT',
 	  SIGNUP: 'SIGNUP',
 	  RECEIVE_CURRENT_USER: 'RECEIVE_CURRENT_USER',
-	  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
+	  RECEIVE_LOGOUT_ERRORS: 'RECEIVE_LOGOUT_ERRORS'
 	};
 	
 	var login = exports.login = function login(user) {
@@ -22438,7 +22438,7 @@
 	
 	var receiveErrors = exports.receiveErrors = function receiveErrors(errors) {
 	  return {
-	    type: SessionConstants.RECEIVE_ERRORS,
+	    type: SessionConstants.RECEIVE_LOGOUT_ERRORS,
 	    errors: errors
 	  };
 	};
@@ -25984,7 +25984,6 @@
 	    case _message_actions.MessageConstants.DESTROY_MESSAGE:
 	      newMessages = (0, _messages_reducer2.default)(state.textChannel.messages, action);
 	      newState.textChannel.messages = newMessages;
-	      debugger;
 	      return newState;
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ERRORS:
 	      var errors = action.errors;
@@ -26504,9 +26503,6 @@
 	      var updateMessageSuccess = function updateMessageSuccess(data) {
 	        return dispatch((0, _message_actions.receiveOneMessage)(data));
 	      };
-	      var destroyMessageSuccess = function destroyMessageSuccess(data) {
-	        return dispatch((0, _message_actions.receiveOneMessage)(data));
-	      };
 	      var errors = function errors(data) {
 	        return dispatch((0, _message_actions.receiveErrors)(data));
 	      };
@@ -26521,8 +26517,10 @@
 	          (0, _message_api_util.updateMessage)(action.message, updateMessageSuccess, errors);
 	          return next(action);
 	        case _message_actions.MessageConstants.DESTROY_MESSAGE:
-	          (0, _message_api_util.destroyMessage)(action.message, destroyMessageSuccess, errors);
-	          return next(action);
+	          (0, _message_api_util.destroyMessage)(action.message, function () {
+	            return next(action);
+	          }, errors);
+	          break;
 	        default:
 	          return next(action);
 	      }
@@ -34539,20 +34537,21 @@
 	    key: 'prepTimeDisplay',
 	    value: function prepTimeDisplay(message) {
 	      var createdDate = message.created_at.slice(0, 10).split("-");
-	      var updatedDate = message.updated_at.slice(0, 10).split("-");
-	
-	      var createdTime = message.created_at.slice(11, 16).split(":");
-	      var updatedTime = message.updated_at.slice(11, 16).split(":");
-	
+	      var createdTime = message.created_at.slice(11, 19).split(":");
+	      var createdHour = parseInt(createdTime[0] + 8);
 	      var createdAmPm = void 0;
-	      var updatedAmPm = void 0;
 	
-	      var createdHour = parseInt(createdTime[0]);
-	      var updatedHour = parseInt(updatedTime[0]);
+	      var updatedDate = message.updated_at.slice(0, 10).split("-");
+	      var updatedTime = message.updated_at.slice(11, 19).split(":");
+	      var updatedHour = parseInt(updatedTime[0] + 8);
+	      var updatedAmPm = void 0;
 	
 	      if (createdHour > 12) {
 	        createdTime[0] = (createdHour - 12).toString();
 	        createdAmPm = "PM";
+	      } else if (updatedHour === 0) {
+	        createdTime[0] = (createdHour + 12).toString();
+	        createdAmPm = "AM";
 	      } else {
 	        createdAmPm = "AM";
 	      }
@@ -34560,14 +34559,17 @@
 	      if (updatedHour > 12) {
 	        updatedTime[0] = (updatedHour - 12).toString();
 	        updatedAmPm = "PM";
+	      } else if (updatedHour === 0) {
+	        updatedTime[0] = (updatedHour + 12).toString();
+	        updatedAmPm = "AM";
 	      } else {
 	        updatedAmPm = "AM";
 	      }
 	
-	      var neatCreated = createdDate[1] + '/' + createdDate[2] + '/' + createdDate[0] + ' at ' + createdTime[0] + ':' + createdTime[1] + ' ' + createdAmPm;
-	      var neatUpdated = 'On ' + updatedDate[1] + '/' + updatedDate[2] + '/' + updatedDate[0] + ' at ' + updatedTime[0] + ':' + updatedTime[1] + ' ' + updatedAmPm;
+	      var neatCreated = createdDate[1] + '/' + createdDate[2] + '/' + createdDate[0];
+	      var neatUpdated = updatedDate[1] + '/' + updatedDate[2] + '/' + updatedDate[0] + ' at ' + updatedTime[0] + ':' + updatedTime[1] + ' ' + updatedAmPm;
 	
-	      if (createdTime[0] === updatedTime[0] && createdTime[1] === updatedTime[1]) {
+	      if (createdTime[0] === updatedTime[0] && createdTime[1] === updatedTime[1] && createdTime[2] === updatedTime[2]) {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'textChannelMessageTime' },
@@ -34585,12 +34587,12 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'revealEdit' },
-	            'Edited'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'editedTime' },
-	            neatUpdated
+	            '(edited)',
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'editedTime' },
+	              neatUpdated
+	            )
 	          )
 	        );
 	      }

@@ -10,7 +10,6 @@ const MessageMiddleware = ({ dispatch }) => next => action => {
   const fetchOneSuccess = data => dispatch(receiveOneMessage(data));
   const createMessageSuccess = data => dispatch(receiveOneMessage(data));
   const updateMessageSuccess = data => dispatch(receiveOneMessage(data));
-  const destroyMessageSuccess = data => dispatch(receiveOneMessage(data));
   const errors = data => dispatch(receiveErrors(data));
   switch (action.type) {
     case MessageConstants.FETCH_ONE_MESSAGE:
@@ -23,8 +22,8 @@ const MessageMiddleware = ({ dispatch }) => next => action => {
       updateMessage(action.message, updateMessageSuccess, errors);
       return next(action);
     case MessageConstants.DESTROY_MESSAGE:
-      destroyMessage(action.message, destroyMessageSuccess, errors);
-      return next(action);
+      destroyMessage(action.message, () => next(action), errors);
+      break;
     default:
       return next(action);
   }

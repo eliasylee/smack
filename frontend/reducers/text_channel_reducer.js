@@ -33,7 +33,6 @@ const TextChannelReducer = (state = defaultState, action) => {
     case MessageConstants.DESTROY_MESSAGE:
       newMessages = MessagesReducer(state.textChannel.messages, action);
       newState.textChannel.messages = newMessages;
-      debugger
       return newState;
     case TextChannelConstants.RECEIVE_ERRORS:
       let errors = action.errors;

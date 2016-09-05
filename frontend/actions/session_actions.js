@@ -3,7 +3,7 @@ export const SessionConstants = {
   LOGOUT: 'LOGOUT',
   SIGNUP: 'SIGNUP',
   RECEIVE_CURRENT_USER: 'RECEIVE_CURRENT_USER',
-  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
+  RECEIVE_LOGOUT_ERRORS: 'RECEIVE_LOGOUT_ERRORS'
 };
 
 export const login = user => ({
@@ -26,6 +26,6 @@ export const receiveCurrentUser = currentUser => ({
 });
 
 export const receiveErrors = errors => ({
-  type: SessionConstants.RECEIVE_ERRORS,
+  type: SessionConstants.RECEIVE_LOGOUT_ERRORS,
   errors
 });

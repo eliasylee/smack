@@ -28,7 +28,7 @@ class Api::MessagesController < ApplicationController
     @message = Message.find_by_id(params[:id].to_i)
 
     if @message.destroy
-      render :show
+      render json: {}
     else
       render json: @message.errors.full_messages, status: 422
     end

@@ -90,6 +90,35 @@
   font-size: 12px;
   color: #99aab5;
   padding-bottom: 1px;
+  display: flex;
+  justify-content: left;
+}
+
+.revealEdit {
+  padding-top: 3px;
+  padding-left: 8px;
+  font-size: 8px;
+  position: relative;
+}
+
+.editedTime {
+  display: none;
+  text-align: center;
+  line-height: 25px;
+  width: 100px;
+  border-radius: 4px;
+  font-size: 8px;
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+  background-color: #7289DA;
+}
+
+.revealEdit:hover .editedTime {
+  display: block;
+  position: absolute;
+  left: -25px;
+  top: -25px;
+  z-index: 1;
 }
 
 .textChannelMessageBody {
