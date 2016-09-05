@@ -19,6 +19,31 @@ class TextChannelChat extends React.Component {
     }
   }
 
+  displayHeaderOrUpdate () {
+    const { currentUser, textChannel } = this.props;
+    if (this.state.view) {
+      return (
+        <header className="textChannelChatBoxHeader">
+          <div className="textChannelChatBoxHeaderLeft">
+            <div className="textChannelChatBoxHash">#</div>
+            <div className="textChannelChatBoxName">{textChannel.title}</div>
+            <div className="textChannelChatBoxSeparator">|</div>
+            <div className="textChannelChatBoxDescription">{textChannel.description}</div>
+          </div>
+          <div className="textChannelChatBoxHeaderRight">
+            {this.displayChangeButton()}
+          </div>
+        </header>
+      )
+    } else {
+      return (
+        <TextChannelFormContainer textChannel={textChannel}
+                                  currentUser={this.props.currentUser}
+                                  toggleView={this.toggleView} />
+      )
+    }
+  }
+
   waitForMessages () {
     const { textChannel, messages, currentUser, destroyMessage } = this.props;
 
@@ -55,31 +80,6 @@ class TextChannelChat extends React.Component {
           </div>
         )
       }
-    }
-  }
-
-  displayHeaderOrUpdate () {
-    const { currentUser, textChannel } = this.props;
-    if (this.state.view) {
-      return (
-        <header className="textChannelChatBoxHeader">
-          <div className="textChannelChatBoxHeaderLeft">
-            <div className="textChannelChatBoxHash">#</div>
-            <div className="textChannelChatBoxName">{textChannel.title}</div>
-            <div className="textChannelChatBoxSeparator">|</div>
-            <div className="textChannelChatBoxDescription">{textChannel.description}</div>
-          </div>
-          <div className="textChannelChatBoxHeaderRight">
-            {this.displayChangeButton()}
-          </div>
-        </header>
-      )
-    } else {
-      return (
-        <TextChannelFormContainer textChannel={textChannel}
-                                  currentUser={this.props.currentUser}
-                                  toggleView={this.toggleView} />
-      )
     }
   }
 

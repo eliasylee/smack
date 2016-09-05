@@ -27,6 +27,11 @@ export const updateTextChannel = textChannel => ({
   textChannel
 })
 
+export const destroyTextChannel = textChannel => ({
+  type: TextChannelConstants.DESTROY_TEXT_CHANNEL,
+  textChannel
+})
+
 export const receiveTextChannelErrors = errors => ({
   type: TextChannelConstants.RECEIVE_TEXT_CHANNEL_ERRORS,
   errors

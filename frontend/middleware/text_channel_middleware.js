@@ -3,7 +3,8 @@ import { TextChannelConstants,
          receiveTextChannelErrors } from '../actions/text_channel_actions';
 import { fetchOneTextChannel,
          createTextChannel,
-         updateTextChannel } from '../util/text_channel_api_util';
+         updateTextChannel,
+         destroyTextChannel } from '../util/text_channel_api_util';
 
 const TextChannelMiddleware = ({ dispatch }) => next => action => {
   const fetchOneSuccess = data => dispatch(receiveOneTextChannel(data));
@@ -20,6 +21,9 @@ const TextChannelMiddleware = ({ dispatch }) => next => action => {
     case TextChannelConstants.UPDATE_TEXT_CHANNEL:
       updateTextChannel(action.textChannel, updateTextChannelSuccess, errors);
       return next(action);
+    case TextChannelConstants.DESTROY_TEXT_CHANNEL:
+      destroyTextChannel(action.textChannel, () => next(action), errors);
+      break;
     default:
       return next(action);
   }

@@ -6,6 +6,11 @@ Channel.create!(admin_id: 2, title: "Starcraft", description: "4 pool gg no re",
 Channel.create!(admin_id: 2, title: "Counter-Strike", description: "boom headshot", icon_url: "http://accs123.com/wp-content/uploads/gmail-logo-1-01.png")
 Channel.create!(admin_id: 2, title: "fremont", description: "play of the game: bastion", icon_url: "https://pbs.twimg.com/profile_images/418740478109298688/02jAQDv3.jpeg")
 
+Subscription.create!(user_id: 2, channel_id: 1)
+Subscription.create!(user_id: 2, channel_id: 2)
+Subscription.create!(user_id: 2, channel_id: 3)
+Subscription.create!(user_id: 2, channel_id: 4)
+
 TextChannel.create!(channel_id: 1, title: "general")
 TextChannel.create!(channel_id: 2, title: "general")
 TextChannel.create!(channel_id: 3, title: "general")

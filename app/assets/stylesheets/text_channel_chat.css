@@ -81,7 +81,7 @@
 
 .textChannelMessagesBox {
   width: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .textChannelMessageBox {
@@ -93,7 +93,6 @@
   border-top: 1px solid #eceeef;
   flex-direction: column;
   justify-content: left;
-  z-index: -1;
 }
 
 .textChannelMessageHeader {
@@ -190,6 +189,8 @@
   min-height: 96px;
   width: 100%;
   bottom: 0;
+  z-index: 1;
+  background-color: #fff;
 }
 
 .editMessageBox {

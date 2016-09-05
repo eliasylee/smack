@@ -25775,6 +25775,12 @@
 	
 	var _channel_actions = __webpack_require__(299);
 	
+	var _text_channel_actions = __webpack_require__(302);
+	
+	var _text_channel_selector = __webpack_require__(406);
+	
+	var _text_channel_selector2 = _interopRequireDefault(_text_channel_selector);
+	
 	var _merge = __webpack_require__(190);
 	
 	var _merge2 = _interopRequireDefault(_merge);
@@ -25782,7 +25788,10 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var defaultState = {
-	  channel: {},
+	  channel: {
+	    admin: {},
+	    textChannels: {}
+	  },
 	  errors: []
 	};
 	
@@ -25790,14 +25799,29 @@
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
 	  var action = arguments[1];
 	
+	  var newState = (0, _merge2.default)({}, state);
 	  switch (action.type) {
 	    case _channel_actions.ChannelConstants.RECEIVE_ONE_CHANNEL:
 	      var channel = action.channel;
-	      return (0, _merge2.default)({}, state, { channel: channel });
+	      var keyedTextChannels = (0, _text_channel_selector2.default)(channel.attachments);
+	      newState.channel.id = channel.id;
+	      newState.channel.title = channel.title;
+	      newState.channel.description = channel.description;
+	      newState.channel.admin = channel.admin;
+	      newState.channel.textChannels = keyedTextChannels;
+	      return newState;
 	    case _channel_actions.ChannelConstants.CLEAR_TEXT_CHANNELS:
 	      var emptyChannelState = (0, _merge2.default)({}, state);
-	      emptyChannelState.channel.attachments = [];
+	      emptyChannelState.channel.attachments = {};
 	      return emptyChannelState;
+	    case _text_channel_actions.TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
+	      var textChannel = action.textChannel;
+	      newState.channel.textChannels[textChannel.id] = textChannel;
+	      return newState;
+	    case _text_channel_actions.TextChannelConstants.DESTROY_TEXT_CHANNEL:
+	      var destroyedTextChannel = action.textChannel;
+	      delete newState[destroyedTextChannel.id];
+	      return newState;
 	    case _channel_actions.ChannelConstants.RECEIVE_ERRORS:
 	      var errors = action.errors;
 	      return (0, _merge2.default)({}, state, { errors: errors });
@@ -26038,6 +26062,13 @@
 	var updateTextChannel = exports.updateTextChannel = function updateTextChannel(textChannel) {
 	  return {
 	    type: TextChannelConstants.UPDATE_TEXT_CHANNEL,
+	    textChannel: textChannel
+	  };
+	};
+	
+	var destroyTextChannel = exports.destroyTextChannel = function destroyTextChannel(textChannel) {
+	  return {
+	    type: TextChannelConstants.DESTROY_TEXT_CHANNEL,
 	    textChannel: textChannel
 	  };
 	};
@@ -26429,6 +26460,11 @@
 	        case _text_channel_actions.TextChannelConstants.UPDATE_TEXT_CHANNEL:
 	          (0, _text_channel_api_util.updateTextChannel)(action.textChannel, updateTextChannelSuccess, errors);
 	          return next(action);
+	        case _text_channel_actions.TextChannelConstants.DESTROY_TEXT_CHANNEL:
+	          (0, _text_channel_api_util.destroyTextChannel)(action.textChannel, function () {
+	            return next(action);
+	          }, errors);
+	          break;
 	        default:
 	          return next(action);
 	      }
@@ -26459,7 +26495,7 @@
 	var createTextChannel = exports.createTextChannel = function createTextChannel(textChannel, success, error) {
 	  $.ajax({
 	    method: 'POST',
-	    url: '/api/text_channels/' + textChannel.id,
+	    url: '/api/text_channels',
 	    data: textChannel,
 	    success: success,
 	    error: error
@@ -26469,6 +26505,16 @@
 	var updateTextChannel = exports.updateTextChannel = function updateTextChannel(textChannel, success, error) {
 	  $.ajax({
 	    method: 'PATCH',
+	    url: '/api/text_channels/' + textChannel.id,
+	    data: textChannel,
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var destroyTextChannel = exports.destroyTextChannel = function destroyTextChannel(textChannel, success, error) {
+	  $.ajax({
+	    method: 'DELETE',
 	    url: '/api/text_channels/' + textChannel.id,
 	    data: textChannel,
 	    success: success,
@@ -33900,7 +33946,7 @@
 	    currentUser: state.session.currentUser,
 	    channel: state.channel.channel,
 	    stateTextChannel: state.textChannel.textChannel,
-	    textChannels: state.channel.channel.attachments,
+	    textChannels: state.channel.channel.textChannels,
 	    errors: state.channel.errors
 	  };
 	};
@@ -33912,6 +33958,9 @@
 	    },
 	    updateTextChannel: function updateTextChannel(textChannel) {
 	      return dispatch((0, _text_channel_actions.updateTextChannel)(textChannel));
+	    },
+	    destroyTextChannel: function destroyTextChannel(textChannel) {
+	      return dispatch((0, _text_channel_actions.destroyTextChannel)(textChannel));
 	    },
 	    clearTextMessages: function clearTextMessages() {
 	      return dispatch((0, _message_actions.clearTextMessages)());
@@ -33933,6 +33982,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -33965,11 +34016,16 @@
 	    var _this = _possibleConstructorReturn(this, (TextChannelNav.__proto__ || Object.getPrototypeOf(TextChannelNav)).call(this, props));
 	
 	    _this.state = {
-	      title: ""
+	      channel_id: "",
+	      title: "",
+	      view: false
 	    };
 	    _this.textChannels = _this.props.textChannels;
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    _this.handleLogOut = _this.handleLogOut.bind(_this);
+	    _this.prepUserName = _this.prepUserName.bind(_this);
+	    _this.toggleView = _this.toggleView.bind(_this);
+	    _this.createTextChannelForm = _this.createTextChannelForm.bind(_this);
 	    return _this;
 	  }
 	
@@ -33981,12 +34037,23 @@
 	      }
 	    }
 	  }, {
+	    key: 'toggleView',
+	    value: function toggleView() {
+	      var nextView = !this.state.view;
+	      if (!nextView) {
+	        this.setState({ "title": "" });
+	      }
+	      this.setState({ "view": nextView });
+	    }
+	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
-	      this.setState({ "title": this.state.title.toLowerCase() });
-	      var textChannel = Object.assign({}, this.state);
-	      this.props.createTextChannel({ textChannel: textChannel });
+	      var text_channel = Object.assign({}, this.state);
+	      text_channel.channel_id = this.props.channel.id;
+	      text_channel.title = this.state.title.toLowerCase();
+	      this.toggleView();
+	      this.props.createTextChannel({ text_channel: text_channel });
 	    }
 	  }, {
 	    key: 'update',
@@ -33998,64 +34065,42 @@
 	      };
 	    }
 	  }, {
-	    key: 'renderTitleTitle',
-	    value: function renderTitleTitle() {
-	      var errors = this.props.errors.map(function (error) {
-	        return error;
-	      });
-	
-	      if (errors === []) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'titleWord' },
-	          'Channel Name'
-	        );
-	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'titleWord channelErrors' },
-	          errors[0]
-	        );
-	      }
-	    }
-	  }, {
 	    key: 'createTextChannelForm',
 	    value: function createTextChannelForm() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'createTextChannelFormBoxInner' },
-	        _react2.default.createElement(
-	          'form',
-	          { onClick: this.handleSubmit, className: 'createTextChannelForm' },
+	      if (this.state.view) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'createTextChannelFormBoxInner' },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'createTextChannelNameBox' },
-	            this.renderTitleTitle(),
+	            'form',
+	            { onSubmit: this.handleSubmit, className: 'createTextChannelForm' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'titleInputLine' },
-	              _react2.default.createElement('input', { type: 'text',
-	                value: this.state.title,
-	                onChange: this.update("title"),
-	                className: 'sessionInput' })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'textChannelSubmitBoxOuter' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'textChannelSubmitBoxInner' },
+	              { className: 'createTextChannelNameBox' },
 	              _react2.default.createElement(
-	                'span',
-	                { className: 'closeCreateTextChannelForm' },
+	                'div',
+	                { className: 'textChannelInputLine' },
+	                _react2.default.createElement('input', { type: 'text',
+	                  value: this.state.title,
+	                  onChange: this.update("title"),
+	                  className: 'textChannelInput' })
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'newTextChannelSubmitBox' },
+	              _react2.default.createElement('input', { className: 'newTextChannelSubmitButton', type: 'submit', value: 'Create' }),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'closeNewTextChannelForm', onClick: this.toggleView },
 	                'Cancel'
-	              ),
-	              _react2.default.createElement('input', { className: 'textChannelSubmitButton', type: 'submit', value: 'Create' })
+	              )
 	            )
 	          )
-	        )
-	      );
+	        );
+	      } else {
+	        return _react2.default.createElement('div', null);
+	      }
 	    }
 	  }, {
 	    key: 'waitForTextChannels',
@@ -34071,18 +34116,26 @@
 	      var channelId = channel.id;
 	
 	      if (textChannels) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'textChannelNavBarButtons' },
-	          textChannels.map(function (textChannel) {
-	            return _react2.default.createElement(_text_channel_nav_item2.default, { textChannel: textChannel,
-	              stateTextChannel: stateTextChannel,
-	              updateTextChannel: _this3.props.updateTextChannel,
-	              channelId: channel.id,
-	              key: textChannel.id,
-	              clearTextMessages: _this3.props.clearTextMessages });
-	          })
-	        );
+	        var _ret = function () {
+	          var textChannelKeys = Object.keys(textChannels);
+	          return {
+	            v: _react2.default.createElement(
+	              'div',
+	              { className: 'textChannelNavBarButtons' },
+	              textChannelKeys.map(function (textChannelKey) {
+	                return _react2.default.createElement(_text_channel_nav_item2.default, { textChannel: textChannels[textChannelKey],
+	                  stateTextChannel: stateTextChannel,
+	                  textChannelKeys: textChannelKeys,
+	                  destroyTextChannel: _this3.props.destroyTextChannel,
+	                  channelId: channel.id,
+	                  key: textChannelKey,
+	                  clearTextMessages: _this3.props.clearTextMessages });
+	              })
+	            )
+	          };
+	        }();
+	
+	        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	      }
 	    }
 	  }, {
@@ -34096,7 +34149,7 @@
 	        if (channel.admin.id === currentUser.id) {
 	          return _react2.default.createElement(
 	            'button',
-	            { className: 'addTextChannel' },
+	            { className: 'addTextChannel', onClick: this.toggleView },
 	            '+'
 	          );
 	        }
@@ -34106,6 +34159,17 @@
 	    key: 'handleLogOut',
 	    value: function handleLogOut() {
 	      this.props.logout();
+	    }
+	  }, {
+	    key: 'prepUserName',
+	    value: function prepUserName() {
+	      var result = "";
+	      if (this.props.currentUser) {
+	        this.props.currentUser.username.split().forEach(function (word) {
+	          result += word.slice(0, 1);
+	        });
+	      }
+	      return result;
 	    }
 	  }, {
 	    key: 'render',
@@ -34152,6 +34216,11 @@
 	                  this.addTextChannelButton()
 	                )
 	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'createTextChannelFormBoxOuter' },
+	                this.createTextChannelForm()
+	              ),
 	              this.waitForTextChannels()
 	            ),
 	            _react2.default.createElement(
@@ -34165,11 +34234,11 @@
 	                  { className: 'currentLogoBox' },
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'guestLogo' },
+	                    { className: 'userLogo' },
 	                    _react2.default.createElement(
 	                      'div',
-	                      null,
-	                      'G'
+	                      { className: 'userLogoLetter' },
+	                      this.prepUserName()
 	                    )
 	                  )
 	                ),
@@ -34201,11 +34270,6 @@
 	                )
 	              )
 	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'createTextChannelFormBoxOuter' },
-	            this.createTextChannelForm()
 	          )
 	        ),
 	        children
@@ -34228,6 +34292,8 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -34236,53 +34302,115 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var isActive = function isActive(stateTextChannel, textChannel) {
-	  if (textChannel.id === stateTextChannel.id) {
-	    return "activeTextChannelButton";
-	  } else {
-	    return "inactiveTextChannelButton";
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var TextChannelNavItem = function (_React$Component) {
+	  _inherits(TextChannelNavItem, _React$Component);
+	
+	  function TextChannelNavItem(props) {
+	    _classCallCheck(this, TextChannelNavItem);
+	
+	    var _this = _possibleConstructorReturn(this, (TextChannelNavItem.__proto__ || Object.getPrototypeOf(TextChannelNavItem)).call(this, props));
+	
+	    _this.isActive = _this.isActive.bind(_this);
+	    _this.isDisabled = _this.isDisabled.bind(_this);
+	    _this.handleDestroyTextChannel = _this.handleDestroyTextChannel.bind(_this);
+	    _this.changeTextChannel = _this.changeTextChannel.bind(_this);
+	    _this.textChannel = _this.props.textChannel;
+	    _this.placeDestroyTextChannelButton = _this.placeDestroyTextChannelButton.bind(_this);
+	    return _this;
 	  }
-	};
 	
-	var isDisabled = function isDisabled(stateTextChannel, textChannel) {
-	  if (textChannel.id === stateTextChannel.id) {
-	    return "disabled";
-	  } else {
-	    return "";
-	  }
-	};
+	  _createClass(TextChannelNavItem, [{
+	    key: 'isActive',
+	    value: function isActive() {
+	      var _props = this.props;
+	      var stateTextChannel = _props.stateTextChannel;
+	      var textChannel = _props.textChannel;
 	
-	var changeTextChannel = function changeTextChannel(textChannel, channelId, router, clearTextMessages) {
-	  return function () {
-	    clearTextMessages();
-	    router.push('/channels/' + channelId + '/' + textChannel.id);
-	  };
-	};
+	      if (textChannel.id === stateTextChannel.id) {
+	        return "activeTextChannelButton";
+	      } else {
+	        return "inactiveTextChannelButton";
+	      }
+	    }
+	  }, {
+	    key: 'isDisabled',
+	    value: function isDisabled() {
+	      var _props2 = this.props;
+	      var stateTextChannel = _props2.stateTextChannel;
+	      var textChannel = _props2.textChannel;
 	
-	var TextChannelNavItem = function TextChannelNavItem(_ref) {
-	  var stateTextChannel = _ref.stateTextChannel;
-	  var textChannel = _ref.textChannel;
-	  var channelId = _ref.channelId;
-	  var router = _ref.router;
-	  var clearTextMessages = _ref.clearTextMessages;
+	      if (textChannel.id === stateTextChannel.id) {
+	        return "disabled";
+	      } else {
+	        return "";
+	      }
+	    }
+	  }, {
+	    key: 'changeTextChannel',
+	    value: function changeTextChannel() {
+	      this.props.clearTextMessages();
+	      this.props.router.push('/channels/' + this.props.channelId + '/' + this.props.textChannel.id);
+	    }
+	  }, {
+	    key: 'handleDestroyTextChannel',
+	    value: function handleDestroyTextChannel() {
+	      this.props.destroyTextChannel(this.textChannel);
+	      this.props.router.push('/channels/' + this.props.channelId + '/' + this.props.textChannelKeys[0]);
+	    }
+	  }, {
+	    key: 'placeDestroyTextChannelButton',
+	    value: function placeDestroyTextChannelButton() {
+	      var _props3 = this.props;
+	      var textChannel = _props3.textChannel;
+	      var textChannelKeys = _props3.textChannelKeys;
 	
-	  return _react2.default.createElement(
-	    'button',
-	    { onClick: changeTextChannel(textChannel, channelId, router, clearTextMessages),
-	      className: isActive(stateTextChannel, textChannel),
-	      disabled: isDisabled(stateTextChannel, textChannel) },
-	    _react2.default.createElement(
-	      'ul',
-	      null,
-	      '#'
-	    ),
-	    _react2.default.createElement(
-	      'ul',
-	      null,
-	      textChannel.title
-	    )
-	  );
-	};
+	      if (textChannel.id === parseInt(textChannelKeys[0])) {
+	        return _react2.default.createElement('div', null);
+	      } else {
+	        return _react2.default.createElement(
+	          'button',
+	          { onClick: this.handleDestroyTextChannel, className: 'textChannelDeleteButton' },
+	          'x'
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var textChannel = this.props.textChannel;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: this.isActive(),
+	          onClick: this.changeTextChannel,
+	          disabled: this.isDisabled() },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelButtonLeft' },
+	          _react2.default.createElement(
+	            'ul',
+	            null,
+	            '#'
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            null,
+	            textChannel.title
+	          )
+	        ),
+	        this.placeDestroyTextChannelButton()
+	      );
+	    }
+	  }]);
+	
+	  return TextChannelNavItem;
+	}(_react2.default.Component);
 	
 	exports.default = (0, _reactRouter.withRouter)(TextChannelNavItem);
 
@@ -34390,67 +34518,11 @@
 	      }
 	    }
 	  }, {
-	    key: 'waitForMessages',
-	    value: function waitForMessages() {
-	      var _props = this.props;
-	      var textChannel = _props.textChannel;
-	      var messages = _props.messages;
-	      var currentUser = _props.currentUser;
-	      var destroyMessage = _props.destroyMessage;
-	
-	
-	      if (messages) {
-	        var messageKeys = Object.keys(messages).reverse();
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'textChannelMessagesBox' },
-	          messageKeys.reverse().map(function (messageKey) {
-	            return _react2.default.createElement(_text_channel_chat_item2.default, { message: messages[messageKey],
-	              textChannel: textChannel,
-	              currentUser: currentUser,
-	              destroyMessage: destroyMessage,
-	              key: messageKey });
-	          })
-	        );
-	      }
-	    }
-	  }, {
-	    key: 'toggleView',
-	    value: function toggleView() {
-	      var newStatus = !this.state.view;
-	      this.setState({ "view": newStatus });
-	    }
-	  }, {
-	    key: 'displayChangeButton',
-	    value: function displayChangeButton() {
-	      var _props2 = this.props;
-	      var currentUser = _props2.currentUser;
-	      var channel = _props2.channel;
-	
-	      if (currentUser && channel.admin) {
-	        if (channel.admin.id === currentUser.id) {
-	          return _react2.default.createElement(
-	            'div',
-	            { className: 'textChannelEditButtonBox' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'textChannelEditButton' },
-	              _react2.default.createElement(
-	                'button',
-	                { onClick: this.toggleView },
-	                'Edit'
-	              )
-	            )
-	          );
-	        }
-	      }
-	    }
-	  }, {
 	    key: 'displayHeaderOrUpdate',
 	    value: function displayHeaderOrUpdate() {
-	      var _props3 = this.props;
-	      var currentUser = _props3.currentUser;
-	      var textChannel = _props3.textChannel;
+	      var _props = this.props;
+	      var currentUser = _props.currentUser;
+	      var textChannel = _props.textChannel;
 	
 	      if (this.state.view) {
 	        return _react2.default.createElement(
@@ -34490,6 +34562,62 @@
 	        return _react2.default.createElement(_text_channel_form_container2.default, { textChannel: textChannel,
 	          currentUser: this.props.currentUser,
 	          toggleView: this.toggleView });
+	      }
+	    }
+	  }, {
+	    key: 'waitForMessages',
+	    value: function waitForMessages() {
+	      var _props2 = this.props;
+	      var textChannel = _props2.textChannel;
+	      var messages = _props2.messages;
+	      var currentUser = _props2.currentUser;
+	      var destroyMessage = _props2.destroyMessage;
+	
+	
+	      if (messages) {
+	        var messageKeys = Object.keys(messages).reverse();
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessagesBox' },
+	          messageKeys.reverse().map(function (messageKey) {
+	            return _react2.default.createElement(_text_channel_chat_item2.default, { message: messages[messageKey],
+	              textChannel: textChannel,
+	              currentUser: currentUser,
+	              destroyMessage: destroyMessage,
+	              key: messageKey });
+	          })
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'toggleView',
+	    value: function toggleView() {
+	      var newStatus = !this.state.view;
+	      this.setState({ "view": newStatus });
+	    }
+	  }, {
+	    key: 'displayChangeButton',
+	    value: function displayChangeButton() {
+	      var _props3 = this.props;
+	      var currentUser = _props3.currentUser;
+	      var channel = _props3.channel;
+	
+	      if (currentUser && channel.admin) {
+	        if (channel.admin.id === currentUser.id) {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'textChannelEditButtonBox' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'textChannelEditButton' },
+	              _react2.default.createElement(
+	                'button',
+	                { onClick: this.toggleView },
+	                'Edit'
+	              )
+	            )
+	          );
+	        }
 	      }
 	    }
 	  }, {
@@ -35077,6 +35205,24 @@
 	}(_react2.default.Component);
 	
 	exports.default = TextChannelForm;
+
+/***/ },
+/* 406 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var TextChannelSelector = function TextChannelSelector(textChannels) {
+	  return textChannels.reduce(function (obj, textChannel) {
+	    obj[textChannel.id] = textChannel;
+	    return obj;
+	  }, {});
+	};
+	
+	exports.default = TextChannelSelector;
 
 /***/ }
 /******/ ]);

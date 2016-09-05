@@ -11,6 +11,7 @@ class Api::ChannelsController < ApplicationController
     @channel = Channel.new(channel_params)
     @channel.admin_id = current_user.id
     TextChannel.create!(channel_id: @channel.id, title: "General")
+    Subscription.create!(user_id: current_user.id, channel_id: @channel.id)
 
     if @channel.save
       render :show

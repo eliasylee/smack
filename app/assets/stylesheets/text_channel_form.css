@@ -1,3 +1,58 @@
+/* Create Text Channel Form */
+
+.createTextChannelFormBoxOuter {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+.createTextChannelFormBoxInner {
+
+}
+
+.createTextChannelForm {
+
+}
+
+.createTextChannelNameBox {
+
+}
+
+.textChannelInputLine {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.textChannelInput {
+  color: #fff;
+  width: 200px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #6C6E72;
+  margin-bottom: 5px;
+}
+
+.newTextChannelSubmitBox {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.newTextChannelSubmitButton, .closeNewTextChannelForm {
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #6C6E72;
+}
+
+.newTextChannelSubmitButton:hover, .closeNewTextChannelForm:hover {
+  color: #fff;
+}
+
+/* Edit Text Channel Form */
+
+.textChannelEditButton:hover {
+  color: black;
+}
+
 .editTextChannelBox {
   width: 60%;
   min-height: 57px;
@@ -81,4 +136,8 @@
 .textChannelSubmitButton {
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.textChannelSubmitButton:hover, .closeEditTextChannelForm:hover {
+  color: black;
 }

@@ -209,7 +209,10 @@
   transform: translateY(3px);
 }
 
-.sessionFormFooter a, a:visited, a:link, a:active {
+.sessionFormFooter a,
+.sessionFormFooter a:visited,
+.sessionFormFooter a:link,
+.sessionFormFooter a:active {
   color: #fff;
   text-decoration: none;
 }
