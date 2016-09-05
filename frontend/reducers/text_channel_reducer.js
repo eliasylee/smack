@@ -34,7 +34,7 @@ const TextChannelReducer = (state = defaultState, action) => {
       newMessages = MessagesReducer(state.textChannel.messages, action);
       newState.textChannel.messages = newMessages;
       return newState;
-    case TextChannelConstants.RECEIVE_ERRORS:
+    case TextChannelConstants.RECEIVE_TEXT_CHANNEL_ERRORS:
       let errors = action.errors;
       newState.errors = errors;
       return newState;

@@ -7,7 +7,7 @@ export const fetchOneTextChannel = (textChannel, success, error) => {
   });
 };
 
-export const createChannel = (textChannel, success, error) => {
+export const createTextChannel = (textChannel, success, error) => {
   $.ajax({
     method: 'POST',
     url: `/api/text_channels/${textChannel.id}`,
@@ -17,7 +17,7 @@ export const createChannel = (textChannel, success, error) => {
   });
 };
 
-export const updateChannel = (textChannel, success, error) => {
+export const updateTextChannel = (textChannel, success, error) => {
   $.ajax({
     method: 'PATCH',
     url: `/api/text_channels/${textChannel.id}`,

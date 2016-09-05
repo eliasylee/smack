@@ -6,8 +6,7 @@ class TextChannelNav extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      title: "",
-      description: ""
+      title: ""
     };
     this.textChannels = this.props.textChannels;
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,7 +36,7 @@ class TextChannelNav extends React.Component {
     });
 
     if (errors === []) {
-      return <div className="titleWord">Title</div>;
+      return <div className="titleWord">Channel Name</div>;
     } else {
       return <div className="titleWord channelErrors">{errors[0]}</div>;
     }
@@ -46,7 +45,6 @@ class TextChannelNav extends React.Component {
   createTextChannelForm () {
     return (
       <div className="createTextChannelFormBoxInner">
-        <span className="closeCreateTextChannelForm">x</span>
         <form onClick={this.handleSubmit} className="createTextChannelForm">
           <div className="createTextChannelNameBox">
             {this.renderTitleTitle()}
@@ -57,18 +55,10 @@ class TextChannelNav extends React.Component {
                 className="sessionInput" />
             </div>
           </div>
-          <div className="createTextChannelDescriptionBox">
-            <div className="descriptionWord">Description</div>
-            <div className="descriptionInputLine">
-              <input type="text"
-                value={this.state.description}
-                onChange={this.update("description")}
-                className="textChannelInput" />
-            </div>
-          </div>
           <div className="textChannelSubmitBoxOuter">
             <div className="textChannelSubmitBoxInner">
-              <input className="textChannelSubmitButton" type="submit" value="Submit" />
+              <span className="closeCreateTextChannelForm">Cancel</span>
+              <input className="textChannelSubmitButton" type="submit" value="Create" />
             </div>
           </div>
         </form>
@@ -86,12 +76,24 @@ class TextChannelNav extends React.Component {
           {textChannels.map( textChannel => {
             return <TextChannelNavItem textChannel={textChannel}
                                        stateTextChannel={stateTextChannel}
+                                       updateTextChannel={this.props.updateTextChannel}
                                        channelId={channel.id}
                                        key={textChannel.id}
                                        clearTextMessages={this.props.clearTextMessages}/>
           })}
         </div>
       )
+    }
+  }
+
+  addTextChannelButton () {
+    const { currentUser, channel } = this.props;
+    if (channel.admin) {
+      if (channel.admin.id === currentUser.id) {
+        return (
+          <button className="addTextChannel">+</button>
+        )
+      }
     }
   }
 
@@ -115,6 +117,7 @@ class TextChannelNav extends React.Component {
               <span className="textChannelNavBarTitleBox">
                 <span className="textChannelNavBarTitle">
                   <span>Text Channels</span>
+                  {this.addTextChannelButton()}
                 </span>
               </span>
               {this.waitForTextChannels()}

@@ -39,12 +39,12 @@ class TextChannelChatItem extends React.Component {
   prepTimeDisplay (message) {
     let createdDate = message.created_at.slice(0, 10).split("-");
     let createdTime = message.created_at.slice(11, 19).split(":");
-    let createdHour = parseInt(createdTime[0] + 8);
+    let createdHour = parseInt(createdTime[0] - 7);
     let createdAmPm;
 
     let updatedDate = message.updated_at.slice(0, 10).split("-");
     let updatedTime = message.updated_at.slice(11, 19).split(":");
-    let updatedHour = parseInt(updatedTime[0] + 8);
+    let updatedHour = parseInt(updatedTime[0] - 7);
     let updatedAmPm;
 
     if (createdHour > 12) {

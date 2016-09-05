@@ -4,7 +4,7 @@ export const TextChannelConstants = {
   RECEIVE_ONE_TEXT_CHANNEL: 'RECEIVE_ONE_TEXT_CHANNEL',
   UPDATE_TEXT_CHANNEL: 'UPDATE_TEXT_CHANNEL',
   DESTROY_TEXT_CHANNEL: 'DESTROY_TEXT_CHANNEL',
-  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
+  RECEIVE_TEXT_CHANNEL_ERRORS: 'RECEIVE_TEXT_CHANNEL_ERRORS'
 }
 
 export const fetchOneTextChannel = (textChannel) => ({
@@ -27,7 +27,7 @@ export const updateTextChannel = textChannel => ({
   textChannel
 })
 
-export const receiveErrors = errors => ({
-  type: TextChannelConstants.RECEIVE_ERRORS,
+export const receiveTextChannelErrors = errors => ({
+  type: TextChannelConstants.RECEIVE_TEXT_CHANNEL_ERRORS,
   errors
 })

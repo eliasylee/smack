@@ -25,7 +25,7 @@ export const receiveCurrentUser = currentUser => ({
   currentUser
 });
 
-export const receiveErrors = errors => ({
+export const receiveLogoutErrors = errors => ({
   type: SessionConstants.RECEIVE_LOGOUT_ERRORS,
   errors
 });

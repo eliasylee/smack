@@ -16,7 +16,7 @@ class Api::TextChannelsController < ApplicationController
   end
 
   def update
-    @text_channel = TextChannel.find_by_id(params[:id])
+    @text_channel = TextChannel.find_by_id(params["text_channel"]["id"].to_i)
 
     if @text_channel.update(text_channel_params)
       render :show
