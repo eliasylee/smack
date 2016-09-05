@@ -7,7 +7,6 @@ class TextChannelChatItem extends React.Component {
     this.state = { view: true }
     this.handleDestroyMessage = this.handleDestroyMessage.bind(this);
     this.toggleUpdate = this.toggleUpdate.bind(this);
-    this.handleDestroyMessage = this.toggleUpdate.bind(this);
     this.message = this.props.message;
   }
 
@@ -20,7 +19,7 @@ class TextChannelChatItem extends React.Component {
     this.setState({ view: nextState })
   }
 
-  displayChangeButton (currentUser, message, destroyMessage) {
+  displayChangeButton (currentUser, message) {
     if (currentUser) {
       if (message.author.id === currentUser.id) {
         return (
@@ -38,16 +37,47 @@ class TextChannelChatItem extends React.Component {
   }
 
   prepTimeDisplay (message) {
-    let created = message.created_at.slice(0, 10).split("-");
-    let updated = message.created_at.slice(0, 10).split("-");
+    let createdDate = message.created_at.slice(0, 10).split("-");
+    let updatedDate = message.updated_at.slice(0, 10).split("-");
 
-    let neatCreated = `${created[1]}/${created[2]}/${created[0]}`
-    let neatUpdated = `(Updated at ${updated[1]}/${updated[2]}/${updated[0]})`
+    let createdTime = message.created_at.slice(11, 16).split(":");
+    let updatedTime = message.updated_at.slice(11, 16).split(":");
 
-    if (created[0] === updated[0] && created[1] === updated[1] && created[2] === updated[2]) {
-      return neatCreated;
+    let createdAmPm;
+    let updatedAmPm;
+
+    let createdHour = parseInt(createdTime[0]);
+    let updatedHour = parseInt(updatedTime[0]);
+
+    if (createdHour > 12) {
+      createdTime[0] = (createdHour - 12).toString();
+      createdAmPm = "PM";
     } else {
-      return neatCreated + neatUpdated;
+      createdAmPm = "AM";
+    }
+
+    if (updatedHour > 12) {
+      updatedTime[0] = (updatedHour - 12).toString();
+      updatedAmPm = "PM";
+    } else {
+      updatedAmPm = "AM";
+    }
+
+    let neatCreated = `${createdDate[1]}/${createdDate[2]}/${createdDate[0]} at ${createdTime[0]}:${createdTime[1]} ${createdAmPm}`;
+    let neatUpdated = `On ${updatedDate[1]}/${updatedDate[2]}/${updatedDate[0]} at ${updatedTime[0]}:${updatedTime[1]} ${updatedAmPm}`;
+
+    if (createdTime[0] === updatedTime[0] && createdTime[1] === updatedTime[1]) {
+      return (
+        <div className="textChannelMessageTime">{neatCreated}</div>
+      )
+    } else {
+      return (
+        <div className="textChannelMessageTime">
+          <div className="createdTime">{neatCreated}</div>
+          <div className="revealEdit">Edited</div>
+          <div className="editedTime">{neatUpdated}</div>
+        </div>
+      )
     }
   }
 
@@ -64,22 +94,21 @@ class TextChannelChatItem extends React.Component {
                               chatId={textChannel.id}
                               messageId={message.id}
                               messageBody={message.body}
+                              toggleUpdate={this.toggleUpdate}
                               action="update" />
       )
     }
   }
 
   render () {
-    const { message, currentUser, textChannel, destroyMessage } = this.props
+    const { message, currentUser, textChannel } = this.props
     return (
       <div className="textChannelMessageBox">
         <div className="textChannelMessageHeader">
           <div className="textChannelMessageAuthor">
             {message.author.username}
           </div>
-          <div className="textChannelMessageTime">
-            {this.prepTimeDisplay(message)}
-          </div>
+          {this.prepTimeDisplay(message)}
         </div>
         <div className="textChannelMessageBody">
           {this.displayBodyOrUpdate(message, textChannel)}

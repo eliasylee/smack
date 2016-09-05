@@ -16,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
     messageBody: ownProps.messageBody || "",
     textChannelTitle: ownProps.textChannelTitle,
     action: ownProps.action,
+    toggleUpdate: ownProps.toggleUpdate,
     errors: tempErrors
   }
 };

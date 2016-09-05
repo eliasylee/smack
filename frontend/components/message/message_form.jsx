@@ -17,12 +17,12 @@ class MessageForm extends React.Component {
     message.chatable_id = this.props.chatId;
 
     if (this.props.action === "create") {
+      this.setState({ "body": "" })
       this.props.createMessage({ message });
     } else {
       this.props.updateMessage({ message });
+      this.props.toggleUpdate();
     }
-
-    this.setState({ "body": "" })
   }
 
   updateState (field) {

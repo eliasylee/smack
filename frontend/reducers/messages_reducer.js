@@ -13,6 +13,10 @@ const MessagesReducer = (state = defaultState, action) => {
     case MessageConstants.RECEIVE_ERRORS:
       let errors = action.errors;
       return merge({}, state, { errors });
+    case MessageConstants.DESTROY_MESSAGE:
+      let destroyedMessage = action.message;
+      delete newState[destroyedMessage.id];
+      return newState;
     default:
       return state;
   }

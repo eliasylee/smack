@@ -12,6 +12,7 @@ const defaultState = {
 }
 
 const TextChannelReducer = (state = defaultState, action) => {
+  let newMessages;
   let newState = merge({}, state);
   switch (action.type) {
     case TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
@@ -24,14 +25,20 @@ const TextChannelReducer = (state = defaultState, action) => {
       return newState;
     case MessageConstants.CLEAR_TEXT_MESSAGES:
       newState.textChannel.attachments = [];
-      return merge({}, state, newState);
+      return newState;
     case MessageConstants.RECEIVE_ONE_MESSAGE:
-      let newMessages = MessagesReducer(state.textChannel.messages, action);
+      newMessages = MessagesReducer(state.textChannel.messages, action);
       newState.textChannel.messages = newMessages;
-      return merge({}, state, newState);
+      return newState;
+    case MessageConstants.DESTROY_MESSAGE:
+      newMessages = MessagesReducer(state.textChannel.messages, action);
+      newState.textChannel.messages = newMessages;
+      debugger
+      return newState;
     case TextChannelConstants.RECEIVE_ERRORS:
       let errors = action.errors;
-      return merge({}, state, { errors });
+      newState.errors = errors;
+      return newState;
     default:
       return state;
   }

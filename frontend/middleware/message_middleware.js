@@ -3,12 +3,14 @@ import { MessageConstants,
          receiveErrors } from '../actions/message_actions';
 import { fetchOneMessage,
          createMessage,
-         updateMessage } from '../util/message_api_util';
+         updateMessage,
+         destroyMessage } from '../util/message_api_util';
 
 const MessageMiddleware = ({ dispatch }) => next => action => {
   const fetchOneSuccess = data => dispatch(receiveOneMessage(data));
   const createMessageSuccess = data => dispatch(receiveOneMessage(data));
   const updateMessageSuccess = data => dispatch(receiveOneMessage(data));
+  const destroyMessageSuccess = data => dispatch(receiveOneMessage(data));
   const errors = data => dispatch(receiveErrors(data));
   switch (action.type) {
     case MessageConstants.FETCH_ONE_MESSAGE:
@@ -19,6 +21,9 @@ const MessageMiddleware = ({ dispatch }) => next => action => {
       return next(action);
     case MessageConstants.UPDATE_MESSAGE:
       updateMessage(action.message, updateMessageSuccess, errors);
+      return next(action);
+    case MessageConstants.DESTROY_MESSAGE:
+      destroyMessage(action.message, destroyMessageSuccess, errors);
       return next(action);
     default:
       return next(action);

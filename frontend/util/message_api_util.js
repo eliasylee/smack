@@ -21,7 +21,7 @@ export const updateMessage = (message, success, error) => {
 export const destroyMessage = (message, success, error) => {
   $.ajax({
     method: 'DELETE',
-    url: `/api/messages/${message.message.id}`,
+    url: `/api/messages/${message.id}`,
     data: message,
     success,
     error

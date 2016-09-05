@@ -25,7 +25,7 @@ class Api::MessagesController < ApplicationController
   end
 
   def destroy
-    @message = Message.find_by_id(params[:id])
+    @message = Message.find_by_id(params[:id].to_i)
 
     if @message.destroy
       render :show

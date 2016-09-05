@@ -25963,6 +25963,7 @@
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
 	  var action = arguments[1];
 	
+	  var newMessages = void 0;
 	  var newState = (0, _merge2.default)({}, state);
 	  switch (action.type) {
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
@@ -25975,14 +25976,20 @@
 	      return newState;
 	    case _message_actions.MessageConstants.CLEAR_TEXT_MESSAGES:
 	      newState.textChannel.attachments = [];
-	      return (0, _merge2.default)({}, state, newState);
+	      return newState;
 	    case _message_actions.MessageConstants.RECEIVE_ONE_MESSAGE:
-	      var newMessages = (0, _messages_reducer2.default)(state.textChannel.messages, action);
+	      newMessages = (0, _messages_reducer2.default)(state.textChannel.messages, action);
 	      newState.textChannel.messages = newMessages;
-	      return (0, _merge2.default)({}, state, newState);
+	      return newState;
+	    case _message_actions.MessageConstants.DESTROY_MESSAGE:
+	      newMessages = (0, _messages_reducer2.default)(state.textChannel.messages, action);
+	      newState.textChannel.messages = newMessages;
+	      debugger;
+	      return newState;
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ERRORS:
 	      var errors = action.errors;
-	      return (0, _merge2.default)({}, state, { errors: errors });
+	      newState.errors = errors;
+	      return newState;
 	    default:
 	      return state;
 	  }
@@ -26135,6 +26142,10 @@
 	    case _message_actions.MessageConstants.RECEIVE_ERRORS:
 	      var errors = action.errors;
 	      return (0, _merge2.default)({}, state, { errors: errors });
+	    case _message_actions.MessageConstants.DESTROY_MESSAGE:
+	      var destroyedMessage = action.message;
+	      delete newState[destroyedMessage.id];
+	      return newState;
 	    default:
 	      return state;
 	  }
@@ -26493,6 +26504,9 @@
 	      var updateMessageSuccess = function updateMessageSuccess(data) {
 	        return dispatch((0, _message_actions.receiveOneMessage)(data));
 	      };
+	      var destroyMessageSuccess = function destroyMessageSuccess(data) {
+	        return dispatch((0, _message_actions.receiveOneMessage)(data));
+	      };
 	      var errors = function errors(data) {
 	        return dispatch((0, _message_actions.receiveErrors)(data));
 	      };
@@ -26505,6 +26519,9 @@
 	          return next(action);
 	        case _message_actions.MessageConstants.UPDATE_MESSAGE:
 	          (0, _message_api_util.updateMessage)(action.message, updateMessageSuccess, errors);
+	          return next(action);
+	        case _message_actions.MessageConstants.DESTROY_MESSAGE:
+	          (0, _message_api_util.destroyMessage)(action.message, destroyMessageSuccess, errors);
 	          return next(action);
 	        default:
 	          return next(action);
@@ -26547,7 +26564,7 @@
 	var destroyMessage = exports.destroyMessage = function destroyMessage(message, success, error) {
 	  $.ajax({
 	    method: 'DELETE',
-	    url: '/api/messages/' + message.message.id,
+	    url: '/api/messages/' + message.id,
 	    data: message,
 	    success: success,
 	    error: error
@@ -34473,7 +34490,6 @@
 	    _this.state = { view: true };
 	    _this.handleDestroyMessage = _this.handleDestroyMessage.bind(_this);
 	    _this.toggleUpdate = _this.toggleUpdate.bind(_this);
-	    _this.handleDestroyMessage = _this.toggleUpdate.bind(_this);
 	    _this.message = _this.props.message;
 	    return _this;
 	  }
@@ -34491,7 +34507,7 @@
 	    }
 	  }, {
 	    key: 'displayChangeButton',
-	    value: function displayChangeButton(currentUser, message, destroyMessage) {
+	    value: function displayChangeButton(currentUser, message) {
 	      if (currentUser) {
 	        if (message.author.id === currentUser.id) {
 	          return _react2.default.createElement(
@@ -34522,16 +34538,61 @@
 	  }, {
 	    key: 'prepTimeDisplay',
 	    value: function prepTimeDisplay(message) {
-	      var created = message.created_at.slice(0, 10).split("-");
-	      var updated = message.created_at.slice(0, 10).split("-");
+	      var createdDate = message.created_at.slice(0, 10).split("-");
+	      var updatedDate = message.updated_at.slice(0, 10).split("-");
 	
-	      var neatCreated = created[1] + '/' + created[2] + '/' + created[0];
-	      var neatUpdated = '(Updated at ' + updated[1] + '/' + updated[2] + '/' + updated[0] + ')';
+	      var createdTime = message.created_at.slice(11, 16).split(":");
+	      var updatedTime = message.updated_at.slice(11, 16).split(":");
 	
-	      if (created[0] === updated[0] && created[1] === updated[1] && created[2] === updated[2]) {
-	        return neatCreated;
+	      var createdAmPm = void 0;
+	      var updatedAmPm = void 0;
+	
+	      var createdHour = parseInt(createdTime[0]);
+	      var updatedHour = parseInt(updatedTime[0]);
+	
+	      if (createdHour > 12) {
+	        createdTime[0] = (createdHour - 12).toString();
+	        createdAmPm = "PM";
 	      } else {
-	        return neatCreated + neatUpdated;
+	        createdAmPm = "AM";
+	      }
+	
+	      if (updatedHour > 12) {
+	        updatedTime[0] = (updatedHour - 12).toString();
+	        updatedAmPm = "PM";
+	      } else {
+	        updatedAmPm = "AM";
+	      }
+	
+	      var neatCreated = createdDate[1] + '/' + createdDate[2] + '/' + createdDate[0] + ' at ' + createdTime[0] + ':' + createdTime[1] + ' ' + createdAmPm;
+	      var neatUpdated = 'On ' + updatedDate[1] + '/' + updatedDate[2] + '/' + updatedDate[0] + ' at ' + updatedTime[0] + ':' + updatedTime[1] + ' ' + updatedAmPm;
+	
+	      if (createdTime[0] === updatedTime[0] && createdTime[1] === updatedTime[1]) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessageTime' },
+	          neatCreated
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessageTime' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'createdTime' },
+	            neatCreated
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'revealEdit' },
+	            'Edited'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'editedTime' },
+	            neatUpdated
+	          )
+	        );
 	      }
 	    }
 	  }, {
@@ -34548,6 +34609,7 @@
 	          chatId: textChannel.id,
 	          messageId: message.id,
 	          messageBody: message.body,
+	          toggleUpdate: this.toggleUpdate,
 	          action: 'update' });
 	      }
 	    }
@@ -34558,7 +34620,6 @@
 	      var message = _props.message;
 	      var currentUser = _props.currentUser;
 	      var textChannel = _props.textChannel;
-	      var destroyMessage = _props.destroyMessage;
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -34571,11 +34632,7 @@
 	            { className: 'textChannelMessageAuthor' },
 	            message.author.username
 	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'textChannelMessageTime' },
-	            this.prepTimeDisplay(message)
-	          )
+	          this.prepTimeDisplay(message)
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -34627,6 +34684,7 @@
 	    messageBody: ownProps.messageBody || "",
 	    textChannelTitle: ownProps.textChannelTitle,
 	    action: ownProps.action,
+	    toggleUpdate: ownProps.toggleUpdate,
 	    errors: tempErrors
 	  };
 	};
@@ -34695,12 +34753,12 @@
 	      message.chatable_id = this.props.chatId;
 	
 	      if (this.props.action === "create") {
+	        this.setState({ "body": "" });
 	        this.props.createMessage({ message: message });
 	      } else {
 	        this.props.updateMessage({ message: message });
+	        this.props.toggleUpdate();
 	      }
-	
-	      this.setState({ "body": "" });
 	    }
 	  }, {
 	    key: "updateState",
