@@ -42,9 +42,7 @@ class TextChannelNavItem extends React.Component {
 
   placeDestroyTextChannelButton () {
     const { textChannel, textChannelKeys } = this.props;
-    if (textChannel.id === parseInt(textChannelKeys[0])) {
-      return <div></div>
-    } else {
+    if (textChannel.id !== parseInt(textChannelKeys[0])) {
       return <button onClick={this.handleDestroyTextChannel} className="textChannelDeleteButton">x</button>
     }
   }

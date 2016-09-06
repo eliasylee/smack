@@ -25850,7 +25850,7 @@
 	  UPDATE_CHANNEL: 'UPDATE_CHANNEL',
 	  DESTROY_CHANNEL: 'DESTROY_CHANNEL',
 	  CLEAR_TEXT_CHANNELS: 'CLEAR_TEXT_CHANNELS',
-	  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
+	  RECEIVE_CHANNEL_ERRORS: 'RECEIVE_CHANNEL_ERRORS'
 	};
 	
 	var fetchAllChannels = exports.fetchAllChannels = function fetchAllChannels() {
@@ -25894,15 +25894,22 @@
 	  };
 	};
 	
+	var destroyChannel = exports.destroyChannel = function destroyChannel(channel) {
+	  return {
+	    type: ChannelConstants.DESTROY_CHANNEL,
+	    channel: channel
+	  };
+	};
+	
 	var clearTextChannels = exports.clearTextChannels = function clearTextChannels() {
 	  return {
 	    type: ChannelConstants.CLEAR_TEXT_CHANNELS
 	  };
 	};
 	
-	var receiveErrors = exports.receiveErrors = function receiveErrors(errors) {
+	var receiveChannelErrors = exports.receiveChannelErrors = function receiveChannelErrors(errors) {
 	  return {
-	    type: ChannelConstants.RECEIVE_ERRORS,
+	    type: ChannelConstants.RECEIVE_CHANNEL_ERRORS,
 	    errors: errors
 	  };
 	};
@@ -25919,6 +25926,10 @@
 	
 	var _channel_actions = __webpack_require__(299);
 	
+	var _channel_selector = __webpack_require__(407);
+	
+	var _channel_selector2 = _interopRequireDefault(_channel_selector);
+	
 	var _merge = __webpack_require__(190);
 	
 	var _merge2 = _interopRequireDefault(_merge);
@@ -25926,7 +25937,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var defaultState = {
-	  channels: [],
+	  channels: {},
 	  errors: []
 	};
 	
@@ -25934,13 +25945,19 @@
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
 	  var action = arguments[1];
 	
+	  var newState = (0, _merge2.default)({}, state);
 	  switch (action.type) {
 	    case _channel_actions.ChannelConstants.RECEIVE_ALL_CHANNELS:
-	      var channels = action.channels;
-	      return (0, _merge2.default)({}, state, { channels: channels });
-	    case _channel_actions.ChannelConstants.RECEIVE_ERRORS:
+	      var keyedChannels = (0, _channel_selector2.default)(action.channels);
+	      newState.channels = keyedChannels;
+	      return newState;
+	    case _channel_actions.ChannelConstants.DESTROY_CHANNEL:
+	      var destroyedChannel = action.channel;
+	      delete newState.channels[destroyedChannel.id];
+	      return newState;
+	    case _channel_actions.ChannelConstants.RECEIVE_CHANNEL_ERRORS:
 	      var errors = action.errors;
-	      return (0, _merge2.default)({}, state, { errors: errors });
+	      return (0, _merge2.default)(newState, { errors: errors });
 	    default:
 	      return state;
 	  }
@@ -26364,6 +26381,11 @@
 	        case _channel_actions.ChannelConstants.UPDATE_CHANNEL:
 	          (0, _channel_api_util.updateChannel)(action.channel, updateChannelSuccess, errors);
 	          return next(action);
+	        case _channel_actions.ChannelConstants.DESTROY_CHANNEL:
+	          (0, _channel_api_util.destroyChannel)(action.channel, function () {
+	            return next(action);
+	          }, errors);
+	          break;
 	        default:
 	          return next(action);
 	      }
@@ -26404,6 +26426,16 @@
 	  $.ajax({
 	    method: 'POST',
 	    url: '/api/channels',
+	    data: channel,
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var destroyChannel = exports.destroyChannel = function destroyChannel(channel, success, error) {
+	  $.ajax({
+	    method: 'DELETE',
+	    url: '/api/channels/' + channel.id,
 	    data: channel,
 	    success: success,
 	    error: error
@@ -33718,6 +33750,7 @@
 	      var clearTextChannels = _props.clearTextChannels;
 	      var clearTextMessages = _props.clearTextMessages;
 	
+	      var channelKeys = Object.keys(channels);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'mainView' },
@@ -33736,12 +33769,12 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'channelNavBarButtons' },
-	              channels.map(function (channel) {
-	                return _react2.default.createElement(_channel_nav_item2.default, { channel: channel,
+	              channelKeys.map(function (channelKey) {
+	                return _react2.default.createElement(_channel_nav_item2.default, { channel: channels[channelKey],
 	                  stateChannel: stateChannel,
 	                  clearTextChannels: clearTextChannels,
 	                  clearTextMessages: clearTextMessages,
-	                  key: channel.id });
+	                  key: channelKey });
 	              })
 	            ),
 	            _react2.default.createElement(
@@ -33789,11 +33822,13 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var prepChannelName = function prepChannelName(channel) {
-	  var result = "";
-	  channel.title.split.forEach(function (word) {
-	    result += word.slice(0, 1);
-	  });
-	  return result;
+	  if (channel.title) {
+	    var result = "";
+	    channel.title.split.forEach(function (word) {
+	      result += word.slice(0, 1);
+	    });
+	    return result;
+	  }
 	};
 	
 	var prepChannelLength = function prepChannelLength(channel) {
@@ -33933,6 +33968,8 @@
 	
 	var _text_channel_nav2 = _interopRequireDefault(_text_channel_nav);
 	
+	var _channel_actions = __webpack_require__(299);
+	
 	var _text_channel_actions = __webpack_require__(302);
 	
 	var _session_actions = __webpack_require__(189);
@@ -33961,6 +33998,9 @@
 	    },
 	    destroyTextChannel: function destroyTextChannel(textChannel) {
 	      return dispatch((0, _text_channel_actions.destroyTextChannel)(textChannel));
+	    },
+	    destroyChannel: function destroyChannel(channel) {
+	      return dispatch((0, _channel_actions.destroyChannel)(channel));
 	    },
 	    clearTextMessages: function clearTextMessages() {
 	      return dispatch((0, _message_actions.clearTextMessages)());
@@ -34026,6 +34066,8 @@
 	    _this.prepUserName = _this.prepUserName.bind(_this);
 	    _this.toggleView = _this.toggleView.bind(_this);
 	    _this.createTextChannelForm = _this.createTextChannelForm.bind(_this);
+	    _this.placeDestroyChannelButton = _this.placeDestroyChannelButton.bind(_this);
+	    _this.handleDestroyChannel = _this.handleDestroyChannel.bind(_this);
 	    return _this;
 	  }
 	
@@ -34161,6 +34203,27 @@
 	      this.props.logout();
 	    }
 	  }, {
+	    key: 'handleDestroyChannel',
+	    value: function handleDestroyChannel() {
+	      this.props.destroyChannel(this.props.channel);
+	      this.props.router.push('/channels/me');
+	    }
+	  }, {
+	    key: 'placeDestroyChannelButton',
+	    value: function placeDestroyChannelButton() {
+	      var _props3 = this.props;
+	      var currentUser = _props3.currentUser;
+	      var channel = _props3.channel;
+	
+	      if (currentUser.id === channel.admin.id) {
+	        return _react2.default.createElement(
+	          'button',
+	          { onClick: this.handleDestroyChannel, className: 'channelDeleteButton' },
+	          'x'
+	        );
+	      }
+	    }
+	  }, {
 	    key: 'prepUserName',
 	    value: function prepUserName() {
 	      var result = "";
@@ -34200,6 +34263,11 @@
 	                    null,
 	                    this.props.channel.title
 	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'destroyChannelBox', onClick: this.handleDestroyChannel },
+	                  this.placeDestroyChannelButton()
 	                )
 	              ),
 	              _react2.default.createElement(
@@ -34370,9 +34438,7 @@
 	      var textChannel = _props3.textChannel;
 	      var textChannelKeys = _props3.textChannelKeys;
 	
-	      if (textChannel.id === parseInt(textChannelKeys[0])) {
-	        return _react2.default.createElement('div', null);
-	      } else {
+	      if (textChannel.id !== parseInt(textChannelKeys[0])) {
 	        return _react2.default.createElement(
 	          'button',
 	          { onClick: this.handleDestroyTextChannel, className: 'textChannelDeleteButton' },
@@ -35223,6 +35289,24 @@
 	};
 	
 	exports.default = TextChannelSelector;
+
+/***/ },
+/* 407 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var ChannelSelector = function ChannelSelector(channels) {
+	  return channels.reduce(function (obj, channel) {
+	    obj[channel.id] = channel;
+	    return obj;
+	  }, {});
+	};
+	
+	exports.default = ChannelSelector;
 
 /***/ }
 /******/ ]);

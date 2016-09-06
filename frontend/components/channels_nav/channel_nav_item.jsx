@@ -2,11 +2,13 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 const prepChannelName = (channel) => {
-  let result = "";
-  channel.title.split.forEach( word => {
-    result += word.slice(0, 1);
-  });
-  return result;
+  if (channel.title) {
+    let result = "";
+    channel.title.split.forEach( word => {
+      result += word.slice(0, 1);
+    });
+    return result;
+  }
 }
 
 const prepChannelLength = (channel) => {

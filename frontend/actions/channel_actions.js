@@ -7,7 +7,7 @@ export const ChannelConstants = {
   UPDATE_CHANNEL: 'UPDATE_CHANNEL',
   DESTROY_CHANNEL: 'DESTROY_CHANNEL',
   CLEAR_TEXT_CHANNELS: 'CLEAR_TEXT_CHANNELS',
-  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
+  RECEIVE_CHANNEL_ERRORS: 'RECEIVE_CHANNEL_ERRORS'
 }
 
 export const fetchAllChannels = () => ({
@@ -39,11 +39,16 @@ export const updateChannel = channel => ({
   channel
 })
 
+export const destroyChannel = channel => ({
+  type: ChannelConstants.DESTROY_CHANNEL,
+  channel
+})
+
 export const clearTextChannels = () => ({
   type: ChannelConstants.CLEAR_TEXT_CHANNELS
 })
 
-export const receiveErrors = errors => ({
-  type: ChannelConstants.RECEIVE_ERRORS,
+export const receiveChannelErrors = errors => ({
+  type: ChannelConstants.RECEIVE_CHANNEL_ERRORS,
   errors
 })

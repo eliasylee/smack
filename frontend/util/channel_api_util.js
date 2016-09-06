@@ -26,6 +26,16 @@ export const createChannel = (channel, success, error) => {
   });
 };
 
+export const destroyChannel = (channel, success, error) => {
+  $.ajax({
+    method: 'DELETE',
+    url: `/api/channels/${channel.id}`,
+    data: channel,
+    success,
+    error
+  });
+};
+
 export const updateChannel = (channel, success, error) => {
   $.ajax({
     method: 'PATCH',

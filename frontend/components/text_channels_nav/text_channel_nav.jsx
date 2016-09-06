@@ -16,6 +16,8 @@ class TextChannelNav extends React.Component {
     this.prepUserName = this.prepUserName.bind(this);
     this.toggleView = this.toggleView.bind(this);
     this.createTextChannelForm = this.createTextChannelForm.bind(this);
+    this.placeDestroyChannelButton = this.placeDestroyChannelButton.bind(this);
+    this.handleDestroyChannel = this.handleDestroyChannel.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -107,6 +109,18 @@ class TextChannelNav extends React.Component {
     this.props.logout();
   }
 
+  handleDestroyChannel () {
+    this.props.destroyChannel(this.props.channel);
+    this.props.router.push('/channels/me');
+  }
+
+  placeDestroyChannelButton () {
+    const { currentUser, channel } = this.props;
+    if (currentUser.id === channel.admin.id) {
+      return <button onClick={this.handleDestroyChannel} className="channelDeleteButton">x</button>
+    }
+  }
+
   prepUserName () {
     let result = "";
     if (this.props.currentUser) {
@@ -129,6 +143,9 @@ class TextChannelNav extends React.Component {
                 <span className="textChannelTitleHeader">
                   <span>{this.props.channel.title}</span>
                 </span>
+                <div className="destroyChannelBox" onClick={this.handleDestroyChannel}>
+                  {this.placeDestroyChannelButton()}
+                </div>
               </span>
               <span className="textChannelNavBarTitleBox">
                 <span className="textChannelNavBarTitle">

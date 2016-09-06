@@ -5,7 +5,8 @@ import { ChannelConstants,
 import { fetchAllChannels,
          fetchOneChannel,
          createChannel,
-         updateChannel } from '../util/channel_api_util';
+         updateChannel,
+         destroyChannel } from '../util/channel_api_util';
 
 const ChannelMiddleware = ({ dispatch }) => next => action => {
   const fetchAllSuccess = data => dispatch(receiveAllChannels(data));
@@ -26,6 +27,9 @@ const ChannelMiddleware = ({ dispatch }) => next => action => {
     case ChannelConstants.UPDATE_CHANNEL:
       updateChannel(action.channel, updateChannelSuccess, errors);
       return next(action);
+    case ChannelConstants.DESTROY_CHANNEL:
+      destroyChannel(action.channel, () => next(action), errors);
+      break;
     default:
       return next(action);
   }
