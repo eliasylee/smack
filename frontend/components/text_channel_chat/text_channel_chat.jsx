@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import TextChannelChatItem from './text_channel_chat_item';
 import MessageFormContainer from '../message/message_form_container';
 import TextChannelFormContainer from '../text_channel_form/text_channel_form_container';
-import ChannelFriendsContainer from '../channel_friends/channel_friends_container';
+import ChannelSubscriptionsContainer from '../channel_subscriptions/channel_subscriptions_container';
 
 class TextChannelChat extends React.Component {
   constructor (props) {
@@ -96,8 +96,8 @@ class TextChannelChat extends React.Component {
                                 textChannelTitle={textChannel.title}
                                 action="create" />
         </div>
-        <div className="channelMembers">
-
+        <div className="channelSubscriptionsBox">
+          <ChannelSubscriptionsContainer />
         </div>
       </div>
     )

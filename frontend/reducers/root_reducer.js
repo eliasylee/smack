@@ -9,7 +9,8 @@ const RootReducer = combineReducers({
   session: SessionReducer,
   channels: ChannelsReducer,
   channel: ChannelReducer,
-  textChannel: TextChannelReducer
+  textChannel: TextChannelReducer,
+  subscriptions: SubscriptionsReducer
 });
 
 export default RootReducer;

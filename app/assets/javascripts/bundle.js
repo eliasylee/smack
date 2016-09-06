@@ -22348,7 +22348,8 @@
 	  session: _session_reducer2.default,
 	  channels: _channels_reducer2.default,
 	  channel: _channel_reducer2.default,
-	  textChannel: _text_channel_reducer2.default
+	  textChannel: _text_channel_reducer2.default,
+	  subscriptions: _subscriptions_reducer2.default
 	});
 	
 	exports.default = RootReducer;
@@ -27497,6 +27498,8 @@
 	
 	var _text_channel_actions = __webpack_require__(300);
 	
+	var _subscription_actions = __webpack_require__(414);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var AppRouter = function AppRouter(_ref) {
@@ -27519,8 +27522,9 @@
 	    store.dispatch((0, _channel_actions.fetchAllChannels)());
 	  };
 	
-	  var fetchOneChannelOnEnter = function fetchOneChannelOnEnter(nextState) {
+	  var fetchChannelInformation = function fetchChannelInformation(nextState) {
 	    store.dispatch((0, _channel_actions.fetchOneChannel)(nextState.params.id[0]));
+	    store.dispatch((0, _subscription_actions.fetchAllSubscriptions)(nextState.params.id[0]));
 	  };
 	
 	  var fetchOneTextChannelOnEnter = function fetchOneTextChannelOnEnter(nextState) {
@@ -27541,7 +27545,7 @@
 	        { path: '/channels', component: _channel_nav_container2.default, onEnter: fetchAllChannelsOnEnter },
 	        _react2.default.createElement(
 	          _reactRouter.Route,
-	          { path: '/channels/:id', component: _text_channel_nav_container2.default, onEnter: fetchOneChannelOnEnter },
+	          { path: '/channels/:id', component: _text_channel_nav_container2.default, onEnter: fetchChannelInformation },
 	          _react2.default.createElement(_reactRouter.Route, { path: '/channels/:id/:id', component: _text_channel_chat_container2.default, onEnter: fetchOneTextChannelOnEnter })
 	        )
 	      )
@@ -34710,9 +34714,9 @@
 	
 	var _text_channel_form_container2 = _interopRequireDefault(_text_channel_form_container);
 	
-	var _channel_friends_container = __webpack_require__(408);
+	var _channel_subscriptions_container = __webpack_require__(420);
 	
-	var _channel_friends_container2 = _interopRequireDefault(_channel_friends_container);
+	var _channel_subscriptions_container2 = _interopRequireDefault(_channel_subscriptions_container);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -34865,7 +34869,11 @@
 	            textChannelTitle: textChannel.title,
 	            action: 'create' })
 	        ),
-	        _react2.default.createElement('div', { className: 'channelMembers' })
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'channelSubscriptionsBox' },
+	          _react2.default.createElement(_channel_subscriptions_container2.default, null)
+	        )
 	      );
 	    }
 	  }]);
@@ -35435,40 +35443,8 @@
 	exports.default = TextChannelForm;
 
 /***/ },
-/* 408 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(318);
-	
-	var _channel_friends = __webpack_require__(409);
-	
-	var _channel_friends2 = _interopRequireDefault(_channel_friends);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(state) {
-	  return {};
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_channel_friends2.default);
-
-/***/ },
-/* 409 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-/***/ },
+/* 408 */,
+/* 409 */,
 /* 410 */,
 /* 411 */,
 /* 412 */,
@@ -35583,7 +35559,7 @@
 	var fetchAllSubscriptions = exports.fetchAllSubscriptions = function fetchAllSubscriptions(channel, success, error) {
 	  $.ajax({
 	    method: 'GET',
-	    url: '/api/subscriptions',
+	    url: '/api/subscriptions/' + channel,
 	    data: channel,
 	    success: success,
 	    error: error
@@ -35669,12 +35645,275 @@
 	});
 	var SubscriptionsSelector = function SubscriptionsSelector(subscriptions) {
 	  return subscriptions.reduce(function (obj, subscription) {
-	    obj[subscription.id] = subscription;
+	    obj[subscription.user_id] = subscription;
 	    return obj;
 	  }, {});
 	};
 	
 	exports.default = SubscriptionsSelector;
+
+/***/ },
+/* 420 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(318);
+	
+	var _channel_subscriptions = __webpack_require__(421);
+	
+	var _channel_subscriptions2 = _interopRequireDefault(_channel_subscriptions);
+	
+	var _subscription_actions = __webpack_require__(414);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    currentUser: state.session.currentUser,
+	    channel: state.channel.channel,
+	    subscriptions: state.subscriptions
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createSubscription: function createSubscription(subscription) {
+	      return dispatch((0, _subscription_actions.createSubscription)(subscription));
+	    },
+	    destroySubscription: function destroySubscription(subscription) {
+	      return dispatch((0, _subscription_actions.destroySubscription)(subscription));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_channel_subscriptions2.default);
+
+/***/ },
+/* 421 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _channel_subscriptions_item = __webpack_require__(422);
+	
+	var _channel_subscriptions_item2 = _interopRequireDefault(_channel_subscriptions_item);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ChannelSubscriptions = function (_React$Component) {
+	  _inherits(ChannelSubscriptions, _React$Component);
+	
+	  function ChannelSubscriptions(props) {
+	    _classCallCheck(this, ChannelSubscriptions);
+	
+	    var _this = _possibleConstructorReturn(this, (ChannelSubscriptions.__proto__ || Object.getPrototypeOf(ChannelSubscriptions)).call(this, props));
+	
+	    _this.state = {
+	      channel_id: _this.props.channel.id,
+	      username: ""
+	    };
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.renderSubscriptionForm = _this.renderSubscriptionForm.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ChannelSubscriptions, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      var subscription = this.state;
+	      this.props.createSubscription({ subscription: subscription });
+	    }
+	  }, {
+	    key: 'updateState',
+	    value: function updateState(property) {
+	      var _this2 = this;
+	
+	      return function (e) {
+	        return _this2.setState(_defineProperty({}, property, e.target.value));
+	      };
+	    }
+	  }, {
+	    key: 'renderSubscriptionForm',
+	    value: function renderSubscriptionForm() {
+	      if (this.props.currentUser.id === this.props.channel.admin.id) {
+	        return _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit, className: 'subscriptionForm' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'subscriptionFormTitle' },
+	            'Add Member'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'subscriptionUsernameBox' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'subscriptionUsernameWord' },
+	              'Username:'
+	            ),
+	            _react2.default.createElement('input', { type: 'text',
+	              className: 'subscriptionUsernameInput',
+	              onChange: this.updateState("username"),
+	              value: this.state.username })
+	          ),
+	          _react2.default.createElement('input', { className: 'textMessageSubmitButton', type: 'submit', value: '^' })
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+	
+	      var subscriptions = this.props.subscriptions;
+	
+	      var subKeys = Object.keys(subscriptions);
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'subscriptionsBox' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'subscriptionHeader' },
+	          'Channel Members'
+	        ),
+	        this.renderSubscriptionForm(),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'subscriptionsList' },
+	          subKeys.map(function (subKey) {
+	            return _react2.default.createElement(_channel_subscriptions_item2.default, { subscription: subscriptions[subKey],
+	              destroySubscription: _this3.props.destroySubscription,
+	              key: subKey });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ChannelSubscriptions;
+	}(_react2.default.Component);
+	
+	exports.default = ChannelSubscriptions;
+
+/***/ },
+/* 422 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ChannelSubscriptionsItem = function (_React$Component) {
+	  _inherits(ChannelSubscriptionsItem, _React$Component);
+	
+	  function ChannelSubscriptionsItem(props) {
+	    _classCallCheck(this, ChannelSubscriptionsItem);
+	
+	    var _this = _possibleConstructorReturn(this, (ChannelSubscriptionsItem.__proto__ || Object.getPrototypeOf(ChannelSubscriptionsItem)).call(this, props));
+	
+	    _this.handleDestroy = _this.handleDestroy.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ChannelSubscriptionsItem, [{
+	    key: "prepUserName",
+	    value: function prepUserName(username) {
+	      var result = "";
+	      if (username) {
+	        username.split(" ").forEach(function (word) {
+	          result += word.slice(0, 1);
+	        });
+	      }
+	      return result;
+	    }
+	  }, {
+	    key: "handleDestroy",
+	    value: function handleDestroy() {
+	      this.props.destroySubscription(this.props.subscription.id);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var subscription = this.props.subscription;
+	
+	      var username = subscription.username;
+	
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "channelSubscriptionBar" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "userLogo" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "userLogoLetter" },
+	            this.prepUserName(username)
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "userUsername" },
+	          username
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "destroySubscriptionBox" },
+	          _react2.default.createElement(
+	            "button",
+	            { className: "destroySubscriptionButton",
+	              onClick: this.handleDestroy },
+	            "x"
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ChannelSubscriptionsItem;
+	}(_react2.default.Component);
+	
+	exports.default = ChannelSubscriptionsItem;
 
 /***/ }
 /******/ ]);

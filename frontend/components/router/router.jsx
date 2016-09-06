@@ -10,6 +10,7 @@ import TextChannelChatContainer from '../text_channel_chat/text_channel_chat_con
 
 import { fetchAllChannels, fetchOneChannel } from '../../actions/channel_actions';
 import { fetchOneTextChannel } from '../../actions/text_channel_actions';
+import { fetchAllSubscriptions } from '../../actions/subscription_actions';
 
 const AppRouter = ({ currentUser, store }) => {
   const ensureLoggedIn = (nextState, replace) => {
@@ -28,8 +29,9 @@ const AppRouter = ({ currentUser, store }) => {
     store.dispatch(fetchAllChannels());
   }
 
-  const fetchOneChannelOnEnter = (nextState) => {
+  const fetchChannelInformation = (nextState) => {
     store.dispatch(fetchOneChannel(nextState.params.id[0]));
+    store.dispatch(fetchAllSubscriptions(nextState.params.id[0]));
   }
 
   const fetchOneTextChannelOnEnter = (nextState) => {
@@ -43,7 +45,7 @@ const AppRouter = ({ currentUser, store }) => {
         <Route path="/signup" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
         <Route path="/login" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
         <Route path="/channels" component={ChannelNavContainer} onEnter={fetchAllChannelsOnEnter}>
-          <Route path="/channels/:id" component={TextChannelNavContainer} onEnter={fetchOneChannelOnEnter}>
+          <Route path="/channels/:id" component={TextChannelNavContainer} onEnter={fetchChannelInformation}>
             <Route path="/channels/:id/:id" component={TextChannelChatContainer} onEnter={fetchOneTextChannelOnEnter} />
           </Route>
         </Route>

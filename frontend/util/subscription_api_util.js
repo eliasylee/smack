@@ -1,7 +1,7 @@
 export const fetchAllSubscriptions = (channel, success, error) => {
   $.ajax({
     method: 'GET',
-    url: '/api/subscriptions',
+    url: `/api/subscriptions/${channel}`,
     data: channel,
     success,
     error
