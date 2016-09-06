@@ -10,10 +10,16 @@ class Api::ChannelsController < ApplicationController
   def create
     @channel = Channel.new(channel_params)
     @channel.admin_id = current_user.id
-    TextChannel.create!(channel_id: @channel.id, title: "General")
-    Subscription.create!(user_id: current_user.id, channel_id: @channel.id)
 
     if @channel.save
+      general_text_channel = TextChannel.new(channel_id: @channel.id, title: "general")
+      general_text_channel.save!
+      Message.create!(author_id: 1,
+                      body: "This is the beginning of the #general channel.",
+                      chatable_id: general_text_channel.id,
+                      chatable_type: "TextChannel")
+      Subscription.create!(user_id: current_user.id, channel_id: @channel.id)
+
       render :show
     else
       render json: @channel.errors.full_messages, status: 422

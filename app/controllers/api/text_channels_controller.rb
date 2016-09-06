@@ -7,8 +7,7 @@ class Api::TextChannelsController < ApplicationController
     @text_channel = TextChannel.new(text_channel_params)
 
     if @text_channel.save
-      welcome_message = Message.new(author_id: 1, body: "This is the beginning of the ##{@text_channel.title} channel.", chatable_id: @text_channel.id, chatable_type: "TextChannel")
-      welcome_message.save!
+      Message.create!(author_id: 1, body: "This is the beginning of the ##{@text_channel.title} channel.", chatable_id: @text_channel.id, chatable_type: "TextChannel")
 
       render :show
     else

@@ -8,73 +8,87 @@ class ChannelNav extends React.Component {
     this.state = {
       title: "",
       description: "",
-      icon_url: ""
+      icon_url: "",
+      view: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleView = this.toggleView.bind(this);
+    this.renderNewChannelForm = this.renderNewChannelForm.bind(this);
   }
 
   handleSubmit (e) {
     e.preventDefault();
     const channel = Object.assign({}, this.state);
     this.props.createChannel({channel});
+    this.toggleView();
   }
 
-  update (property) {
-    return e => this.setState({[property]: e.target.value});
-  }
-
-  renderTitleTitle () {
-    let errors = this.props.errors.map( error => {
-      return error
-    });
-
-    if (errors === []) {
-      return <div className="titleWord">Title</div>;
-    } else {
-      return <div className="titleWord channelErrors">{errors[0]}</div>;
+  toggleView () {
+    let nextView = !this.state.view;
+    if (!nextView) {
+      this.setState({
+        "title": "",
+        "description": "",
+        "icon_url": ""
+      })
     }
+    this.setState({ "view": nextView });
+  }
+
+  updateState (property) {
+    return e => this.setState({[property]: e.target.value});
   }
 
   createChannelForm () {
     return (
-      <div className="createChannelFormBoxInner">
-        <span className="closeCreateChannelForm">x</span>
-        <form onClick={this.handleSubmit} className="createChannelForm">
-          <div className="createChannelNameBox">
-            {this.renderTitleTitle()}
-            <div className="titleInputLine">
-              <input type="text"
-                value={this.state.title}
-                onChange={this.update("title")}
-                className="sessionInput" />
+      <div className="createChannelFormBoxOuter">
+        <div className="createChannelFormBoxInner">
+          <form onSubmit={this.handleSubmit} className="createChannelForm">
+            <div className="createChannelTitle">Create Channel</div>
+            <div className="createChannelNameBox">
+              <div className="channelWord">Channel Name</div>
+              <div className="titleInputLine">
+                <input type="text"
+                  value={this.state.title}
+                  onChange={this.updateState("title")}
+                  className="channelInput" />
+              </div>
             </div>
-          </div>
-          <div className="createChannelDescriptionBox">
-            <div className="descriptionWord">Description</div>
-            <div className="descriptionInputLine">
-              <input type="text"
-                value={this.state.description}
-                onChange={this.update("description")}
-                className="channelInput" />
+            <div className="createChannelDescriptionBox">
+              <div className="descriptionWord">Description</div>
+              <div className="descriptionInputLine">
+                <input type="text"
+                  value={this.state.description}
+                  onChange={this.updateState("description")}
+                  className="channelInput" />
+              </div>
             </div>
-          </div>
-          <div className="createChannelUrlBox">
-            <div className="iconurlWord">Icon URL</div>
-            <div className="urlInputLine">
-              <input type="text"
-                value={this.state.icon_url}
-                onChange={this.update("icon_url")}
-                className="channelInput" />
+            <div className="createChannelUrlBox">
+              <div className="iconurlWord">Icon URL</div>
+              <div className="urlInputLine">
+                <input type="text"
+                  value={this.state.icon_url}
+                  onChange={this.updateState("icon_url")}
+                  className="channelInput" />
+              </div>
             </div>
-          </div>
-          <div className="channelSubmitBoxOuter">
-            <div className="channelSubmitBoxInner">
-              <input className="channelSubmitButton" type="submit" value="Submit" />
+            <div className="channelSubmitBox">
+              <input className="channelSubmitButton"
+                     type="submit"
+                     value="CREATE" />
+              <span className="closeCreateChannelForm"
+                    onClick={this.toggleView}>x</span>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     )
+  }
+
+  renderNewChannelForm () {
+    if (this.state.view) {
+      return this.createChannelForm();
+    }
   }
 
   render () {
@@ -98,11 +112,11 @@ class ChannelNav extends React.Component {
               })}
             </div>
             <div className="createChannelButtonBox">
-              <button className="createChannelButton">+</button>
+              <button className="createChannelButton" onClick={this.toggleView}>
+                <div className="createChannelPlus">+</div>
+              </button>
             </div>
-          </div>
-          <div className="createChannelFormBoxOuter">
-            {this.createChannelForm()}
+            {this.renderNewChannelForm()}
           </div>
         </div>
         {children}

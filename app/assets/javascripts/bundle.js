@@ -25804,15 +25804,12 @@
 	    case _channel_actions.ChannelConstants.RECEIVE_ONE_CHANNEL:
 	      var channel = action.channel;
 	      var keyedTextChannels = (0, _text_channel_selector2.default)(channel.attachments);
-	      newState.channel.id = channel.id;
-	      newState.channel.title = channel.title;
-	      newState.channel.description = channel.description;
-	      newState.channel.admin = channel.admin;
+	      newState = (0, _merge2.default)(newState, { channel: channel });
 	      newState.channel.textChannels = keyedTextChannels;
 	      return newState;
 	    case _channel_actions.ChannelConstants.CLEAR_TEXT_CHANNELS:
 	      var emptyChannelState = (0, _merge2.default)({}, state);
-	      emptyChannelState.channel.attachments = {};
+	      emptyChannelState.channel.textChannels = {};
 	      return emptyChannelState;
 	    case _text_channel_actions.TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
 	      var textChannel = action.textChannel;
@@ -25947,6 +25944,13 @@
 	
 	  var newState = (0, _merge2.default)({}, state);
 	  switch (action.type) {
+	    case _channel_actions.ChannelConstants.RECEIVE_ONE_CHANNEL:
+	      if (state.channels[action.channel.id]) {
+	        return state;
+	      } else {
+	        newState.channels[action.channel.id] = action.channel;
+	      }
+	      return newState;
 	    case _channel_actions.ChannelConstants.RECEIVE_ALL_CHANNELS:
 	      var keyedChannels = (0, _channel_selector2.default)(action.channels);
 	      newState.channels = keyedChannels;
@@ -26360,13 +26364,13 @@
 	        return dispatch((0, _channel_actions.receiveOneChannel)(data));
 	      };
 	      var createChannelSuccess = function createChannelSuccess(data) {
-	        return dispatch((0, _channel_actions.receiveOneChannel)());
+	        return dispatch((0, _channel_actions.receiveOneChannel)(data));
 	      };
 	      var updateChannelSuccess = function updateChannelSuccess(data) {
-	        return dispatch((0, _channel_actions.receiveOneChannel)());
+	        return dispatch((0, _channel_actions.receiveOneChannel)(data));
 	      };
 	      var errors = function errors(data) {
-	        return dispatch((0, _channel_actions.receiveErrors)(data));
+	        return dispatch((0, _channel_actions.receiveChannelErrors)(data));
 	      };
 	      switch (action.type) {
 	        case _channel_actions.ChannelConstants.FETCH_ALL_CHANNELS:
@@ -33624,9 +33628,12 @@
 	    _this.state = {
 	      title: "",
 	      description: "",
-	      icon_url: ""
+	      icon_url: "",
+	      view: false
 	    };
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.toggleView = _this.toggleView.bind(_this);
+	    _this.renderNewChannelForm = _this.renderNewChannelForm.bind(_this);
 	    return _this;
 	  }
 	
@@ -33636,10 +33643,24 @@
 	      e.preventDefault();
 	      var channel = Object.assign({}, this.state);
 	      this.props.createChannel({ channel: channel });
+	      this.toggleView();
 	    }
 	  }, {
-	    key: 'update',
-	    value: function update(property) {
+	    key: 'toggleView',
+	    value: function toggleView() {
+	      var nextView = !this.state.view;
+	      if (!nextView) {
+	        this.setState({
+	          "title": "",
+	          "description": "",
+	          "icon_url": ""
+	        });
+	      }
+	      this.setState({ "view": nextView });
+	    }
+	  }, {
+	    key: 'updateState',
+	    value: function updateState(property) {
 	      var _this2 = this;
 	
 	      return function (e) {
@@ -33647,98 +33668,96 @@
 	      };
 	    }
 	  }, {
-	    key: 'renderTitleTitle',
-	    value: function renderTitleTitle() {
-	      var errors = this.props.errors.map(function (error) {
-	        return error;
-	      });
-	
-	      if (errors === []) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'titleWord' },
-	          'Title'
-	        );
-	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'titleWord channelErrors' },
-	          errors[0]
-	        );
-	      }
-	    }
-	  }, {
 	    key: 'createChannelForm',
 	    value: function createChannelForm() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'createChannelFormBoxInner' },
+	        { className: 'createChannelFormBoxOuter' },
 	        _react2.default.createElement(
-	          'span',
-	          { className: 'closeCreateChannelForm' },
-	          'x'
-	        ),
-	        _react2.default.createElement(
-	          'form',
-	          { onClick: this.handleSubmit, className: 'createChannelForm' },
+	          'div',
+	          { className: 'createChannelFormBoxInner' },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'createChannelNameBox' },
-	            this.renderTitleTitle(),
+	            'form',
+	            { onSubmit: this.handleSubmit, className: 'createChannelForm' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'titleInputLine' },
-	              _react2.default.createElement('input', { type: 'text',
-	                value: this.state.title,
-	                onChange: this.update("title"),
-	                className: 'sessionInput' })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'createChannelDescriptionBox' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'descriptionWord' },
-	              'Description'
+	              { className: 'createChannelTitle' },
+	              'Create Channel'
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'descriptionInputLine' },
-	              _react2.default.createElement('input', { type: 'text',
-	                value: this.state.description,
-	                onChange: this.update("description"),
-	                className: 'channelInput' })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'createChannelUrlBox' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'iconurlWord' },
-	              'Icon URL'
+	              { className: 'createChannelNameBox' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'channelWord' },
+	                'Channel Name'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'titleInputLine' },
+	                _react2.default.createElement('input', { type: 'text',
+	                  value: this.state.title,
+	                  onChange: this.updateState("title"),
+	                  className: 'channelInput' })
+	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'urlInputLine' },
-	              _react2.default.createElement('input', { type: 'text',
-	                value: this.state.icon_url,
-	                onChange: this.update("icon_url"),
-	                className: 'channelInput' })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'channelSubmitBoxOuter' },
+	              { className: 'createChannelDescriptionBox' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'descriptionWord' },
+	                'Description'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'descriptionInputLine' },
+	                _react2.default.createElement('input', { type: 'text',
+	                  value: this.state.description,
+	                  onChange: this.updateState("description"),
+	                  className: 'channelInput' })
+	              )
+	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'channelSubmitBoxInner' },
-	              _react2.default.createElement('input', { className: 'channelSubmitButton', type: 'submit', value: 'Submit' })
+	              { className: 'createChannelUrlBox' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'iconurlWord' },
+	                'Icon URL'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'urlInputLine' },
+	                _react2.default.createElement('input', { type: 'text',
+	                  value: this.state.icon_url,
+	                  onChange: this.updateState("icon_url"),
+	                  className: 'channelInput' })
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'channelSubmitBox' },
+	              _react2.default.createElement('input', { className: 'channelSubmitButton',
+	                type: 'submit',
+	                value: 'CREATE' }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'closeCreateChannelForm',
+	                  onClick: this.toggleView },
+	                'x'
+	              )
 	            )
 	          )
 	        )
 	      );
+	    }
+	  }, {
+	    key: 'renderNewChannelForm',
+	    value: function renderNewChannelForm() {
+	      if (this.state.view) {
+	        return this.createChannelForm();
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -33782,15 +33801,15 @@
 	              { className: 'createChannelButtonBox' },
 	              _react2.default.createElement(
 	                'button',
-	                { className: 'createChannelButton' },
-	                '+'
+	                { className: 'createChannelButton', onClick: this.toggleView },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'createChannelPlus' },
+	                  '+'
+	                )
 	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'createChannelFormBoxOuter' },
-	            this.createChannelForm()
+	            ),
+	            this.renderNewChannelForm()
 	          )
 	        ),
 	        children
@@ -33824,9 +33843,10 @@
 	var prepChannelName = function prepChannelName(channel) {
 	  if (channel.title) {
 	    var result = "";
-	    channel.title.split.forEach(function (word) {
+	    channel.title.split(" ").forEach(function (word) {
 	      result += word.slice(0, 1);
 	    });
+	    result = result.toUpperCase();
 	    return result;
 	  }
 	};
@@ -33869,10 +33889,30 @@
 	
 	var changeChannel = function changeChannel(channel, router, clearTextChannels, clearTextMessages) {
 	  return function () {
-	    clearTextChannels();
-	    clearTextMessages();
 	    router.push('/channels/' + channel.id + '/' + channel.attachments[0].id);
 	  };
+	};
+	
+	var isActiveText = function isActiveText(stateChannel, channel) {
+	  if (channel.id === stateChannel.id) {
+	    return "activeText";
+	  } else {
+	    return "inactiveText";
+	  }
+	};
+	
+	var channelIconOrText = function channelIconOrText(stateChannel, channel, router) {
+	  if (channel.icon_url) {
+	    return _react2.default.createElement('img', { src: channel.icon_url,
+	      alt: 'channel-button',
+	      className: isActive(stateChannel, channel) });
+	  } else {
+	    return _react2.default.createElement(
+	      'div',
+	      { onClick: changeChannel(channel, router), className: isActiveText(stateChannel, channel) },
+	      prepChannelName(channel)
+	    );
+	  }
 	};
 	
 	var ChannelNavItem = function ChannelNavItem(_ref) {
@@ -33882,33 +33922,23 @@
 	  var clearTextChannels = _ref.clearTextChannels;
 	  var clearTextMessages = _ref.clearTextMessages;
 	
-	  if (channel.icon_url) {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'channelButtonBox' },
-	      _react2.default.createElement('div', { className: isActiveChannelBar(stateChannel, channel) }),
-	      _react2.default.createElement(
-	        'button',
-	        { onClick: changeChannel(channel, router, clearTextChannels, clearTextMessages),
-	          className: 'channelButton',
-	          disabled: isDisabled(stateChannel, channel) },
-	        _react2.default.createElement('img', { src: channel.icon_url,
-	          alt: 'channel-button',
-	          className: isActive(stateChannel, channel) })
-	      ),
-	      _react2.default.createElement(
-	        'span',
-	        { className: 'channelNavHover' },
-	        prepChannelLength(channel)
-	      )
-	    );
-	  } else {
-	    return _react2.default.createElement(
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'channelButtonBox' },
+	    _react2.default.createElement('div', { className: isActiveChannelBar(stateChannel, channel) }),
+	    _react2.default.createElement(
 	      'button',
-	      { onClick: changeChannel(channel, router), className: 'channelButtonText' },
-	      prepChannelName(channel)
-	    );
-	  }
+	      { onClick: changeChannel(channel, router, clearTextChannels, clearTextMessages),
+	        className: 'channelButton',
+	        disabled: isDisabled(stateChannel, channel) },
+	      channelIconOrText(stateChannel, channel, router)
+	    ),
+	    _react2.default.createElement(
+	      'span',
+	      { className: 'channelNavHover' },
+	      prepChannelLength(channel)
+	    )
+	  );
 	};
 	
 	exports.default = (0, _reactRouter.withRouter)(ChannelNavItem);
@@ -34206,7 +34236,8 @@
 	    key: 'handleDestroyChannel',
 	    value: function handleDestroyChannel() {
 	      this.props.destroyChannel(this.props.channel);
-	      this.props.router.push('/channels/me');
+	      var textChannelKeys = Object.keys(this.props.textChannels);
+	      this.props.router.push('/channels/' + this.props.textChannels[textChannelKeys[0]]);
 	    }
 	  }, {
 	    key: 'placeDestroyChannelButton',
@@ -34215,7 +34246,9 @@
 	      var currentUser = _props3.currentUser;
 	      var channel = _props3.channel;
 	
-	      if (currentUser.id === channel.admin.id) {
+	      if (!currentUser) {
+	        this.props.router.push('/login');
+	      } else if (currentUser.id === channel.admin.id) {
 	        return _react2.default.createElement(
 	          'button',
 	          { onClick: this.handleDestroyChannel, className: 'channelDeleteButton' },

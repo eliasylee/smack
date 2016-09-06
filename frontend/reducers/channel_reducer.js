@@ -17,15 +17,12 @@ const ChannelReducer = (state = defaultState, action) => {
     case ChannelConstants.RECEIVE_ONE_CHANNEL:
       let channel = action.channel;
       let keyedTextChannels = TextChannelSelector(channel.attachments);
-      newState.channel.id = channel.id;
-      newState.channel.title = channel.title;
-      newState.channel.description = channel.description;
-      newState.channel.admin = channel.admin;
+      newState = merge(newState, { channel })
       newState.channel.textChannels = keyedTextChannels;
       return newState;
     case ChannelConstants.CLEAR_TEXT_CHANNELS:
       let emptyChannelState = merge({}, state);
-      emptyChannelState.channel.attachments = {};
+      emptyChannelState.channel.textChannels = {};
       return emptyChannelState;
     case TextChannelConstants.RECEIVE_ONE_TEXT_CHANNEL:
       let textChannel = action.textChannel;

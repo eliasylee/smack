@@ -4,9 +4,10 @@ import { withRouter } from 'react-router';
 const prepChannelName = (channel) => {
   if (channel.title) {
     let result = "";
-    channel.title.split.forEach( word => {
+    channel.title.split(" ").forEach( word => {
       result += word.slice(0, 1);
     });
+    result = result.toUpperCase();
     return result;
   }
 }
@@ -49,34 +50,46 @@ const isActiveChannelBar = (stateChannel, channel) => {
 
 const changeChannel = (channel, router, clearTextChannels, clearTextMessages) => (
   () => {
-    clearTextChannels();
-    clearTextMessages();
     router.push(`/channels/${channel.id}/${channel.attachments[0].id}`)
   }
 );
 
-const ChannelNavItem = ({ stateChannel, channel, router, clearTextChannels, clearTextMessages }) => {
+const isActiveText = (stateChannel, channel) => {
+  if (channel.id === stateChannel.id) {
+    return "activeText";
+  } else {
+    return "inactiveText";
+  }
+}
+
+const channelIconOrText = (stateChannel, channel, router) => {
   if (channel.icon_url) {
     return (
-      <div className="channelButtonBox" >
-        <div className={isActiveChannelBar(stateChannel, channel)}></div>
-        <button onClick={changeChannel(channel, router, clearTextChannels, clearTextMessages)}
-                className="channelButton"
-                disabled={isDisabled(stateChannel, channel)} >
-                <img src={channel.icon_url}
-                     alt="channel-button"
-                     className={isActive(stateChannel, channel)}/>
-        </button>
-        <span className="channelNavHover">{prepChannelLength(channel)}</span>
-      </div>
+      <img src={channel.icon_url}
+           alt="channel-button"
+           className={isActive(stateChannel, channel)}/>
     )
   } else {
     return (
-      <button onClick={changeChannel(channel, router)} className="channelButtonText">
+      <div onClick={changeChannel(channel, router)} className={isActiveText(stateChannel, channel)}>
         {prepChannelName(channel)}
-      </button>
+      </div>
     )
   }
+}
+
+const ChannelNavItem = ({ stateChannel, channel, router, clearTextChannels, clearTextMessages }) => {
+  return (
+    <div className="channelButtonBox" >
+      <div className={isActiveChannelBar(stateChannel, channel)}></div>
+      <button onClick={changeChannel(channel, router, clearTextChannels, clearTextMessages)}
+              className="channelButton"
+              disabled={isDisabled(stateChannel, channel)} >
+              {channelIconOrText(stateChannel, channel, router)}
+      </button>
+      <span className="channelNavHover">{prepChannelLength(channel)}</span>
+    </div>
+  )
 }
 
 export default withRouter(ChannelNavItem);

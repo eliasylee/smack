@@ -111,12 +111,15 @@ class TextChannelNav extends React.Component {
 
   handleDestroyChannel () {
     this.props.destroyChannel(this.props.channel);
-    this.props.router.push('/channels/me');
+    let textChannelKeys = Object.keys(this.props.textChannels);
+    this.props.router.push(`/channels/${this.props.textChannels[textChannelKeys[0]]}`);
   }
 
   placeDestroyChannelButton () {
     const { currentUser, channel } = this.props;
-    if (currentUser.id === channel.admin.id) {
+    if (!currentUser) {
+      this.props.router.push(`/login`);
+    } else if (currentUser.id === channel.admin.id) {
       return <button onClick={this.handleDestroyChannel} className="channelDeleteButton">x</button>
     }
   }
