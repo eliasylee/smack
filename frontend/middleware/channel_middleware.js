@@ -1,6 +1,7 @@
 import { ChannelConstants,
          receiveAllChannels,
          receiveOneChannel,
+         receiveNewChannel,
          receiveChannelErrors } from '../actions/channel_actions';
 import { fetchAllChannels,
          fetchOneChannel,
@@ -11,7 +12,7 @@ import { fetchAllChannels,
 const ChannelMiddleware = ({ dispatch }) => next => action => {
   const fetchAllSuccess = data => dispatch(receiveAllChannels(data));
   const fetchOneSuccess = data => dispatch(receiveOneChannel(data));
-  const createChannelSuccess = data => dispatch(receiveOneChannel(data));
+  const createChannelSuccess = data => dispatch(receiveNewChannel(data));
   const updateChannelSuccess = data => dispatch(receiveOneChannel(data));
   const errors = data => dispatch(receiveChannelErrors(data));
   switch (action.type) {

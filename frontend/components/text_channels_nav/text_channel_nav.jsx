@@ -36,11 +36,13 @@ class TextChannelNav extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault();
-    let text_channel = Object.assign({}, this.state);
-    text_channel.channel_id = this.props.channel.id;
-    text_channel.title = this.state.title.toLowerCase();
-    this.toggleView();
-    this.props.createTextChannel({ text_channel });
+    if (this.state.title !== "") {
+      let text_channel = Object.assign({}, this.state);
+      text_channel.channel_id = this.props.channel.id;
+      text_channel.title = this.state.title.toLowerCase();
+      this.toggleView();
+      this.props.createTextChannel({ text_channel });
+    }
   }
 
   update (property) {
@@ -73,7 +75,7 @@ class TextChannelNav extends React.Component {
   }
 
   waitForTextChannels () {
-    const { stateTextChannel, textChannels, channel, clearTextChannels } = this.props;
+    const { stateTextChannel, textChannels, channel } = this.props;
     const channelId = channel.id;
 
     if (textChannels) {
@@ -84,8 +86,11 @@ class TextChannelNav extends React.Component {
             return <TextChannelNavItem textChannel={textChannels[textChannelKey]}
                                        stateTextChannel={stateTextChannel}
                                        textChannelKeys={textChannelKeys}
+                                       fetchOneTextChannel={this.props.fetchOneTextChannel}
                                        destroyTextChannel={this.props.destroyTextChannel}
                                        channelId={channel.id}
+                                       channelAdminId={channel.admin.id}
+                                       currentUserId={this.props.currentUser.id}
                                        key={textChannelKey}
                                        clearTextMessages={this.props.clearTextMessages}/>
           })}
@@ -111,8 +116,7 @@ class TextChannelNav extends React.Component {
 
   handleDestroyChannel () {
     this.props.destroyChannel(this.props.channel);
-    let textChannelKeys = Object.keys(this.props.textChannels);
-    this.props.router.push(`/channels/${this.props.textChannels[textChannelKeys[0]]}`);
+    this.props.router.push(`/channels/me`);
   }
 
   placeDestroyChannelButton () {

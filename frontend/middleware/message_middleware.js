@@ -1,8 +1,7 @@
 import { MessageConstants,
          receiveOneMessage,
          receiveErrors } from '../actions/message_actions';
-import { fetchOneMessage,
-         createMessage,
+import { createMessage,
          updateMessage,
          destroyMessage } from '../util/message_api_util';
 
@@ -12,9 +11,6 @@ const MessageMiddleware = ({ dispatch }) => next => action => {
   const updateMessageSuccess = data => dispatch(receiveOneMessage(data));
   const errors = data => dispatch(receiveErrors(data));
   switch (action.type) {
-    case MessageConstants.FETCH_ONE_MESSAGE:
-      fetchOneMessage(action.message, fetchOneSuccess, errors);
-      return next(action);
     case MessageConstants.CREATE_MESSAGE:
       createMessage(action.message, createMessageSuccess, errors);
       return next(action);

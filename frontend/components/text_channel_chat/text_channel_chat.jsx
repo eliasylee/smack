@@ -95,6 +95,9 @@ class TextChannelChat extends React.Component {
                                 textChannelTitle={textChannel.title}
                                 action="create" />
         </div>
+        <div className="channelMembers">
+          
+        </div>
       </div>
     )
   }

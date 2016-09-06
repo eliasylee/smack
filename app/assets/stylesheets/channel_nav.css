@@ -12,6 +12,7 @@
 }
 
 .channelNavBar {
+  position: absolute;
   width: 80px;
   display: flex;
   flex-direction: column;
@@ -258,7 +259,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0,0,0,0.9);
   text-transform: uppercase;
 }
 

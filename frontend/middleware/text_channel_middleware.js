@@ -1,5 +1,6 @@
 import { TextChannelConstants,
          receiveOneTextChannel,
+         receiveNewTextChannel,
          receiveTextChannelErrors } from '../actions/text_channel_actions';
 import { fetchOneTextChannel,
          createTextChannel,
@@ -8,7 +9,7 @@ import { fetchOneTextChannel,
 
 const TextChannelMiddleware = ({ dispatch }) => next => action => {
   const fetchOneSuccess = data => dispatch(receiveOneTextChannel(data));
-  const createTextChannelSuccess = data => dispatch(receiveOneTextChannel(data));
+  const createTextChannelSuccess = data => dispatch(receiveNewTextChannel(data));
   const updateTextChannelSuccess = data => dispatch(receiveOneTextChannel(data));
   const errors = data => dispatch(receiveTextChannelErrors(data));
   switch (action.type) {
@@ -17,7 +18,7 @@ const TextChannelMiddleware = ({ dispatch }) => next => action => {
       return next(action);
     case TextChannelConstants.CREATE_TEXT_CHANNEL:
       createTextChannel(action.textChannel, createTextChannelSuccess, errors);
-      return next(action);
+      break;
     case TextChannelConstants.UPDATE_TEXT_CHANNEL:
       updateTextChannel(action.textChannel, updateTextChannelSuccess, errors);
       return next(action);

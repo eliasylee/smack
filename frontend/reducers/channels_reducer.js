@@ -10,12 +10,8 @@ const defaultState = {
 const ChannelsReducer = (state = defaultState, action) => {
   let newState = merge({}, state)
   switch (action.type) {
-    case ChannelConstants.RECEIVE_ONE_CHANNEL:
-      if (state.channels[action.channel.id]) {
-        return state;
-      } else {
-        newState.channels[action.channel.id] = action.channel;
-      }
+    case ChannelConstants.RECEIVE_NEW_CHANNEL:
+      newState.channels[action.channel.id] = action.channel;
       return newState;
     case ChannelConstants.RECEIVE_ALL_CHANNELS:
       let keyedChannels = ChannelSelector(action.channels);

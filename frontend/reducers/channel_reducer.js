@@ -28,6 +28,10 @@ const ChannelReducer = (state = defaultState, action) => {
       let textChannel = action.textChannel;
       newState.channel.textChannels[textChannel.id] = textChannel;
       return newState;
+    case TextChannelConstants.RECEIVE_NEW_TEXT_CHANNEL:
+      let newTextChannel = action.textChannel;
+      newState.channel.textChannels[newTextChannel.id] = newTextChannel;
+      return newState;
     case TextChannelConstants.DESTROY_TEXT_CHANNEL:
       let destroyedTextChannel = action.textChannel;
       delete newState[destroyedTextChannel.id];

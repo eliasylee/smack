@@ -31,19 +31,28 @@ class TextChannelNavItem extends React.Component {
   };
 
   changeTextChannel () {
-    this.props.clearTextMessages();
-    this.props.router.push(`/channels/${this.props.channelId}/${this.props.textChannel.id}`)
+    const { textChannel, stateTextChannel, clearTextMessages, router, channelId } = this.props;
+    if (textChannel.id !== stateTextChannel.id) {
+      clearTextMessages();
+      router.push(`/channels/${this.props.channelId}/${textChannel.id}`)
+    }
   };
 
   handleDestroyTextChannel () {
+    let textChannelNumber = parseInt(this.props.textChannelKeys[0]);
     this.props.destroyTextChannel(this.textChannel);
-    this.props.router.push(`/channels/${this.props.channelId}/${this.props.textChannelKeys[0]}`)
+    this.props.fetchOneTextChannel(textChannelNumber);
+    this.props.router.push(`/channels/${this.props.channelId}/${textChannelNumber}`)
   };
 
   placeDestroyTextChannelButton () {
-    const { textChannel, textChannelKeys } = this.props;
+    const { currentUserId, channelAdminId, textChannel, textChannelKeys, stateTextChannel } = this.props;
     if (textChannel.id !== parseInt(textChannelKeys[0])) {
-      return <button onClick={this.handleDestroyTextChannel} className="textChannelDeleteButton">x</button>
+      if (currentUserId === channelAdminId) {
+        if (stateTextChannel.id === textChannel.id) {
+          return <button onClick={this.handleDestroyTextChannel} className="textChannelDeleteButton">x</button>
+        }
+      }
     }
   }
 

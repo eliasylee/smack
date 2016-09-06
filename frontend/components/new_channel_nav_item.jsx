@@ -15,7 +15,7 @@ class ChannelNavItem extends React.Component {
     }
   }
 
-  prepChannelTitle (channel) {
+  prepChannelLength (channel) {
     let title = channel.title;
 
     if (title.length < 13) {
@@ -51,11 +51,10 @@ class ChannelNavItem extends React.Component {
     }
   }
 
-  changeChannel () {
-    const { channel, stateChannel, router, clearTextChannels, clearTextMessages } = this.props;
+  changeChannel (channel, stateChannel, router, clearTextChannels, clearTextMessages) {
     if (channel.id !== stateChannel.id) {
       clearTextChannels();
-      router.push(`/channels/${channel.id}/${channel.attachments[0].id}`)
+      this.props.router.push(`/channels/${channel.id}/${channel.attachments[0].id}`)
     }
   };
 
@@ -76,7 +75,7 @@ class ChannelNavItem extends React.Component {
       )
     } else {
       return (
-        <div className={this.isActiveText(stateChannel, channel)}>
+        <div onClick={this.changeChannel(channel, router)} className={this.isActiveText(stateChannel, channel)}>
           {this.prepChannelName(channel)}
         </div>
       )
@@ -88,12 +87,12 @@ class ChannelNavItem extends React.Component {
     return (
       <div className="channelButtonBox" >
         <div className={this.isActiveChannelBar(stateChannel, channel)}></div>
-        <button onClick={this.changeChannel}
+        <button onClick={this.changeChannel(channel, stateChannel, router, clearTextChannels, clearTextMessages)}
                 className="channelButton"
                 disabled={this.isDisabled(stateChannel, channel)} >
-        {this.channelIconOrText(stateChannel, channel, router)}
+                {this.channelIconOrText(stateChannel, channel, router)}
         </button>
-        <span className="channelNavHover">{this.prepChannelTitle(channel)}</span>
+        <span className="channelNavHover">{this.prepChannelLength(channel)}</span>
       </div>
     )
   }

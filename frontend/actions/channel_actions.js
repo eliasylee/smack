@@ -4,6 +4,7 @@ export const ChannelConstants = {
   FETCH_ONE_CHANNEL: 'FETCH_ONE_CHANNEL',
   CREATE_CHANNEL: 'CREATE_CHANNEL',
   RECEIVE_ONE_CHANNEL: 'RECEIVE_ONE_CHANNEL',
+  RECEIVE_NEW_CHANNEL: 'RECEIVE_NEW_CHANNEL',
   UPDATE_CHANNEL: 'UPDATE_CHANNEL',
   DESTROY_CHANNEL: 'DESTROY_CHANNEL',
   CLEAR_TEXT_CHANNELS: 'CLEAR_TEXT_CHANNELS',
@@ -26,6 +27,11 @@ export const fetchOneChannel = channel => ({
 
 export const receiveOneChannel = channel => ({
   type: ChannelConstants.RECEIVE_ONE_CHANNEL,
+  channel
+})
+
+export const receiveNewChannel = channel => ({
+  type: ChannelConstants.RECEIVE_NEW_CHANNEL,
   channel
 })
 

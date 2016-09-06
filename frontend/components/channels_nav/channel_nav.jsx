@@ -1,6 +1,7 @@
 import React from 'react';
 import ChannelNavItem from './channel_nav_item';
 import MeChannelItem from './me_channel_item';
+import { withRouter } from 'react-router';
 
 class ChannelNav extends React.Component {
   constructor (props) {
@@ -18,9 +19,11 @@ class ChannelNav extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault();
-    const channel = Object.assign({}, this.state);
-    this.props.createChannel({channel});
-    this.toggleView();
+    if (this.state.title !== "") {
+      const channel = Object.assign({}, this.state);
+      this.props.createChannel({channel});
+      this.toggleView();
+    }
   }
 
   toggleView () {
@@ -125,4 +128,4 @@ class ChannelNav extends React.Component {
   }
 }
 
-export default ChannelNav;
+export default withRouter(ChannelNav);
