@@ -22338,6 +22338,10 @@
 	
 	var _text_channel_reducer2 = _interopRequireDefault(_text_channel_reducer);
 	
+	var _subscriptions_reducer = __webpack_require__(418);
+	
+	var _subscriptions_reducer2 = _interopRequireDefault(_subscriptions_reducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
@@ -26302,9 +26306,13 @@
 	
 	var _message_middleware2 = _interopRequireDefault(_message_middleware);
 	
+	var _subscription_middleware = __webpack_require__(413);
+	
+	var _subscription_middleware2 = _interopRequireDefault(_subscription_middleware);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _channel_middleware2.default, _text_channel_middleware2.default, _message_middleware2.default);
+	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _channel_middleware2.default, _text_channel_middleware2.default, _message_middleware2.default, _subscription_middleware2.default);
 	
 	exports.default = RootMiddleware;
 
@@ -34652,9 +34660,6 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	;
-	
-	
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    channel: state.channel.channel,
@@ -34704,6 +34709,10 @@
 	var _text_channel_form_container = __webpack_require__(406);
 	
 	var _text_channel_form_container2 = _interopRequireDefault(_text_channel_form_container);
+	
+	var _channel_friends_container = __webpack_require__(408);
+	
+	var _channel_friends_container2 = _interopRequireDefault(_channel_friends_container);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -35424,6 +35433,248 @@
 	}(_react2.default.Component);
 	
 	exports.default = TextChannelForm;
+
+/***/ },
+/* 408 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(318);
+	
+	var _channel_friends = __webpack_require__(409);
+	
+	var _channel_friends2 = _interopRequireDefault(_channel_friends);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {};
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_channel_friends2.default);
+
+/***/ },
+/* 409 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+/***/ },
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _subscription_actions = __webpack_require__(414);
+	
+	var _subscription_api_util = __webpack_require__(417);
+	
+	var SubscriptionMiddleware = function SubscriptionMiddleware(_ref) {
+	  var dispatch = _ref.dispatch;
+	  return function (next) {
+	    return function (action) {
+	      var fetchAllSuccess = function fetchAllSuccess(data) {
+	        return dispatch((0, _subscription_actions.receiveAllSubscriptions)(data));
+	      };
+	      var createSuccess = function createSuccess(data) {
+	        return dispatch((0, _subscription_actions.receiveSubscription)(data));
+	      };
+	      switch (action.type) {
+	        case _subscription_actions.SubscriptionConstants.FETCH_ALL_SUBSCRIPTIONS:
+	          (0, _subscription_api_util.fetchAllSubscriptions)(action.channel, fetchAllSuccess);
+	          return next(action);
+	        case _subscription_actions.SubscriptionConstants.CREATE_SUBSCRIPTION:
+	          (0, _subscription_api_util.createSubscription)(action.channel, action.subscription, createSuccess);
+	          return next(action);
+	        case _subscription_actions.SubscriptionConstants.DESTROY_SUBSCRIPTION:
+	          (0, _subscription_api_util.destroySubscription)(action.channel, action.subscription, function () {
+	            return next(action);
+	          });
+	          break;
+	        default:
+	          return next(action);
+	      }
+	    };
+	  };
+	};
+	
+	exports.default = SubscriptionMiddleware;
+
+/***/ },
+/* 414 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var SubscriptionConstants = exports.SubscriptionConstants = {
+	  FETCH_ALL_SUBSCRIPTIONS: 'FETCH_ALL_SUBSCRIPTIONS',
+	  RECEIVE_ALL_SUBSCRIPTIONS: 'RECEIVE_ALL_SUBSCRIPTIONS',
+	  CREATE_SUBSCRIPTION: 'CREATE_SUBSCRIPTION',
+	  RECEIVE_SUBSCRIPTION: 'RECEIVE_SUBSCRIPTION',
+	  DESTROY_SUBSCRIPTION: 'DESTROY_SUBSCRIPTION'
+	};
+	
+	var fetchAllSubscriptions = exports.fetchAllSubscriptions = function fetchAllSubscriptions(channel) {
+	  return {
+	    type: SubscriptionConstants.FETCH_ALL_SUBSCRIPTIONS,
+	    channel: channel
+	  };
+	};
+	
+	var receiveAllSubscriptions = exports.receiveAllSubscriptions = function receiveAllSubscriptions(subscriptions) {
+	  return {
+	    type: SubscriptionConstants.RECEIVE_ALL_SUBSCRIPTIONS,
+	    subscriptions: subscriptions
+	  };
+	};
+	
+	var createSubscription = exports.createSubscription = function createSubscription(subscription) {
+	  return {
+	    type: SubscriptionConstants.CREATE_SUBSCRIPTION,
+	    subscription: subscription
+	  };
+	};
+	
+	var receiveSubscription = exports.receiveSubscription = function receiveSubscription(subscription) {
+	  return {
+	    type: SubscriptionConstants.RECEIVE_SUBSCRIPTION,
+	    subscription: subscription
+	  };
+	};
+	
+	var destroySubscription = exports.destroySubscription = function destroySubscription(channel, subscription) {
+	  return {
+	    type: SubscriptionConstants.DESTROY_SUBSCRIPTION,
+	    channel: channel,
+	    subscription: subscription
+	  };
+	};
+
+/***/ },
+/* 415 */,
+/* 416 */,
+/* 417 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var fetchAllSubscriptions = exports.fetchAllSubscriptions = function fetchAllSubscriptions(channel, success, error) {
+	  $.ajax({
+	    method: 'GET',
+	    url: '/api/subscriptions',
+	    data: channel,
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var createSubscription = exports.createSubscription = function createSubscription(subscription, success, error) {
+	  $.ajax({
+	    method: 'POST',
+	    url: '/api/subscriptions',
+	    data: subscription,
+	    success: success,
+	    error: error
+	  });
+	};
+	
+	var destroySubscription = exports.destroySubscription = function destroySubscription(subscription, success, error) {
+	  $.ajax({
+	    method: 'DELETE',
+	    url: '/api/subscriptions/' + subscription.id,
+	    data: subscription,
+	    success: success,
+	    error: error
+	  });
+	};
+
+/***/ },
+/* 418 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _subscription_actions = __webpack_require__(414);
+	
+	var _subscriptions_selector = __webpack_require__(419);
+	
+	var _subscriptions_selector2 = _interopRequireDefault(_subscriptions_selector);
+	
+	var _merge = __webpack_require__(190);
+	
+	var _merge2 = _interopRequireDefault(_merge);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var defaultState = {};
+	
+	var SubscriptionsReducer = function SubscriptionsReducer() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? defaultState : arguments[0];
+	  var action = arguments[1];
+	
+	  var newState = (0, _merge2.default)({}, state);
+	  switch (action.type) {
+	    case _subscription_actions.SubscriptionConstants.RECEIVE_ALL_SUBSCRIPTIONS:
+	      var keyedSubscriptions = (0, _subscriptions_selector2.default)(action.subscriptions);
+	      return keyedSubscriptions;
+	    case _subscription_actions.SubscriptionConstants.RECEIVE_ONE_SUBSCRIPTION:
+	      var newSub = action.subscription;
+	      newState[newSub.channel_id] = newSub;
+	      return newState;
+	    case _subscription_actions.SubscriptionConstants.DESTROY_SUBSCRIPTION:
+	      var destroyedSub = action.subscription;
+	      delete newState[destroyedSub.id];
+	      return newState;
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = SubscriptionsReducer;
+
+/***/ },
+/* 419 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var SubscriptionsSelector = function SubscriptionsSelector(subscriptions) {
+	  return subscriptions.reduce(function (obj, subscription) {
+	    obj[subscription.id] = subscription;
+	    return obj;
+	  }, {});
+	};
+	
+	exports.default = SubscriptionsSelector;
 
 /***/ }
 /******/ ]);

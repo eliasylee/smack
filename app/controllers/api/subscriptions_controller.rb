@@ -1,4 +1,9 @@
 class Api::SubscriptionsController < ApplicationController
+  def index
+    @channel = Channel.find_by_id(subscription_params[:channel_id])
+    @subscribers = @channel.subscribers  
+  end
+
   def create
     @subscription = Subscription.new(subscription_params)
 
@@ -10,7 +15,7 @@ class Api::SubscriptionsController < ApplicationController
   end
 
   def destroy
-    @subscription = Subscription.find_by(user_id: params[:user_id])
+    @subscriptions = Subscription.find_by_id(params[:id])
 
     if @subscription.destroy
       render json: {}
