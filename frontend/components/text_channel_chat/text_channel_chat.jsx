@@ -1,3 +1,5 @@
+/* globals Pusher */
+
 import React from 'react';
 import { withRouter } from 'react-router';
 import TextChannelChatItem from './text_channel_chat_item';
@@ -12,12 +14,28 @@ class TextChannelChat extends React.Component {
     this.toggleView = this.toggleView.bind(this);
     this.message = this.props.message;
     this.displayHeaderOrUpdate = this.displayHeaderOrUpdate.bind(this);
+    this.createPusherChannel = this.createPusherChannel.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
     if (!newProps.currentUser) {
       this.props.router.push(`/login`);
     }
+
+    if (newProps.textChannel.id) {
+      this.createPusherChannel();
+    }
+  }
+
+  createPusherChannel () {
+    let pusher = new Pusher('a6428d82cdddd683832f', {
+      encrypted: true
+    });
+
+    let channel = pusher.subscribe('text_channel_' + this.props.textChannel.id);
+    channel.bind('message_posted', function (data) {
+      this.props.fetchOneTextChannel(this.props.textChannel.id);
+    });
   }
 
   displayHeaderOrUpdate () {
@@ -54,10 +72,10 @@ class TextChannelChat extends React.Component {
         <div className="textChannelMessagesBox">
           {messageKeys.reverse().map( messageKey => {
             return <TextChannelChatItem message={messages[messageKey]}
-                                   textChannel={textChannel}
-                                   currentUser={currentUser}
-                                   destroyMessage={destroyMessage}
-                                   key={messageKey} />
+                                        textChannel={textChannel}
+                                        currentUser={currentUser}
+                                        destroyMessage={destroyMessage}
+                                        key={messageKey} />
           })}
         </div>
       )

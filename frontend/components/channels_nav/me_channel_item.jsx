@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 const changeChannel = (router) => (
-  () => router.push(`/channels/me`)
+  () => router.push(`/channels/@me`)
 );
 
 const MeChannelItem = ({ channel, router }) => {

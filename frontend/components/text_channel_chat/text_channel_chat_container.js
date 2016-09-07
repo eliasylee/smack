@@ -3,6 +3,7 @@ import { createMessage,
          updateMessage,
          destroyMessage } from '../../actions/message_actions';
 import TextChannelChat from './text_channel_chat';
+import { fetchOneTextChannel } from '../../actions/text_channel_actions';
 
 const mapStateToProps = state => ({
   channel: state.channel.channel,
@@ -13,7 +14,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  destroyMessage: message => dispatch(destroyMessage(message))
+  destroyMessage: message => dispatch(destroyMessage(message)),
+  fetchOneTextChannel: textChannel => dispatch(fetchOneTextChannel(textChannel))
 });
 
 export default connect(

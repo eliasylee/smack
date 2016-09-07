@@ -5,6 +5,7 @@ import { createSubscription, destroySubscription } from '../../actions/subscript
 const mapStateToProps = state => ({
   currentUser: state.session.currentUser,
   channel: state.channel.channel,
+  textChannel: state.textChannel.textChannel,
   subscriptions: state.subscriptions
 });
 

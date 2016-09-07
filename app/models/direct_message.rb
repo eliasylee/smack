@@ -11,13 +11,13 @@ class DirectMessage < ApplicationRecord
 
   has_many :messages, :as => :chatable
 
-  def username
+  def username(current_user)
     users = User.where("id = ? OR id = ?", self.speaker_id, self.listener_id)
 
     if users[0].username == current_user.username
-      return users[0].username
-    else
       return users[1].username
+    else
+      return users[0].username
     end
   end
 end

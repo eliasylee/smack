@@ -101,7 +101,7 @@ class TextChannelNav extends React.Component {
 
   addTextChannelButton () {
     const { currentUser, channel } = this.props;
-    if (channel.admin) {
+    if (channel.admin && currentUser) {
       if (channel.admin.id === currentUser.id) {
         return (
           <button className="addTextChannel" onClick={this.toggleView}>+</button>

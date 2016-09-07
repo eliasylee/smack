@@ -1,10 +1,15 @@
 class Api::DirectMessagesController < ApplicationController
   def index
-    @direct_messages = current_user.direct_messages
+    @current_user = current_user
+    @direct_messages = @current_user.direct_messages
+  end
+
+  def show
+    @direct_message = DirectMessage.find_by_id(params[:id])
   end
 
   def create
-    user = User.find_by_username(direct_message_params[:username])
+    @user = User.find_by_username(direct_message_params[:username])
     @direct_message = DirectMessage.new({ speaker_id: current_user.id, listener_id: user.id })
 
     if @direct_message.save
@@ -17,6 +22,6 @@ class Api::DirectMessagesController < ApplicationController
   private
 
   def direct_message_params
-    params.require(:direct_message).permit(:speaker_id, :listener_id)
+    params.require(:direct_message).permit(:username)
   end
 end

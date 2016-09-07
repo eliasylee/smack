@@ -7,10 +7,12 @@ import SessionFormContainer from '../session/session_form_container';
 import ChannelNavContainer from '../channels_nav/channel_nav_container';
 import TextChannelNavContainer from '../text_channels_nav/text_channel_nav_container';
 import TextChannelChatContainer from '../text_channel_chat/text_channel_chat_container';
+import DirectMessagesContainer from '../direct_messages/direct_messages_container';
 
 import { fetchAllChannels, fetchOneChannel } from '../../actions/channel_actions';
 import { fetchOneTextChannel } from '../../actions/text_channel_actions';
 import { fetchAllSubscriptions } from '../../actions/subscription_actions';
+import { fetchAllDirectMessages } from '../../actions/direct_message_actions';
 
 const AppRouter = ({ currentUser, store }) => {
   const ensureLoggedIn = (nextState, replace) => {
@@ -29,13 +31,17 @@ const AppRouter = ({ currentUser, store }) => {
     store.dispatch(fetchAllChannels());
   }
 
-  const fetchChannelInformation = (nextState) => {
+  const fetchChannelInformation = nextState => {
     store.dispatch(fetchOneChannel(nextState.params.id[0]));
     store.dispatch(fetchAllSubscriptions(nextState.params.id[0]));
   }
 
-  const fetchOneTextChannelOnEnter = (nextState) => {
+  const fetchOneTextChannelOnEnter = nextState => {
     store.dispatch(fetchOneTextChannel(nextState.params.id[1]));
+  }
+
+  const fetchAllDirectMessagesOnEnter = () => {
+    store.dispatch(fetchAllDirectMessages());
   }
 
   return (
@@ -45,6 +51,7 @@ const AppRouter = ({ currentUser, store }) => {
         <Route path="/signup" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
         <Route path="/login" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
         <Route path="/channels" component={ChannelNavContainer} onEnter={fetchAllChannelsOnEnter}>
+          <Route path="/channels/@me" component={DirectMessagesContainer} onEnter={fetchAllDirectMessagesOnEnter} />
           <Route path="/channels/:id" component={TextChannelNavContainer} onEnter={fetchChannelInformation}>
             <Route path="/channels/:id/:id" component={TextChannelChatContainer} onEnter={fetchOneTextChannelOnEnter} />
           </Route>

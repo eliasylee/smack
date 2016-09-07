@@ -1,6 +1,14 @@
 User.create!(username: "Welcome!", password: "39cn109283e01wjc1owhd10v10wmdjskanlkaj0dw19x1")
 User.create!(username: "guest", password: "password")
 
+DirectMessage.create!(speaker_id: 1, listener_id: 2)
+Message.create!(author_id: 1, body: "Hey, how's it going?", chatable_type: "DirectMessage", chatable_id: 1)
+Message.create!(author_id: 2, body: "could be better", chatable_type: "DirectMessage", chatable_id: 1)
+Message.create!(author_id: 1, body: "Why's that?", chatable_type: "DirectMessage", chatable_id: 1)
+Message.create!(author_id: 2, body: "tired", chatable_type: "DirectMessage", chatable_id: 1)
+Message.create!(author_id: 1, body: "oh :()", chatable_type: "DirectMessage", chatable_id: 1)
+
+
 Channel.create!(admin_id: 2, title: "Smash", description: "Get smashed", icon_url: "https://www.facebookbrand.com/img/fb-art.jpg")
 Channel.create!(admin_id: 2, title: "Starcraft", description: "4 pool gg no re", icon_url: "http://s.jtvnw.net/jtv_user_pictures/hosted_images/GlitchIcon_WhiteonPurple.png")
 Channel.create!(admin_id: 2, title: "Counter-Strike", description: "boom headshot", icon_url: "http://accs123.com/wp-content/uploads/gmail-logo-1-01.png")
