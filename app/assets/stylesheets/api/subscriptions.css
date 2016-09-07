@@ -1,0 +1,146 @@
+/* Subscriptions Box */
+
+.subscriptionsBox {
+  top: 0;
+  bottom: 0;
+  right: 320px;
+  min-width: 240px;
+  color: #9AABB6;
+  border-left: 2px solid #ECEEEF;
+  background-color: #F3F3F3;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;;
+  z-index: 1;
+}
+
+.subscriptionTop {
+  width: 240px;
+  height: 90%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.subscriptionHeader {
+  padding-left: 30px;
+  text-align: left;
+  text-transform: uppercase;
+  padding-bottom: 20px;
+}
+
+.subscriptionsList {
+
+}
+
+.logoAndUsername {
+  padding-left: 30px;
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+.channelSubscriptionBar {
+  display: flex;
+  justify-content: space-between;;
+  width: 240px;
+  height: 40px;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.channelSubscriptionBar:hover {
+  background-color: #DADDDF;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.subUserLogo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.userUsername {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 10px;
+  font-size: 17px;
+}
+
+.destroySubscriptionBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 25px;
+  padding-bottom: 10px;
+}
+
+.destroySubscriptionButton {
+  padding-top: 8px;
+  color: #F3F3F3;
+}
+
+.destroySubscriptionButton:hover {
+  color: #9AABB6;
+}
+
+.subscriptionForm {
+  height: 10%;
+  width: 180px;
+  padding-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.subscriptionFormTitle {
+  text-transform: uppercase;
+  padding-bottom: 10px;
+}
+
+.subscriptionInput {
+  display: flex;
+  justify-content: space-between;
+  width: 180px;
+  padding-right: 4px;
+}
+
+.subscriptionUsernameBox {
+  width: 160px;
+  background-color: #fff;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.subscriptionUsernameInput {
+  width: 160px;
+  padding: 10px 0px 10px 10px;
+}
+
+.subscriptionSubmitButton {
+  background-color: #fff;
+  width: 20px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  border-left: 1px solid #ECEEEF;
+  text-align: center;
+}
+
+.subscriptionSubmitButton:hover {
+  background-color: #ECEEEF;
+  color: #fff;
+}

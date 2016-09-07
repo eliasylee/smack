@@ -5,7 +5,7 @@ class ChannelSubscriptions extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      channel_id: this.props.channel.id,
+      channel_id: 0,
       username: ""
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -14,8 +14,19 @@ class ChannelSubscriptions extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault();
-    let subscription = this.state;
-    this.props.createSubscription({ subscription });
+    const { subscriptions, username, channel } = this.props;
+
+    let usernames = [];
+    Object.keys(subscriptions).forEach( key => {
+      usernames.push(subscriptions[key].username)
+    });
+
+    if (!usernames.includes(this.state.username) && username !== "") {
+      let subscription = this.state;
+      subscription.channel_id = channel.id;
+      this.props.createSubscription({ subscription });
+      this.setState({ "username": "" })
+    }
   }
 
   updateState (property) {
@@ -27,14 +38,15 @@ class ChannelSubscriptions extends React.Component {
       return (
         <form onSubmit={this.handleSubmit} className="subscriptionForm">
           <div className="subscriptionFormTitle">Add Member</div>
-          <div className="subscriptionUsernameBox">
-            <div className="subscriptionUsernameWord">Username:</div>
-            <input type="text"
-                   className="subscriptionUsernameInput"
-                   onChange={this.updateState("username")}
-                   value={this.state.username} />
-          </div>
-          <input className="textMessageSubmitButton" type="submit" value="^" />
+            <div className="subscriptionInput">
+              <div className="subscriptionUsernameBox">
+                <input type="text"
+                       className="subscriptionUsernameInput"
+                       onChange={this.updateState("username")}
+                       value={this.state.username} />
+              </div>
+              <input className="subscriptionSubmitButton" type="submit" value="^" />
+            </div>
         </form>
       )
     }
@@ -45,15 +57,19 @@ class ChannelSubscriptions extends React.Component {
     let subKeys = Object.keys(subscriptions);
     return (
       <div className="subscriptionsBox">
-        <div className="subscriptionHeader">Channel Members</div>
-        {this.renderSubscriptionForm()}
-        <div className="subscriptionsList">
-          { subKeys.map( subKey => {
-            return <ChannelSubscriptionsItem subscription={subscriptions[subKey]}
-                                             destroySubscription={this.props.destroySubscription}
-                                             key={subKey} />
-          })}
+        <div className="subscriptionTop">
+          <div className="subscriptionHeader">Channel Members</div>
+          <div className="subscriptionsList">
+            { subKeys.map( subKey => {
+              return <ChannelSubscriptionsItem subscription={subscriptions[subKey]}
+                                               destroySubscription={this.props.destroySubscription}
+                                               currentUser={this.props.currentUser}
+                                               channel={this.props.channel}
+                                               key={subKey} />
+            })}
+          </div>
         </div>
+        {this.renderSubscriptionForm()}
       </div>
     )
   }

@@ -1,29 +1,26 @@
-export const fetchAllSubscriptions = (channel, success, error) => {
+export const fetchAllSubscriptions = (channel, success) => {
   $.ajax({
     method: 'GET',
     url: `/api/subscriptions/${channel}`,
     data: channel,
-    success,
-    error
+    success
   });
 };
 
-export const createSubscription = (subscription, success, error) => {
+export const createSubscription = (subscription, success) => {
   $.ajax({
     method: 'POST',
     url: '/api/subscriptions',
     data: subscription,
-    success,
-    error
+    success
   });
 };
 
-export const destroySubscription = (subscription, success, error) => {
+export const destroySubscription = (subscription, success) => {
   $.ajax({
     method: 'DELETE',
-    url: `/api/subscriptions/${subscription.id}`,
+    url: `/api/subscriptions/${subscription}`,
     data: subscription,
-    success,
-    error
+    success
   });
 };

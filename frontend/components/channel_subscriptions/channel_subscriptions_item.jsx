@@ -20,22 +20,36 @@ class ChannelSubscriptionsItem extends React.Component {
     this.props.destroySubscription(this.props.subscription.id)
   }
 
+  placeDestroyButton () {
+    const { currentUser, subscription, channel } = this.props;
+    if (currentUser.id === subscription.user_id ||
+        currentUser.id === channel.admin.id) {
+      return (
+        <div className="destroySubscriptionBox">
+          <button className="destroySubscriptionButton"
+                  onClick={this.handleDestroy}>x</button>
+        </div>
+      )
+    }
+  }
+
   render () {
     const { subscription } = this.props;
     let username = subscription.username;
 
     return (
       <div className="channelSubscriptionBar">
-        <div className="userLogo">
-          <div className="userLogoLetter">{this.prepUserName(username)}</div>
+        <div className="logoAndUsername">
+          <div className="subUserLogo">
+            <div className="userLogo">
+              <div className="userLogoLetter">{this.prepUserName(username)}</div>
+            </div>
+          </div>
+          <div className="userUsername">
+            {username}
+          </div>
         </div>
-        <div className="userUsername">
-          {username}
-        </div>
-        <div className="destroySubscriptionBox">
-          <button className="destroySubscriptionButton"
-                  onClick={this.handleDestroy}>x</button>
-        </div>
+        {this.placeDestroyButton()}
       </div>
     )
   }

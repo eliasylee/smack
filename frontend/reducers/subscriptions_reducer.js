@@ -10,13 +10,13 @@ const SubscriptionsReducer = (state = defaultState, action) => {
     case SubscriptionConstants.RECEIVE_ALL_SUBSCRIPTIONS:
       let keyedSubscriptions = SubscriptionsSelector(action.subscriptions);
       return keyedSubscriptions;
-    case SubscriptionConstants.RECEIVE_ONE_SUBSCRIPTION:
+    case SubscriptionConstants.RECEIVE_SUBSCRIPTION:
       let newSub = action.subscription;
-      newState[newSub.channel_id] = newSub;
+      newState[newSub.id] = newSub;
       return newState
     case SubscriptionConstants.DESTROY_SUBSCRIPTION:
-      let destroyedSub = action.subscription;
-      delete newState[destroyedSub.id];
+      let destroyedSubId = action.subscription;
+      delete newState[destroyedSubId];
       return newState;
     default:
       return state;

@@ -1,15 +1,15 @@
 class Api::SubscriptionsController < ApplicationController
   def show
     @channel = Channel.find_by_id(params[:id])
-    @subscribers = @channel.subscribers
+    @subscriptions = @channel.subscriptions
   end
 
   def create
-    user = user.find_by_username(subscription_params[:username])
+    user = User.find_by_username(subscription_params[:username])
     @subscription = Subscription.new({ user_id: user.id, channel_id: subscription_params[:channel_id]})
 
     if @subscription.save
-      render json: @subscription
+      render :create
     else
       render json: @subscription.errors.full_messages, status: 422
     end

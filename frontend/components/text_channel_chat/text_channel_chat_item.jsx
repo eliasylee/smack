@@ -105,19 +105,34 @@ class TextChannelChatItem extends React.Component {
     }
   }
 
+  prepUserName (username) {
+    let result = "";
+    if (username) {
+      username.split(" ").forEach( word => {
+        result += word.slice(0, 1);
+      });
+    }
+    return result;
+  }
+
   render () {
     const { message, currentUser, textChannel } = this.props
     return (
       <div className="textChannelMessageBox">
-        <div className="textChannelMessageHeader">
-          <div className="textChannelMessageAuthor">
-            {message.author.username}
-          </div>
-          {this.prepTimeDisplay(message)}
+        <div className="userLogo messageBoxLogo">
+          <div className="userLogoLetter messageBoxLogoLetter">{this.prepUserName(message.author.username)}</div>
         </div>
-        <div className="textChannelMessageBody">
-          {this.displayBodyOrUpdate(message, textChannel)}
-          {this.displayChangeButton(currentUser, message)}
+        <div className="textChannelMessageBoxInner">
+          <div className="textChannelMessageHeader">
+            <div className="textChannelMessageAuthor">
+              {message.author.username}
+            </div>
+            {this.prepTimeDisplay(message)}
+          </div>
+          <div className="textChannelMessageBody">
+            {this.displayBodyOrUpdate(message, textChannel)}
+            {this.displayChangeButton(currentUser, message)}
+          </div>
         </div>
       </div>
     )

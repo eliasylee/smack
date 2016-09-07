@@ -26,8 +26,7 @@ export const receiveSubscription = subscription => ({
   subscription
 })
 
-export const destroySubscription = (channel, subscription) => ({
+export const destroySubscription = (subscription) => ({
   type: SubscriptionConstants.DESTROY_SUBSCRIPTION,
-  channel,
   subscription
 })

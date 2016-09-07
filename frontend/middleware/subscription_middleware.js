@@ -13,10 +13,10 @@ const SubscriptionMiddleware = ({ dispatch }) => next => action => {
       fetchAllSubscriptions(action.channel, fetchAllSuccess);
       return next(action);
     case SubscriptionConstants.CREATE_SUBSCRIPTION:
-      createSubscription(action.channel, action.subscription, createSuccess);
+      createSubscription(action.subscription, createSuccess);
       return next(action);
     case SubscriptionConstants.DESTROY_SUBSCRIPTION:
-      destroySubscription(action.channel, action.subscription, () => next(action));
+      destroySubscription(action.subscription, () => next(action));
       break;
     default:
       return next(action);

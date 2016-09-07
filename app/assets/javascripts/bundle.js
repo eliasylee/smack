@@ -35050,6 +35050,17 @@
 	      }
 	    }
 	  }, {
+	    key: 'prepUserName',
+	    value: function prepUserName(username) {
+	      var result = "";
+	      if (username) {
+	        username.split(" ").forEach(function (word) {
+	          result += word.slice(0, 1);
+	        });
+	      }
+	      return result;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _props = this.props;
@@ -35062,19 +35073,32 @@
 	        { className: 'textChannelMessageBox' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'textChannelMessageHeader' },
+	          { className: 'userLogo messageBoxLogo' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'textChannelMessageAuthor' },
-	            message.author.username
-	          ),
-	          this.prepTimeDisplay(message)
+	            { className: 'userLogoLetter messageBoxLogoLetter' },
+	            this.prepUserName(message.author.username)
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'textChannelMessageBody' },
-	          this.displayBodyOrUpdate(message, textChannel),
-	          this.displayChangeButton(currentUser, message)
+	          { className: 'textChannelMessageBoxInner' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'textChannelMessageHeader' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'textChannelMessageAuthor' },
+	              message.author.username
+	            ),
+	            this.prepTimeDisplay(message)
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'textChannelMessageBody' },
+	            this.displayBodyOrUpdate(message, textChannel),
+	            this.displayChangeButton(currentUser, message)
+	          )
 	        )
 	      );
 	    }
@@ -35476,10 +35500,10 @@
 	          (0, _subscription_api_util.fetchAllSubscriptions)(action.channel, fetchAllSuccess);
 	          return next(action);
 	        case _subscription_actions.SubscriptionConstants.CREATE_SUBSCRIPTION:
-	          (0, _subscription_api_util.createSubscription)(action.channel, action.subscription, createSuccess);
+	          (0, _subscription_api_util.createSubscription)(action.subscription, createSuccess);
 	          return next(action);
 	        case _subscription_actions.SubscriptionConstants.DESTROY_SUBSCRIPTION:
-	          (0, _subscription_api_util.destroySubscription)(action.channel, action.subscription, function () {
+	          (0, _subscription_api_util.destroySubscription)(action.subscription, function () {
 	            return next(action);
 	          });
 	          break;
@@ -35537,10 +35561,9 @@
 	  };
 	};
 	
-	var destroySubscription = exports.destroySubscription = function destroySubscription(channel, subscription) {
+	var destroySubscription = exports.destroySubscription = function destroySubscription(subscription) {
 	  return {
 	    type: SubscriptionConstants.DESTROY_SUBSCRIPTION,
-	    channel: channel,
 	    subscription: subscription
 	  };
 	};
@@ -35556,33 +35579,30 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var fetchAllSubscriptions = exports.fetchAllSubscriptions = function fetchAllSubscriptions(channel, success, error) {
+	var fetchAllSubscriptions = exports.fetchAllSubscriptions = function fetchAllSubscriptions(channel, success) {
 	  $.ajax({
 	    method: 'GET',
 	    url: '/api/subscriptions/' + channel,
 	    data: channel,
-	    success: success,
-	    error: error
+	    success: success
 	  });
 	};
 	
-	var createSubscription = exports.createSubscription = function createSubscription(subscription, success, error) {
+	var createSubscription = exports.createSubscription = function createSubscription(subscription, success) {
 	  $.ajax({
 	    method: 'POST',
 	    url: '/api/subscriptions',
 	    data: subscription,
-	    success: success,
-	    error: error
+	    success: success
 	  });
 	};
 	
-	var destroySubscription = exports.destroySubscription = function destroySubscription(subscription, success, error) {
+	var destroySubscription = exports.destroySubscription = function destroySubscription(subscription, success) {
 	  $.ajax({
 	    method: 'DELETE',
-	    url: '/api/subscriptions/' + subscription.id,
+	    url: '/api/subscriptions/' + subscription,
 	    data: subscription,
-	    success: success,
-	    error: error
+	    success: success
 	  });
 	};
 
@@ -35619,13 +35639,13 @@
 	    case _subscription_actions.SubscriptionConstants.RECEIVE_ALL_SUBSCRIPTIONS:
 	      var keyedSubscriptions = (0, _subscriptions_selector2.default)(action.subscriptions);
 	      return keyedSubscriptions;
-	    case _subscription_actions.SubscriptionConstants.RECEIVE_ONE_SUBSCRIPTION:
+	    case _subscription_actions.SubscriptionConstants.RECEIVE_SUBSCRIPTION:
 	      var newSub = action.subscription;
-	      newState[newSub.channel_id] = newSub;
+	      newState[newSub.id] = newSub;
 	      return newState;
 	    case _subscription_actions.SubscriptionConstants.DESTROY_SUBSCRIPTION:
-	      var destroyedSub = action.subscription;
-	      delete newState[destroyedSub.id];
+	      var destroyedSubId = action.subscription;
+	      delete newState[destroyedSubId];
 	      return newState;
 	    default:
 	      return state;
@@ -35645,7 +35665,7 @@
 	});
 	var SubscriptionsSelector = function SubscriptionsSelector(subscriptions) {
 	  return subscriptions.reduce(function (obj, subscription) {
-	    obj[subscription.user_id] = subscription;
+	    obj[subscription.id] = subscription;
 	    return obj;
 	  }, {});
 	};
@@ -35732,7 +35752,7 @@
 	    var _this = _possibleConstructorReturn(this, (ChannelSubscriptions.__proto__ || Object.getPrototypeOf(ChannelSubscriptions)).call(this, props));
 	
 	    _this.state = {
-	      channel_id: _this.props.channel.id,
+	      channel_id: 0,
 	      username: ""
 	    };
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -35744,8 +35764,23 @@
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
-	      var subscription = this.state;
-	      this.props.createSubscription({ subscription: subscription });
+	      var _props = this.props;
+	      var subscriptions = _props.subscriptions;
+	      var username = _props.username;
+	      var channel = _props.channel;
+	
+	
+	      var usernames = [];
+	      Object.keys(subscriptions).forEach(function (key) {
+	        usernames.push(subscriptions[key].username);
+	      });
+	
+	      if (!usernames.includes(this.state.username) && username !== "") {
+	        var subscription = this.state;
+	        subscription.channel_id = channel.id;
+	        this.props.createSubscription({ subscription: subscription });
+	        this.setState({ "username": "" });
+	      }
 	    }
 	  }, {
 	    key: 'updateState',
@@ -35770,18 +35805,17 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'subscriptionUsernameBox' },
+	            { className: 'subscriptionInput' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'subscriptionUsernameWord' },
-	              'Username:'
+	              { className: 'subscriptionUsernameBox' },
+	              _react2.default.createElement('input', { type: 'text',
+	                className: 'subscriptionUsernameInput',
+	                onChange: this.updateState("username"),
+	                value: this.state.username })
 	            ),
-	            _react2.default.createElement('input', { type: 'text',
-	              className: 'subscriptionUsernameInput',
-	              onChange: this.updateState("username"),
-	              value: this.state.username })
-	          ),
-	          _react2.default.createElement('input', { className: 'textMessageSubmitButton', type: 'submit', value: '^' })
+	            _react2.default.createElement('input', { className: 'subscriptionSubmitButton', type: 'submit', value: '^' })
+	          )
 	        );
 	      }
 	    }
@@ -35798,19 +35832,25 @@
 	        { className: 'subscriptionsBox' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'subscriptionHeader' },
-	          'Channel Members'
+	          { className: 'subscriptionTop' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'subscriptionHeader' },
+	            'Channel Members'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'subscriptionsList' },
+	            subKeys.map(function (subKey) {
+	              return _react2.default.createElement(_channel_subscriptions_item2.default, { subscription: subscriptions[subKey],
+	                destroySubscription: _this3.props.destroySubscription,
+	                currentUser: _this3.props.currentUser,
+	                channel: _this3.props.channel,
+	                key: subKey });
+	            })
+	          )
 	        ),
-	        this.renderSubscriptionForm(),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'subscriptionsList' },
-	          subKeys.map(function (subKey) {
-	            return _react2.default.createElement(_channel_subscriptions_item2.default, { subscription: subscriptions[subKey],
-	              destroySubscription: _this3.props.destroySubscription,
-	              key: subKey });
-	          })
-	        )
+	        this.renderSubscriptionForm()
 	      );
 	    }
 	  }]);
@@ -35873,6 +35913,27 @@
 	      this.props.destroySubscription(this.props.subscription.id);
 	    }
 	  }, {
+	    key: "placeDestroyButton",
+	    value: function placeDestroyButton() {
+	      var _props = this.props;
+	      var currentUser = _props.currentUser;
+	      var subscription = _props.subscription;
+	      var channel = _props.channel;
+	
+	      if (currentUser.id === subscription.user_id || currentUser.id === channel.admin.id) {
+	        return _react2.default.createElement(
+	          "div",
+	          { className: "destroySubscriptionBox" },
+	          _react2.default.createElement(
+	            "button",
+	            { className: "destroySubscriptionButton",
+	              onClick: this.handleDestroy },
+	            "x"
+	          )
+	        );
+	      }
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      var subscription = this.props.subscription;
@@ -35884,28 +35945,27 @@
 	        { className: "channelSubscriptionBar" },
 	        _react2.default.createElement(
 	          "div",
-	          { className: "userLogo" },
+	          { className: "logoAndUsername" },
 	          _react2.default.createElement(
 	            "div",
-	            { className: "userLogoLetter" },
-	            this.prepUserName(username)
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "userUsername" },
-	          username
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "destroySubscriptionBox" },
+	            { className: "subUserLogo" },
+	            _react2.default.createElement(
+	              "div",
+	              { className: "userLogo" },
+	              _react2.default.createElement(
+	                "div",
+	                { className: "userLogoLetter" },
+	                this.prepUserName(username)
+	              )
+	            )
+	          ),
 	          _react2.default.createElement(
-	            "button",
-	            { className: "destroySubscriptionButton",
-	              onClick: this.handleDestroy },
-	            "x"
+	            "div",
+	            { className: "userUsername" },
+	            username
 	          )
-	        )
+	        ),
+	        this.placeDestroyButton()
 	      );
 	    }
 	  }]);

@@ -1,4 +1,5 @@
-json.array! @subscribers do |subscriber|
-  json.user_id subscriber.id
-  json.username subscriber.username
+json.array! @subscriptions do |subscription|
+  json.id subscription.id
+  json.user_id subscription.user.id
+  json.username subscription.user.username
 end
