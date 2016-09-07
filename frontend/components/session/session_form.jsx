@@ -22,7 +22,7 @@ class SessionForm extends React.Component {
 
   redirectIfLoggedIn () {
     if (this.props.loggedIn) {
-      hashHistory.push("/channels/1/1");
+      hashHistory.push("/channels/me");
     }
   }
 
@@ -73,7 +73,7 @@ class SessionForm extends React.Component {
       username: "guest",
       password: "password"
     };
-    this.props.processForm({user});
+    this.props.login({ user });
   }
 
   background () {
@@ -136,7 +136,7 @@ class SessionForm extends React.Component {
           <div className="sessionFormBoxInner">
             <div className="sessionFormBoxLeft">
               <div className="sessionFormLogo">
-                <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
+                <img src="red-logo-fist-medium.png" alt="sessionLogoMed" />
               </div>
             </div>
             <div className="sessionFormBoxRight">

@@ -1,59 +1,61 @@
 /* Front Page */
 
 :root {
-  --main-bg-color: #4d4d4d;
+  --main-bg-color: #F6F7F9;
 }
 
 .frontPageView {
   height: 100%;
   width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  flex-direction: flex-start;
   background: var(--main-bg-color);
 }
 
 .frontPageHeader {
-  height: 100px;
+  height: 5%;
   width: 100%;
+  display: flex;
+  justify-content: flex-start;
 }
 
-.frontPageLogoBoxSmall {
-  float: left;
+.frontPageHeader img {
+  margin: 0px;
+  padding-top: 15px;
+  padding-left: 15px;
   height: 100px;
-  width: 100px;
-}
-
-.frontPageLogoBoxSmall img {
   width: 100px;
 }
 
 .frontPageBody {
   width: 100%;
-}
-
-.frontPageContentBox {
-  width: 500px;
-  height: 100vh;
-  margin: auto;
+  height: 100%;
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight: bold;
-}
-
-.frontPageLogoBoxLarge img {
-  width: 300px;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .frontPageTagLineBox {
+  width: 500px;
   padding-top: 5px;
-  padding-bottom: 25px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
   text-align: center;
   font-size: 32px;
-  color: #ffffff;
+  color: black;
 }
 
 .frontPageButtonBox {
   width: 500px;
   height: 50px;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 100px;
   display: flex;
   justify-content: space-around;
 }
@@ -61,22 +63,31 @@
 .frontPageButton {
   border-radius: 3px;
   margin-bottom: 30px;
-  margin-left: 25px;
-  margin-right: 25px;
   height: 50px;
   width: 200px;
   text-align: center;
-  background: #ffffff;
-  color: var(--main-bg-color);
-  box-shadow: 0 5px #27496d;
+  background-color: #fff;
+  color: black;
+  border: 1px solid #e6544a;
+  border-bottom: 1px solid #808080;
+  box-shadow: 0 5px #ca271c;
 }
 
 .frontPageButton:hover {
-  box-shadow: 0 3px #27496d;
+  background-color: #fff;
+  color: #e6544a;
+  box-shadow: 0 3px #ca271c;
   transform: translateY(2px);
 }
 
 .frontPageButton:active {
-  box-shadow: 0 0px #27496d;
+  background-color: #e6544a;
+  color: #fff;
+  box-shadow: 0 0px #ca271c;
   transform: translateY(3px);
+}
+
+.frontPageLogoLarge {
+  width: 800px;
+  margin: auto;
 }

@@ -85,7 +85,7 @@
 }
 
 .textChannelNavBarHeaderBox:hover .channelDeleteButton:hover {
-  color: red;
+  color: #e6544a;
 }
 
 .textChannelNavBarTitleBox {
@@ -131,7 +131,7 @@
 }
 
 .textChannelNavBarTitle:hover .addTextChannel:hover {
-  color: #00ff00;
+  color: #8cff66;
 }
 
 .textChannelNavBarButtons {
@@ -179,7 +179,7 @@
 
 .activeTextChannelButton:hover .textChannelDeleteButton:hover,
 .inactiveTextChannelButton:hover .textChannelDeleteButton:hover {
-  color: red;
+  color: #e6544a;
 }
 
 .activeTextChannelButton:hover .textChannelDeleteButton {
@@ -224,7 +224,7 @@
   height: 30px;
   width: 30px;
   border-radius: 50%;
-  background-color: #2E3136;
+  background-color: #e6544a;
   font-size: 15px;
   color: #fff;
   text-align: center;
@@ -290,7 +290,7 @@
 }
 
 .logOutIconBoxOuter:hover .logOutIcon {
-  background-color: #F04747;
+  background-color: #e6544a;
   border-radius: 2px;
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;

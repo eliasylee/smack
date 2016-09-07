@@ -31,7 +31,7 @@
 }
 
 .textChannelChatBoxHeaderLeft {
-  width: 83%;
+  width: 90%;
   min-height: 57px;
   display: flex;
   justify-content: start;
@@ -40,7 +40,7 @@
 
 .textChannelChatBoxHeaderRight {
   opacity: 0;
-  width: 80px;
+  width: 100px;
   min-height: 57px;
   color: #737f8d;
   display: flex;

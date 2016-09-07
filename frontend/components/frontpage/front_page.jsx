@@ -23,29 +23,25 @@ class FrontPage extends React.Component {
   render () {
     return (
       <div className="frontPageView">
-        <header className="frontPageHeader">
-          <div className="frontPageLogoBoxSmall">
-            <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoSmall"/>
+        <div className="frontPageHeader">
+          <img src="red-logo-fist-medium.png" alt="frontPageLogoMed"/>
+        </div>
+        <div className="frontPageBody">
+          <div className="frontPageTagLineBox">
+            So we know you can walk the walk... But can you <font color="#e6544a">talk</font> the <font color="#e6544a">talk</font>?
           </div>
-        </header>
-        <content className="frontPageBody">
-          <div className="frontPageContentBox">
-            <div className="frontPageTagLineBox">
-              So we know you can walk the walk... But can you talk the talk?
-            </div>
-            <div className="frontPageButtonBox">
-              <button className="frontPageButton" onClick={this._routeToSignUp}>
-                Start Talking Smack
-              </button>
-              <button className="frontPageButton" onClick={this._routeToLogIn}>
-                Continue Smack-Talking
-              </button>
-            </div>
-            <div className="frontPageLogoBoxLarge">
-              <img src="https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="frontPageLogoLarge" />
-            </div>
+          <div className="frontPageLogoBoxLarge">
+            <img src="red-logo.png" className="frontPageLogoLarge" alt="frontPageLogo" />
           </div>
-        </content>
+          <div className="frontPageButtonBox">
+            <button className="frontPageButton" onClick={this._routeToSignUp}>
+              Start Talking Smack
+            </button>
+            <button className="frontPageButton" onClick={this._routeToLogIn}>
+              Continue Smack-Talking
+            </button>
+          </div>
+        </div>
       </div>
     )
   }

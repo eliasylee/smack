@@ -33205,43 +33205,47 @@
 	        'div',
 	        { className: 'frontPageView' },
 	        _react2.default.createElement(
-	          'header',
+	          'div',
 	          { className: 'frontPageHeader' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'frontPageLogoBoxSmall' },
-	            _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoSmall' })
-	          )
+	          _react2.default.createElement('img', { src: 'red-logo-fist-medium.png', alt: 'frontPageLogoMed' })
 	        ),
 	        _react2.default.createElement(
-	          'content',
+	          'div',
 	          { className: 'frontPageBody' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'frontPageContentBox' },
+	            { className: 'frontPageTagLineBox' },
+	            'So we know you can walk the walk... But can you ',
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'frontPageTagLineBox' },
-	              'So we know you can walk the walk... But can you talk the talk?'
+	              'font',
+	              { color: '#e6544a' },
+	              'talk'
+	            ),
+	            ' the ',
+	            _react2.default.createElement(
+	              'font',
+	              { color: '#e6544a' },
+	              'talk'
+	            ),
+	            '?'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'frontPageLogoBoxLarge' },
+	            _react2.default.createElement('img', { src: 'red-logo.png', className: 'frontPageLogoLarge', alt: 'frontPageLogo' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'frontPageButtonBox' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'frontPageButton', onClick: this._routeToSignUp },
+	              'Start Talking Smack'
 	            ),
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'frontPageButtonBox' },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'frontPageButton', onClick: this._routeToSignUp },
-	                'Start Talking Smack'
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'frontPageButton', onClick: this._routeToLogIn },
-	                'Continue Smack-Talking'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'frontPageLogoBoxLarge' },
-	              _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
+	              'button',
+	              { className: 'frontPageButton', onClick: this._routeToLogIn },
+	              'Continue Smack-Talking'
 	            )
 	          )
 	        )
@@ -33286,6 +33290,9 @@
 	  var _processForm = formType === 'login' ? _session_actions.login : _session_actions.signup;
 	
 	  return {
+	    login: function login(user) {
+	      return dispatch((0, _session_actions.login)(user));
+	    },
 	    processForm: function processForm(user) {
 	      return dispatch(_processForm(user));
 	    },
@@ -33354,7 +33361,7 @@
 	    key: 'redirectIfLoggedIn',
 	    value: function redirectIfLoggedIn() {
 	      if (this.props.loggedIn) {
-	        _reactRouter.hashHistory.push("/channels/1/1");
+	        _reactRouter.hashHistory.push("/channels/me");
 	      }
 	    }
 	  }, {
@@ -33424,7 +33431,7 @@
 	        username: "guest",
 	        password: "password"
 	      };
-	      this.props.processForm({ user: user });
+	      this.props.login({ user: user });
 	    }
 	  }, {
 	    key: 'background',
@@ -33526,7 +33533,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'sessionFormLogo' },
-	                _react2.default.createElement('img', { src: 'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png', alt: 'frontPageLogoLarge' })
+	                _react2.default.createElement('img', { src: 'red-logo-fist-medium.png', alt: 'sessionLogoMed' })
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -34081,7 +34088,7 @@
 	  return _react2.default.createElement(
 	    'button',
 	    { onClick: changeChannel(router), className: 'meChannelButton' },
-	    _react2.default.createElement('img', { src: 'https://discordapp.com/assets/89576a4bb71f927eb20e8aef987b499b.svg',
+	    _react2.default.createElement('img', { src: 'fist-logo.svg',
 	      alt: 'personal-channel-icon',
 	      className: 'meChannelButtonImage' })
 	  );

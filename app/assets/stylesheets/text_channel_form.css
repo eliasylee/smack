@@ -54,7 +54,7 @@
 }
 
 .editTextChannelBox {
-  width: 60%;
+  width: 95%;
   min-height: 57px;
   display: flex;
   justify-content: flex-start;
@@ -82,7 +82,7 @@
 }
 
 .editTextChannelDescriptionBorderedBox {
-  width: 70%;
+  width: 90%;
   height: 30px;
   border-radius: 3px;
   border: 2px solid #dadddf;
@@ -134,8 +134,8 @@
 }
 
 .textChannelSubmitButton {
-  padding-left: 5px;
-  padding-right: 5px;
+  margin-left: 50px;
+  margin-right: 30px;
 }
 
 .textChannelSubmitButton:hover, .closeEditTextChannelForm:hover {

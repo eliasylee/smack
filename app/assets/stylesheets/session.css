@@ -67,7 +67,7 @@
 }
 
 .sessionFormLogo img {
-  width: 215px;
+  width: 150px;
 }
 
 .sessionFormBoxRight {
@@ -98,11 +98,11 @@
   text-transform: uppercase;
   color: #bfbfbf;
   width: 100%;
-  height: 70%;
+  height: 60%;
 }
 
 .sessionErrors {
-  color: red;
+  color: #e6544a;
 }
 
 .sessionInputBox {
@@ -118,7 +118,7 @@
 }
 
 .sessionPasswordBox {
-  padding: 0px 0px 80px 30px;
+  padding: 0px 0px 30px 30px;
 }
 
 .passwordWord {
@@ -158,18 +158,18 @@
   text-align: center;
   width: 335px;
   height: 55px;
-  background-color: #7289da;
+  background-color: #e6544a;
   border-radius: 3px;
-  box-shadow: 0 5px #27496d;
+  box-shadow: 0 5px #ca271c;
 }
 
 .sessionSubmitButton:hover {
-  box-shadow: 0 3px #27496d;
+  box-shadow: 0 3px #ca271c;
   transform: translateY(2px);
 }
 
 .sessionSubmitButton:active {
-  box-shadow: 0 0px #27496d;
+  box-shadow: 0 0px #ca271c;
   transform: translateY(3px);
 }
 
@@ -186,26 +186,26 @@
 
 .guestLogIn {
   float: right;
-  height: 20px;
-  width: 50px;
+  height: 50px;
+  width: 100px;
   text-align: center;
   text-transform: uppercase;
   font-size: 8px;
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
   color: #fff;
-  background-color: #7289da;
+  background-color: #e6544a;
   border-radius: 2px;
-  box-shadow: 0 5px #27496d;
+  box-shadow: 0 5px #ca271c;
 }
 
 .guestLogIn:hover {
-  box-shadow: 0 3px #27496d;
+  box-shadow: 0 3px #ca271c;
   transform: translateY(2px);
 }
 
 .guestLogIn:active {
-  box-shadow: 0 0px #27496d;
+  box-shadow: 0 0px #ca271c;
   transform: translateY(3px);
 }
 

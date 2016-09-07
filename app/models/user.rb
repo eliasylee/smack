@@ -12,8 +12,12 @@ class User < ApplicationRecord
   has_many :channels,
     through: :subscriptions
 
-  has_many :messages,
+  has_many :written_messages,
     foreign_key: :author_id
+
+  def direct_messages
+    DirectMessage.where("speaker_id = ? OR listener_id = ?", self.id, self.id)
+  end
 
   attr_reader :password
 
