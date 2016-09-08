@@ -12,6 +12,7 @@ const MessageMiddleware = ({ dispatch }) => next => action => {
   const errors = data => dispatch(receiveErrors(data));
   switch (action.type) {
     case MessageConstants.CREATE_MESSAGE:
+      debugger
       createMessage(action.message, createMessageSuccess, errors);
       return next(action);
     case MessageConstants.UPDATE_MESSAGE:

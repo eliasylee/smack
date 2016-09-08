@@ -26146,9 +26146,6 @@
 	      newState.textChannel.description = textChannel.description;
 	      newState.textChannel.messages = keyedMessages;
 	      return newState;
-	    case _message_actions.MessageConstants.CLEAR_TEXT_MESSAGES:
-	      newState.textChannel.attachments = [];
-	      return newState;
 	    case _message_actions.MessageConstants.RECEIVE_ONE_MESSAGE:
 	      newMessages = (0, _messages_reducer2.default)(state.textChannel.messages, action);
 	      newState.textChannel.messages = newMessages;
@@ -26485,10 +26482,10 @@
 	  };
 	};
 	
-	var receiveOneDirectMessage = exports.receiveOneDirectMessage = function receiveOneDirectMessage(directMessages) {
+	var receiveOneDirectMessage = exports.receiveOneDirectMessage = function receiveOneDirectMessage(directMessage) {
 	  return {
 	    type: DirectMessageConstants.RECEIVE_ONE_DIRECT_MESSAGE,
-	    directMessages: directMessages
+	    directMessage: directMessage
 	  };
 	};
 	
@@ -26518,11 +26515,7 @@
 	
 	var _direct_message_actions = __webpack_require__(312);
 	
-	var _message_actions = __webpack_require__(305);
-	
-	var _messages_reducer = __webpack_require__(306);
-	
-	var _messages_reducer2 = _interopRequireDefault(_messages_reducer);
+	var _direct_chat_message_actions = __webpack_require__(424);
 	
 	var _message_selector = __webpack_require__(307);
 	
@@ -26545,9 +26538,18 @@
 	  var newState = (0, _merge2.default)({}, state);
 	  switch (action.type) {
 	    case _direct_message_actions.DirectMessageConstants.RECEIVE_ONE_DIRECT_MESSAGE:
-	      var keyedMessages = (0, _message_selector2.default)(action.messages);
+	      var keyedMessages = (0, _message_selector2.default)(action.directMessage.messages);
+	      newState.id = action.directMessage.id;
 	      newState.username = action.username;
 	      newState.messages = keyedMessages;
+	      return newState;
+	    case _direct_chat_message_actions.DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:
+	      var newMessage = action.directChatMessage;
+	      newState.messages[newMessage.id] = newMessage;
+	      return newState;
+	    case _direct_chat_message_actions.DirectChatMessageConstants.DESTROY_DIRECT_CHAT_MESSAGE:
+	      var destroyedMessage = action.directChatMessage;
+	      delete newState.messages[destroyedMessage.id];
 	      return newState;
 	    default:
 	      return state;
@@ -26592,9 +26594,13 @@
 	
 	var _direct_messages_middleware2 = _interopRequireDefault(_direct_messages_middleware);
 	
+	var _direct_chat_message_middleware = __webpack_require__(425);
+	
+	var _direct_chat_message_middleware2 = _interopRequireDefault(_direct_chat_message_middleware);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _channel_middleware2.default, _text_channel_middleware2.default, _message_middleware2.default, _subscription_middleware2.default, _direct_messages_middleware2.default);
+	var RootMiddleware = (0, _redux.applyMiddleware)(_session_middleware2.default, _channel_middleware2.default, _text_channel_middleware2.default, _message_middleware2.default, _subscription_middleware2.default, _direct_messages_middleware2.default, _direct_chat_message_middleware2.default);
 	
 	exports.default = RootMiddleware;
 
@@ -26932,6 +26938,7 @@
 	      };
 	      switch (action.type) {
 	        case _message_actions.MessageConstants.CREATE_MESSAGE:
+	          debugger;
 	          (0, _message_api_util.createMessage)(action.message, createMessageSuccess, errors);
 	          return next(action);
 	        case _message_actions.MessageConstants.UPDATE_MESSAGE:
@@ -27860,6 +27867,10 @@
 	
 	var _direct_messages_container2 = _interopRequireDefault(_direct_messages_container);
 	
+	var _direct_chat_message_container = __webpack_require__(432);
+	
+	var _direct_chat_message_container2 = _interopRequireDefault(_direct_chat_message_container);
+	
 	var _channel_actions = __webpack_require__(299);
 	
 	var _text_channel_actions = __webpack_require__(300);
@@ -27903,6 +27914,10 @@
 	    store.dispatch((0, _direct_message_actions.fetchAllDirectMessages)());
 	  };
 	
+	  var fetchOneDirectMessageOnEnter = function fetchOneDirectMessageOnEnter(nextState) {
+	    store.dispatch((0, _direct_message_actions.fetchOneDirectMessage)(nextState.params.id));
+	  };
+	
 	  return _react2.default.createElement(
 	    _reactRouter.Router,
 	    { history: _reactRouter.hashHistory },
@@ -27915,7 +27930,11 @@
 	      _react2.default.createElement(
 	        _reactRouter.Route,
 	        { path: '/channels', component: _channel_nav_container2.default, onEnter: fetchAllChannelsOnEnter },
-	        _react2.default.createElement(_reactRouter.Route, { path: '/channels/@me', component: _direct_messages_container2.default, onEnter: fetchAllDirectMessagesOnEnter }),
+	        _react2.default.createElement(
+	          _reactRouter.Route,
+	          { path: '/channels/@me', component: _direct_messages_container2.default, onEnter: fetchAllDirectMessagesOnEnter },
+	          _react2.default.createElement(_reactRouter.Route, { path: '/channels/@me/:id', component: _direct_chat_message_container2.default, onEnter: fetchOneDirectMessageOnEnter })
+	        ),
 	        _react2.default.createElement(
 	          _reactRouter.Route,
 	          { path: '/channels/:id', component: _text_channel_nav_container2.default, onEnter: fetchChannelInformation },
@@ -35529,9 +35548,9 @@
 	
 	var _message_actions = __webpack_require__(305);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _direct_chat_message_actions = __webpack_require__(424);
 	
-	;
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	  var tempErrors = [];
@@ -35558,6 +35577,12 @@
 	    },
 	    updateMessage: function updateMessage(message) {
 	      return dispatch((0, _message_actions.updateMessage)(message));
+	    },
+	    createDirectChatMessage: function createDirectChatMessage(message) {
+	      return dispatch((0, _direct_chat_message_actions.createDirectChatMessage)(message));
+	    },
+	    updateDirectChatMessage: function updateDirectChatMessage(message) {
+	      return dispatch((0, _direct_chat_message_actions.updateDirectChatMessage)(message));
 	    }
 	  };
 	};
@@ -35614,12 +35639,22 @@
 	      var message = this.state;
 	      message.chatable_id = this.props.chatId;
 	
-	      if (this.props.action === "create") {
-	        this.setState({ "body": "" });
-	        this.props.createMessage({ message: message });
+	      if (message.chatable_type === "TextChannel") {
+	        if (this.props.action === "create") {
+	          this.setState({ "body": "" });
+	          this.props.createMessage({ message: message });
+	        } else {
+	          this.props.updateMessage({ message: message });
+	          this.props.toggleUpdate();
+	        }
 	      } else {
-	        this.props.updateMessage({ message: message });
-	        this.props.toggleUpdate();
+	        if (this.props.action === "create") {
+	          this.setState({ "body": "" });
+	          this.props.createDirectChatMessage({ message: message });
+	        } else {
+	          this.props.updateDirectChatMessage({ message: message });
+	          this.props.toggleUpdate();
+	        }
 	      }
 	    }
 	  }, {
@@ -36527,7 +36562,7 @@
 	var fetchOneDirectMessage = exports.fetchOneDirectMessage = function fetchOneDirectMessage(directMessage, success) {
 	  $.ajax({
 	    method: 'GET',
-	    url: '/api/direct_messages/' + directMessage.id,
+	    url: '/api/direct_messages/' + directMessage,
 	    data: directMessage,
 	    success: success
 	  });
@@ -36672,6 +36707,555 @@
 	}(_react2.default.Component);
 	
 	exports.default = (0, _reactRouter.withRouter)(DirectMessagesItem);
+
+/***/ },
+/* 424 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var DirectChatMessageConstants = exports.DirectChatMessageConstants = {
+	  CREATE_DIRECT_CHAT_MESSAGE: 'CREATE_DIRECT_CHAT_MESSAGE',
+	  RECEIVE_ONE_DIRECT_CHAT_MESSAGE: 'RECEIVE_ONE_DIRECT_CHAT_MESSAGE',
+	  UPDATE_DIRECT_CHAT_MESSAGE: 'UPDATE_DIRECT_CHAT_MESSAGE',
+	  DESTROY_DIRECT_CHAT_MESSAGE: 'DESTROY_DIRECT_CHAT_MESSAGE'
+	};
+	
+	var createDirectChatMessage = exports.createDirectChatMessage = function createDirectChatMessage(directChatMessage) {
+	  return {
+	    type: DirectChatMessageConstants.CREATE_DIRECT_CHAT_MESSAGE,
+	    directChatMessage: directChatMessage
+	  };
+	};
+	
+	var receiveOneDirectChatMessage = exports.receiveOneDirectChatMessage = function receiveOneDirectChatMessage(directChatMessage) {
+	  return {
+	    type: DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE,
+	    directChatMessage: directChatMessage
+	  };
+	};
+	
+	var updateDirectChatMessage = exports.updateDirectChatMessage = function updateDirectChatMessage(directChatMessage) {
+	  return {
+	    type: DirectChatMessageConstants.UPDATE_DIRECT_CHAT_MESSAGE,
+	    directChatMessage: directChatMessage
+	  };
+	};
+	
+	var destroyDirectChatMessage = exports.destroyDirectChatMessage = function destroyDirectChatMessage(directChatMessage) {
+	  return {
+	    type: DirectChatMessageConstants.DESTROY_DIRECT_CHAT_MESSAGE,
+	    directChatMessage: directChatMessage
+	  };
+	};
+
+/***/ },
+/* 425 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _direct_chat_message_actions = __webpack_require__(424);
+	
+	var _direct_chat_message_api_util = __webpack_require__(435);
+	
+	var DirectChatMessageMiddleware = function DirectChatMessageMiddleware(_ref) {
+	  var dispatch = _ref.dispatch;
+	  return function (next) {
+	    return function (action) {
+	      var fetchOneSuccess = function fetchOneSuccess(data) {
+	        return dispatch((0, _direct_chat_message_actions.receiveOneDirectChatMessage)(data));
+	      };
+	      var createDirectChatMessageSuccess = function createDirectChatMessageSuccess(data) {
+	        return dispatch((0, _direct_chat_message_actions.receiveOneDirectChatMessage)(data));
+	      };
+	      var updateDirectChatMessageSuccess = function updateDirectChatMessageSuccess(data) {
+	        return dispatch((0, _direct_chat_message_actions.receiveOneDirectChatMessage)(data));
+	      };
+	      switch (action.type) {
+	        case _direct_chat_message_actions.DirectChatMessageConstants.CREATE_DIRECT_CHAT_MESSAGE:
+	          (0, _direct_chat_message_api_util.createDirectChatMessage)(action.directChatMessage, createDirectChatMessageSuccess);
+	          return next(action);
+	        case _direct_chat_message_actions.DirectChatMessageConstants.UPDATE_DIRECT_CHAT_MESSAGE:
+	          (0, _direct_chat_message_api_util.updateDirectChatMessage)(action.directChatMessage, updateDirectChatMessageSuccess);
+	          return next(action);
+	        case _direct_chat_message_actions.DirectChatMessageConstants.DESTROY_DIRECT_CHAT_MESSAGE:
+	          (0, _direct_chat_message_api_util.destroyDirectChatMessage)(action.directChatMessage, function () {
+	            return next(action);
+	          });
+	          break;
+	        default:
+	          return next(action);
+	      }
+	    };
+	  };
+	};
+	
+	exports.default = DirectChatMessageMiddleware;
+
+/***/ },
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(326);
+	
+	var _direct_chat_message_actions = __webpack_require__(424);
+	
+	var _direct_chat_message = __webpack_require__(433);
+	
+	var _direct_chat_message2 = _interopRequireDefault(_direct_chat_message);
+	
+	var _direct_message_actions = __webpack_require__(312);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    currentUser: state.session.currentUser,
+	    directMessage: state.directMessage,
+	    directChatMessages: state.directMessage.messages
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    destroyDirectChatMessage: function destroyDirectChatMessage(directChatMessage) {
+	      return dispatch((0, _direct_chat_message_actions.destroyDirectChatMessage)(directChatMessage));
+	    },
+	    fetchOneDirectMessage: function fetchOneDirectMessage(directMessage) {
+	      return dispatch((0, _direct_message_actions.fetchOneDirectMessage)(directMessage));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_direct_chat_message2.default);
+
+/***/ },
+/* 433 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(336);
+	
+	var _direct_chat_message_item = __webpack_require__(434);
+	
+	var _direct_chat_message_item2 = _interopRequireDefault(_direct_chat_message_item);
+	
+	var _message_form_container = __webpack_require__(412);
+	
+	var _message_form_container2 = _interopRequireDefault(_message_form_container);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* globals Pusher */
+	
+	var DirectChatMessage = function (_React$Component) {
+	  _inherits(DirectChatMessage, _React$Component);
+	
+	  function DirectChatMessage(props) {
+	    _classCallCheck(this, DirectChatMessage);
+	
+	    var _this = _possibleConstructorReturn(this, (DirectChatMessage.__proto__ || Object.getPrototypeOf(DirectChatMessage)).call(this, props));
+	
+	    _this.createPusherChannel = _this.createPusherChannel.bind(_this);
+	    _this.displayHeader = _this.displayHeader.bind(_this);
+	    _this.waitForMessages = _this.waitForMessages.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(DirectChatMessage, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (!newProps.currentUser) {
+	        this.props.router.push('/login');
+	      }
+	
+	      if (newProps.directMessage.id) {
+	        this.createPusherChannel();
+	      }
+	    }
+	  }, {
+	    key: 'createPusherChannel',
+	    value: function createPusherChannel() {
+	      var pusher = new Pusher('a6428d82cdddd683832f', {
+	        encrypted: true
+	      });
+	
+	      var channel = pusher.subscribe('direct_message_' + this.props.directMessage.id);
+	      channel.bind('message_posted', function (data) {
+	        this.props.fetchOneDirectMessage(this.props.directMessage.id);
+	      });
+	    }
+	  }, {
+	    key: 'displayHeader',
+	    value: function displayHeader() {
+	      return _react2.default.createElement(
+	        'header',
+	        { className: 'textChannelChatBoxHeader' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelChatBoxHeaderLeft' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'textChannelChatBoxHash' },
+	            '#'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'textChannelChatBoxName' },
+	            this.props.directMessage.username
+	          )
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'waitForMessages',
+	    value: function waitForMessages() {
+	      var _props = this.props;
+	      var directChatMessages = _props.directChatMessages;
+	      var directMessage = _props.directMessage;
+	      var currentUser = _props.currentUser;
+	      var destroyDirectChatMessage = _props.destroyDirectChatMessage;
+	
+	
+	      if (directChatMessages) {
+	        var keys = Object.keys(directChatMessages).reverse();
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessagesBox' },
+	          keys.reverse().map(function (key) {
+	            return _react2.default.createElement(_direct_chat_message_item2.default, { message: directChatMessages[key],
+	              directMessage: directMessage,
+	              currentUser: currentUser,
+	              destroyMessage: destroyDirectChatMessage,
+	              key: key });
+	          })
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var directMessage = this.props.directMessage;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'textChannelChatBoxBackground' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelChatBox' },
+	          this.displayHeader(),
+	          this.waitForMessages(),
+	          _react2.default.createElement(_message_form_container2.default, { chatType: 'DirectMessage',
+	            chatId: directMessage.id,
+	            textChannelTitle: directMessage.username,
+	            action: 'create' })
+	        ),
+	        _react2.default.createElement('div', { className: 'channelSubscriptionsBox' })
+	      );
+	    }
+	  }]);
+	
+	  return DirectChatMessage;
+	}(_react2.default.Component);
+	
+	exports.default = (0, _reactRouter.withRouter)(DirectChatMessage);
+
+/***/ },
+/* 434 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _message_form_container = __webpack_require__(412);
+	
+	var _message_form_container2 = _interopRequireDefault(_message_form_container);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var DirectChatMessageItem = function (_React$Component) {
+	  _inherits(DirectChatMessageItem, _React$Component);
+	
+	  function DirectChatMessageItem(props) {
+	    _classCallCheck(this, DirectChatMessageItem);
+	
+	    var _this = _possibleConstructorReturn(this, (DirectChatMessageItem.__proto__ || Object.getPrototypeOf(DirectChatMessageItem)).call(this, props));
+	
+	    _this.state = { view: true };
+	    _this.handleDestroyMessage = _this.handleDestroyMessage.bind(_this);
+	    _this.toggleUpdate = _this.toggleUpdate.bind(_this);
+	    _this.message = _this.props.message;
+	    return _this;
+	  }
+	
+	  _createClass(DirectChatMessageItem, [{
+	    key: 'handleDestroyMessage',
+	    value: function handleDestroyMessage() {
+	      this.props.destroyMessage(this.message);
+	    }
+	  }, {
+	    key: 'toggleUpdate',
+	    value: function toggleUpdate() {
+	      var nextState = !this.state.view;
+	      this.setState({ view: nextState });
+	    }
+	  }, {
+	    key: 'displayChangeButton',
+	    value: function displayChangeButton(currentUser, message) {
+	      if (currentUser) {
+	        if (message.author.id === currentUser.id) {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'textChannelMessageChange' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'messageEditButton' },
+	              _react2.default.createElement(
+	                'button',
+	                { onClick: this.toggleUpdate },
+	                'Edit'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'messageDeleteButton' },
+	              _react2.default.createElement(
+	                'button',
+	                { onClick: this.handleDestroyMessage },
+	                'Delete'
+	              )
+	            )
+	          );
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'prepTimeDisplay',
+	    value: function prepTimeDisplay(message) {
+	      var createdDate = message.created_at.slice(0, 10).split("-");
+	      var createdTime = message.created_at.slice(11, 19).split(":");
+	      var createdHour = parseInt(createdTime[0] - 7);
+	      var createdAmPm = void 0;
+	
+	      var updatedDate = message.updated_at.slice(0, 10).split("-");
+	      var updatedTime = message.updated_at.slice(11, 19).split(":");
+	      var updatedHour = parseInt(updatedTime[0] - 7);
+	      var updatedAmPm = void 0;
+	
+	      if (createdHour > 12) {
+	        createdTime[0] = (createdHour - 12).toString();
+	        createdAmPm = "PM";
+	      } else if (updatedHour === 0) {
+	        createdTime[0] = (createdHour + 12).toString();
+	        createdAmPm = "AM";
+	      } else {
+	        createdAmPm = "AM";
+	      }
+	
+	      if (updatedHour > 12) {
+	        updatedTime[0] = (updatedHour - 12).toString();
+	        updatedAmPm = "PM";
+	      } else if (updatedHour === 0) {
+	        updatedTime[0] = (updatedHour + 12).toString();
+	        updatedAmPm = "AM";
+	      } else {
+	        updatedAmPm = "AM";
+	      }
+	
+	      var neatCreated = createdDate[1] + '/' + createdDate[2] + '/' + createdDate[0];
+	      var neatUpdated = updatedDate[1] + '/' + updatedDate[2] + '/' + updatedDate[0] + ' at ' + updatedTime[0] + ':' + updatedTime[1] + ' ' + updatedAmPm;
+	
+	      if (createdTime[0] === updatedTime[0] && createdTime[1] === updatedTime[1] && createdTime[2] === updatedTime[2]) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessageTime' },
+	          neatCreated
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessageTime' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'createdTime' },
+	            neatCreated
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'revealEdit' },
+	            '(edited)',
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'editedTime' },
+	              neatUpdated
+	            )
+	          )
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'displayBodyOrUpdate',
+	    value: function displayBodyOrUpdate(message, directMessage) {
+	      if (this.state.view) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessageMessage' },
+	          message.body
+	        );
+	      } else {
+	        return _react2.default.createElement(_message_form_container2.default, { chatType: 'DirectMessage',
+	          chatId: directMessage.id,
+	          messageId: message.id,
+	          messageBody: message.body,
+	          toggleUpdate: this.toggleUpdate,
+	          action: 'update' });
+	      }
+	    }
+	  }, {
+	    key: 'prepUserName',
+	    value: function prepUserName(username) {
+	      var result = "";
+	      if (username) {
+	        username.split(" ").forEach(function (word) {
+	          result += word.slice(0, 1);
+	        });
+	      }
+	      return result;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var message = _props.message;
+	      var currentUser = _props.currentUser;
+	      var directMessage = _props.directMessage;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'textChannelMessageBox' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'userLogo messageBoxLogo' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'userLogoLetter messageBoxLogoLetter' },
+	            this.prepUserName(message.author.username)
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'textChannelMessageBoxInner' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'textChannelMessageHeader' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'textChannelMessageAuthor' },
+	              message.author.username
+	            ),
+	            this.prepTimeDisplay(message)
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'textChannelMessageBody' },
+	            this.displayBodyOrUpdate(message, directMessage),
+	            this.displayChangeButton(currentUser, message)
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return DirectChatMessageItem;
+	}(_react2.default.Component);
+	
+	exports.default = DirectChatMessageItem;
+
+/***/ },
+/* 435 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var createDirectChatMessage = exports.createDirectChatMessage = function createDirectChatMessage(directChatMessage, success) {
+	  $.ajax({
+	    method: 'POST',
+	    url: '/api/messages',
+	    data: directChatMessage,
+	    success: success
+	  });
+	};
+	
+	var updateDirectChatMessage = exports.updateDirectChatMessage = function updateDirectChatMessage(directChatMessage, success) {
+	  $.ajax({
+	    method: 'PATCH',
+	    url: '/api/messages/' + directChatMessage.id,
+	    data: directChatMessage,
+	    success: success
+	  });
+	};
+	
+	var destroyDirectChatMessage = exports.destroyDirectChatMessage = function destroyDirectChatMessage(directChatMessage, success) {
+	  $.ajax({
+	    method: 'DELETE',
+	    url: '/api/messages/' + directChatMessage.id,
+	    data: directChatMessage,
+	    success: success
+	  });
+	};
 
 /***/ }
 /******/ ]);

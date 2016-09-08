@@ -1,6 +1,5 @@
 import { DirectMessageConstants } from '../actions/direct_message_actions';
-import { MessageConstants } from '../actions/message_actions';
-import MessagesReducer from './messages_reducer';
+import { DirectChatMessageConstants } from '../actions/direct_chat_message_actions';
 import messageSelector from './message_selector';
 
 import merge from 'lodash/merge';
@@ -13,10 +12,19 @@ const DirectMessageReducer = (state = defaultState, action) => {
   let newState = merge({}, state)
   switch (action.type) {
     case DirectMessageConstants.RECEIVE_ONE_DIRECT_MESSAGE:
-      let keyedMessages = messageSelector(action.messages);
+      let keyedMessages = messageSelector(action.directMessage.messages);
+      newState.id = action.directMessage.id;
       newState.username = action.username;
       newState.messages = keyedMessages;
       return newState
+    case DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:
+      let newMessage = action.directChatMessage;
+      newState.messages[newMessage.id] = newMessage;
+      return newState;
+    case DirectChatMessageConstants.DESTROY_DIRECT_CHAT_MESSAGE:
+      let destroyedMessage = action.directChatMessage;
+      delete newState.messages[destroyedMessage.id]
+      return newState;
     default:
       return state;
   }

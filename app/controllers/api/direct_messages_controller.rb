@@ -5,6 +5,7 @@ class Api::DirectMessagesController < ApplicationController
   end
 
   def show
+    @current_user = current_user
     @direct_message = DirectMessage.find_by_id(params[:id])
   end
 

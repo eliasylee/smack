@@ -16,12 +16,22 @@ class MessageForm extends React.Component {
     let message = this.state;
     message.chatable_id = this.props.chatId;
 
-    if (this.props.action === "create") {
-      this.setState({ "body": "" })
-      this.props.createMessage({ message });
+    if (message.chatable_type === "TextChannel") {
+      if (this.props.action === "create") {
+        this.setState({ "body": "" })
+        this.props.createMessage({ message });
+      } else {
+        this.props.updateMessage({ message });
+        this.props.toggleUpdate();
+      }
     } else {
-      this.props.updateMessage({ message });
-      this.props.toggleUpdate();
+      if (this.props.action === "create") {
+        this.setState({ "body": "" })
+        this.props.createDirectChatMessage({ message });
+      } else {
+        this.props.updateDirectChatMessage({ message });
+        this.props.toggleUpdate();
+      }
     }
   }
 

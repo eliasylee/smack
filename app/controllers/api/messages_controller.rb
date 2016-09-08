@@ -1,4 +1,4 @@
-3class Api::MessagesController < ApplicationController
+class Api::MessagesController < ApplicationController
   def show
     @message = Message.find_by_id(params[:id])
   end
@@ -27,7 +27,7 @@
   end
 
   def update
-    @message = Message.find_by_id(params[:id])
+    @message = Message.find_by_id(params[:message][:id].to_i)
 
     if @message.update(message_params)
       render :show

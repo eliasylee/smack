@@ -9,7 +9,7 @@ export const fetchAllDirectMessages = success => {
 export const fetchOneDirectMessage = (directMessage, success) => {
   $.ajax({
     method: 'GET',
-    url: `/api/direct_messages/${directMessage.id}`,
+    url: `/api/direct_messages/${directMessage}`,
     data: directMessage,
     success
   });

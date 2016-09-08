@@ -23,9 +23,6 @@ const TextChannelReducer = (state = defaultState, action) => {
       newState.textChannel.description = textChannel.description;
       newState.textChannel.messages = keyedMessages;
       return newState;
-    case MessageConstants.CLEAR_TEXT_MESSAGES:
-      newState.textChannel.attachments = [];
-      return newState;
     case MessageConstants.RECEIVE_ONE_MESSAGE:
       newMessages = MessagesReducer(state.textChannel.messages, action);
       newState.textChannel.messages = newMessages;

@@ -21,9 +21,9 @@ export const fetchOneDirectMessage = directMessage => ({
   directMessage
 })
 
-export const receiveOneDirectMessage = directMessages => ({
+export const receiveOneDirectMessage = directMessage => ({
   type: DirectMessageConstants.RECEIVE_ONE_DIRECT_MESSAGE,
-  directMessages
+  directMessage
 })
 
 export const createDirectMessage = directMessage => ({
