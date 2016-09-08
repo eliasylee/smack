@@ -77,7 +77,7 @@
 
 .textChannelChatBoxDescription {
   color: #cdcdcd;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .textChannelMessagesBox {
@@ -169,7 +169,7 @@
 }
 
 .textChannelMessageChange {
-  min-width: 70px;
+  min-width: 50px;
   padding-left: 20px;
   display: flex;
   justify-content: space-between;;

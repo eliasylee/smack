@@ -50,7 +50,7 @@ class TextChannelNavItem extends React.Component {
     if (textChannel.id !== parseInt(textChannelKeys[0])) {
       if (currentUserId === channelAdminId) {
         if (stateTextChannel.id === textChannel.id) {
-          return <button onClick={this.handleDestroyTextChannel} className="textChannelDeleteButton">x</button>
+          return <button onClick={this.handleDestroyTextChannel} className="textChannelDeleteButton"><i className="fa fa-trash" aria-hidden="true"></i></button>
         }
       }
     }

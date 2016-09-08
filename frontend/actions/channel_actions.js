@@ -7,6 +7,7 @@ export const ChannelConstants = {
   RECEIVE_NEW_CHANNEL: 'RECEIVE_NEW_CHANNEL',
   UPDATE_CHANNEL: 'UPDATE_CHANNEL',
   DESTROY_CHANNEL: 'DESTROY_CHANNEL',
+  DISMOUNT_CHANNEL: 'DISMOUNT_CHANNEL',
   CLEAR_TEXT_CHANNELS: 'CLEAR_TEXT_CHANNELS',
   RECEIVE_CHANNEL_ERRORS: 'RECEIVE_CHANNEL_ERRORS'
 }
@@ -48,6 +49,10 @@ export const updateChannel = channel => ({
 export const destroyChannel = channel => ({
   type: ChannelConstants.DESTROY_CHANNEL,
   channel
+})
+
+export const dismountChannel = () => ({
+  type: ChannelConstants.DISMOUNT_CHANNEL
 })
 
 export const clearTextChannels = () => ({

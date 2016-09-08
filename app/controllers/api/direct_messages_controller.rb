@@ -11,7 +11,7 @@ class Api::DirectMessagesController < ApplicationController
 
   def create
     @user = User.find_by_username(direct_message_params[:username])
-    @direct_message = DirectMessage.new({ speaker_id: current_user.id, listener_id: user.id })
+    @direct_message = DirectMessage.new({ speaker_id: current_user.id, listener_id: @user.id })
 
     if @direct_message.save
       Message.create!(author_id: 1,

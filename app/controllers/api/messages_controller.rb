@@ -29,7 +29,19 @@ class Api::MessagesController < ApplicationController
   def update
     @message = Message.find_by_id(params[:message][:id].to_i)
 
+    if @message.chatable_type == "TextChannel"
+      text_channel = TextChannel.find_by_id(@message.chatable_id)
+    else
+      direct_message = DirectMessage.find_by_id(@message.chatable_id)
+    end
+
     if @message.update(message_params)
+      if text_channel
+        Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_updated', {})
+      else
+        Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_updated', {})
+      end
+
       render :show
     else
       render json: @message.errors.full_messages, status: 422
@@ -39,7 +51,19 @@ class Api::MessagesController < ApplicationController
   def destroy
     @message = Message.find_by_id(params[:id].to_i)
 
+    if @message.chatable_type == "TextChannel"
+      text_channel = TextChannel.find_by_id(@message.chatable_id)
+    else
+      direct_message = DirectMessage.find_by_id(@message.chatable_id)
+    end
+
     if @message.destroy
+      if text_channel
+        Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_destroyed', {})
+      else
+        Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_destroyed', {})
+      end
+
       render json: {}
     else
       render json: @message.errors.full_messages, status: 422

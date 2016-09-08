@@ -74,7 +74,7 @@
   flex-direction: column;
   justify-content: center;
   padding-left: 10px;
-  font-size: 17px;
+  font-size: 14px;
 }
 
 .destroySubscriptionBox {
@@ -93,7 +93,7 @@
 }
 
 .destroySubscriptionButton:hover {
-  color: #9AABB6;
+  color: #E6544A;
 }
 
 .subscriptionForm {

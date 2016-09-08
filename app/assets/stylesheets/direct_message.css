@@ -1,5 +1,9 @@
 /* All Direct Message related CSS */
 
+.directMessageWord {
+  margin-bottom: 10px;
+}
+
 .directMessageUserLogo {
   width: 30px;
   height: 30px;
@@ -85,18 +89,12 @@
   align-items: center;
 }
 
-.directMessageInputLine {
-  padding-left: 10px;
-  height: 26px;
-  width: 194px;
-  padding-right: 10px;
-  color: #747F8D;
-}
-
 .directMessageInput {
-  height: 26px;
-  width: 194px;
   color: #fff;
+  height: 26px;
+  width: 190px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .directMessageInput::-webkit-input-placeholder {

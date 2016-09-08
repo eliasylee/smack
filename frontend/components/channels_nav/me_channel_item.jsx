@@ -6,7 +6,7 @@ const changeChannel = (router) => (
 );
 
 const isActive = (path) => {
-  if ( path.includes("@me") ) {
+  if (path.includes("@me")) {
     return "activeMeChannelButton";
   } else {
     return "inactiveMeChannelButton";
@@ -14,7 +14,7 @@ const isActive = (path) => {
 };
 
 const isDisabled = (path) => {
-  if ( path.includes("@me") ) {
+  if (path.includes("@me")) {
     return "disabled";
   } else {
     return "";

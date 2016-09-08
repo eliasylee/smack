@@ -13,12 +13,6 @@ class DirectMessages extends React.Component {
     this.handleLogOut = this.handleSubmit.bind(this);
   }
 
-  componentWillReceiveProps (newProps) {
-    if (!newProps.currentUser) {
-      this.props.router.push(`/login`);
-    }
-  }
-
   updateState (property) {
     return e => this.setState({[property]: e.target.value});
   }
@@ -37,8 +31,8 @@ class DirectMessages extends React.Component {
     if (username !== "") {
       if (!this.existingUsernames().includes(username)) {
         let direct_message = Object.assign({}, this.state);
-        this.props.createDirectMessage({ direct_message });
         this.setState({ "username": "" });
+        this.props.createDirectMessage({ direct_message });
       }
     }
   }
@@ -49,10 +43,10 @@ class DirectMessages extends React.Component {
         <div className="createDirectMessageNameBox">
           <div className="directMessageInputLine">
             <input type="text"
-              value={this.state.title}
-              onChange={this.updateState("username")}
-              placeholder="Start a conversation"
-              className="directMessageInput" />
+                   value={this.state.username}
+                   onChange={this.updateState("username")}
+                   placeholder="Start a conversation"
+                   className="directMessageInput" />
           </div>
           <div className="newDirectMessageSubmitBox">
             <input className="newdirectMessageSubmitButton"
@@ -107,7 +101,7 @@ class DirectMessages extends React.Component {
                   {this.createDirectMessageForm()}
                 </div>
               </span>
-              <span className="textChannelNavBarTitleBox">
+              <span className="textChannelNavBarTitleBox directMessageWord">
                 <span className="textChannelNavBarTitle">
                   <span>Direct Messages</span>
                 </span>
@@ -128,7 +122,9 @@ class DirectMessages extends React.Component {
               <div className='NavBarCurrentUserRightBox'>
                 <div className="logOutIconBoxOuter">
                   <div className="logOutIconBoxInner">
-                    <button className="logOutIcon" onClick={this.handleLogOut}>>>></button>
+                    <button className="logOutIcon" onClick={this.handleLogOut}>
+                      <i className="fa fa-sign-out" aria-hidden="true"></i>
+                    </button>
                   </div>
                 </div>
               </div>

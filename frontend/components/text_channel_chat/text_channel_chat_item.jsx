@@ -25,10 +25,10 @@ class TextChannelChatItem extends React.Component {
         return (
           <div className="textChannelMessageChange">
             <div className="messageEditButton">
-              <button onClick={this.toggleUpdate}>Edit</button>
+              <button onClick={this.toggleUpdate}><i className="fa fa-pencil" aria-hidden="true"></i></button>
             </div>
             <div className="messageDeleteButton">
-              <button onClick={this.handleDestroyMessage}>Delete</button>
+              <button onClick={this.handleDestroyMessage}><i className="fa fa-trash" aria-hidden="true"></i></button>
             </div>
           </div>
         )

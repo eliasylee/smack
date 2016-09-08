@@ -18,22 +18,26 @@ class TextChannelChat extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
-    if (!newProps.currentUser) {
-      this.props.router.push(`/login`);
-    }
-
     if (newProps.textChannel.id) {
       this.createPusherChannel();
     }
   }
 
   createPusherChannel () {
-    let pusher = new Pusher('a6428d82cdddd683832f', {
-      encrypted: true
-    });
+    if (!window.pusher) {
+      window.pusher = new Pusher('a6428d82cdddd683832f', {
+        encrypted: true
+      });
+    }
 
-    let channel = pusher.subscribe('text_channel_' + this.props.textChannel.id);
-    channel.bind('message_posted', function (data) {
+    let channel = window.pusher.subscribe('text_channel_' + this.props.params.id);
+    channel.bind('message_posted', data => {
+      this.props.fetchOneTextChannel(this.props.textChannel.id);
+    });
+    channel.bind('message_updated', data => {
+      this.props.fetchOneTextChannel(this.props.textChannel.id);
+    });
+    channel.bind('message_destroyed', data => {
       this.props.fetchOneTextChannel(this.props.textChannel.id);
     });
   }
@@ -94,7 +98,7 @@ class TextChannelChat extends React.Component {
         return (
           <div className="textChannelEditButtonBox">
             <div className="textChannelEditButton">
-              <button onClick={this.toggleView}>Edit</button>
+              <button onClick={this.toggleView}><i className="fa fa-pencil" aria-hidden="true"></i></button>
             </div>
           </div>
         )

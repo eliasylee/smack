@@ -17,6 +17,12 @@ class ChannelNav extends React.Component {
     this.renderNewChannelForm = this.renderNewChannelForm.bind(this);
   }
 
+  componentWillReceiveProps (newProps) {
+    if (!newProps.currentUser) {
+      this.props.router.push(`/login`);
+    }
+  }
+
   handleSubmit (e) {
     e.preventDefault();
     if (this.state.title !== "") {

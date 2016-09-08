@@ -60,14 +60,14 @@ class ChannelNavItem extends React.Component {
   };
 
   isActiveText (stateChannel, channel, path) {
-    if (!path.includes("@me") && channel.id === stateChannel.id) {
+    if (channel.id === stateChannel.id && !path.includes("@me")) {
       return "activeText";
     } else {
       return "inactiveText";
     }
   }
 
-  channelIconOrText (stateChannel, channel, router) {
+  channelIconOrText (stateChannel, channel, router, path) {
     if (channel.icon_url) {
       return (
         <img src={channel.icon_url}
@@ -76,7 +76,7 @@ class ChannelNavItem extends React.Component {
       )
     } else {
       return (
-        <div className={this.isActiveText(stateChannel, channel)}>
+        <div className={this.isActiveText(stateChannel, channel, path)}>
           {this.prepChannelName(channel)}
         </div>
       )
@@ -91,7 +91,7 @@ class ChannelNavItem extends React.Component {
         <button onClick={this.changeChannel}
                 className="channelButton"
                 disabled={this.isDisabled(stateChannel, channel, path)} >
-        {this.channelIconOrText(stateChannel, channel, router)}
+        {this.channelIconOrText(stateChannel, channel, router, path)}
         </button>
         <span className="channelNavHover">{this.prepChannelTitle(channel)}</span>
       </div>

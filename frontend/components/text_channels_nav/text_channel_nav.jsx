@@ -20,10 +20,8 @@ class TextChannelNav extends React.Component {
     this.handleDestroyChannel = this.handleDestroyChannel.bind(this);
   }
 
-  componentWillReceiveProps (newProps) {
-    if (!newProps.currentUser) {
-      this.props.router.push(`/login`);
-    }
+  componentWillUnmount () {
+    this.props.dismountChannel();
   }
 
   toggleView () {
@@ -57,15 +55,13 @@ class TextChannelNav extends React.Component {
             <div className="createTextChannelNameBox">
               <div className="textChannelInputLine">
                 <input type="text"
-                  value={this.state.title}
-                  onChange={this.update("title")}
-                  className="textChannelInput" />
+                       placeholder="Create a text channel"
+                       value={this.state.title}
+                       onChange={this.update("title")}
+                       className="textChannelInput" />
               </div>
             </div>
-            <div className="newTextChannelSubmitBox">
-              <input className="newTextChannelSubmitButton" type="submit" value="Create" />
-              <button className="closeNewTextChannelForm" onClick={this.toggleView}>Cancel</button>
-            </div>
+            <input className="newTextChannelSubmitButton" type="submit" value="" />
           </form>
         </div>
       )
@@ -116,15 +112,12 @@ class TextChannelNav extends React.Component {
 
   handleDestroyChannel () {
     this.props.destroyChannel(this.props.channel);
-    this.props.router.push(`/channels/me`);
   }
 
   placeDestroyChannelButton () {
     const { currentUser, channel } = this.props;
-    if (!currentUser) {
-      this.props.router.push(`/login`);
-    } else if (currentUser.id === channel.admin.id) {
-      return <button onClick={this.handleDestroyChannel} className="channelDeleteButton">x</button>
+    if (currentUser.id === channel.admin.id) {
+      return <button onClick={this.handleDestroyChannel} className="channelDeleteButton"><i className="fa fa-trash" aria-hidden="true"></i></button>
     }
   }
 
@@ -179,7 +172,9 @@ class TextChannelNav extends React.Component {
               <div className='NavBarCurrentUserRightBox'>
                 <div className="logOutIconBoxOuter">
                   <div className="logOutIconBoxInner">
-                    <button className="logOutIcon" onClick={this.handleLogOut}>>>></button>
+                    <button className="logOutIcon" onClick={this.handleLogOut}>
+                      <i className="fa fa-sign-out" aria-hidden="true"></i>
+                    </button>
                   </div>
                 </div>
               </div>

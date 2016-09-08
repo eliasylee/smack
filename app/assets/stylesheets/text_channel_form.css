@@ -2,7 +2,6 @@
 
 .createTextChannelFormBoxOuter {
   margin-left: 20px;
-  margin-bottom: 10px;
   width: 200px;
 }
 
@@ -19,32 +18,37 @@
 }
 
 .textChannelInputLine {
-  font-size: 14px;
-  margin-bottom: 5px;
+  height: 32px;
+  width: 200px;
+  border-radius: 6px;
+  border: 2px solid #212327;
+  background-color: #24272B;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .textChannelInput {
   color: #fff;
-  width: 200px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #6C6E72;
-  margin-bottom: 5px;
+  width: 180px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.newTextChannelSubmitBox {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+.textChannelInput::-webkit-input-placeholder {
+  color: #6C6E72;
 }
-
-.newTextChannelSubmitButton, .closeNewTextChannelForm {
-  padding-left: 5px;
-  padding-right: 5px;
+.textChannelInput::-moz-placeholder {
+  color: #6C6E72;
+}
+.textChannelInput:-ms-input-placeholder {
+  color: #6C6E72;
+}
+.textChannelInput:-moz-placeholder {
   color: #6C6E72;
 }
 
-.newTextChannelSubmitButton:hover, .closeNewTextChannelForm:hover {
-  color: #fff;
+.newTextChannelSubmitBox {
 }
 
 /* Edit Text Channel Form */

@@ -25834,6 +25834,8 @@
 	      var newTextChannel = action.textChannel;
 	      newState.channel.textChannels[newTextChannel.id] = newTextChannel;
 	      return newState;
+	    case _channel_actions.ChannelConstants.DISMOUNT_CHANNEL:
+	      return defaultState;
 	    case _text_channel_actions.TextChannelConstants.DESTROY_TEXT_CHANNEL:
 	      var destroyedTextChannel = action.textChannel;
 	      delete newState[destroyedTextChannel.id];
@@ -25866,6 +25868,7 @@
 	  RECEIVE_NEW_CHANNEL: 'RECEIVE_NEW_CHANNEL',
 	  UPDATE_CHANNEL: 'UPDATE_CHANNEL',
 	  DESTROY_CHANNEL: 'DESTROY_CHANNEL',
+	  DISMOUNT_CHANNEL: 'DISMOUNT_CHANNEL',
 	  CLEAR_TEXT_CHANNELS: 'CLEAR_TEXT_CHANNELS',
 	  RECEIVE_CHANNEL_ERRORS: 'RECEIVE_CHANNEL_ERRORS'
 	};
@@ -25922,6 +25925,12 @@
 	  return {
 	    type: ChannelConstants.DESTROY_CHANNEL,
 	    channel: channel
+	  };
+	};
+	
+	var dismountChannel = exports.dismountChannel = function dismountChannel() {
+	  return {
+	    type: ChannelConstants.DISMOUNT_CHANNEL
 	  };
 	};
 	
@@ -26982,7 +26991,6 @@
 	      };
 	      switch (action.type) {
 	        case _message_actions.MessageConstants.CREATE_MESSAGE:
-	          debugger;
 	          (0, _message_api_util.createMessage)(action.message, createMessageSuccess, errors);
 	          return next(action);
 	        case _message_actions.MessageConstants.UPDATE_MESSAGE:
@@ -34034,7 +34042,7 @@
 	    key: 'guestLogIn',
 	    value: function guestLogIn() {
 	      var user = {
-	        username: "guest",
+	        username: "ShyGuy",
 	        password: "password"
 	      };
 	      this.props.login({ user: user });
@@ -34235,6 +34243,7 @@
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	  return {
+	    currentUser: state.session.currentUser,
 	    channels: state.channels.channels,
 	    stateChannel: state.channel.channel,
 	    errors: state.channel.errors,
@@ -34315,6 +34324,13 @@
 	  }
 	
 	  _createClass(ChannelNav, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (!newProps.currentUser) {
+	        this.props.router.push('/login');
+	      }
+	    }
+	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
@@ -34611,7 +34627,7 @@
 	  }, {
 	    key: 'isActiveText',
 	    value: function isActiveText(stateChannel, channel, path) {
-	      if (!path.includes("@me") && channel.id === stateChannel.id) {
+	      if (channel.id === stateChannel.id && !path.includes("@me")) {
 	        return "activeText";
 	      } else {
 	        return "inactiveText";
@@ -34619,7 +34635,7 @@
 	    }
 	  }, {
 	    key: 'channelIconOrText',
-	    value: function channelIconOrText(stateChannel, channel, router) {
+	    value: function channelIconOrText(stateChannel, channel, router, path) {
 	      if (channel.icon_url) {
 	        return _react2.default.createElement('img', { src: channel.icon_url,
 	          alt: 'channel-button',
@@ -34627,7 +34643,7 @@
 	      } else {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: this.isActiveText(stateChannel, channel) },
+	          { className: this.isActiveText(stateChannel, channel, path) },
 	          this.prepChannelName(channel)
 	        );
 	      }
@@ -34652,7 +34668,7 @@
 	          { onClick: this.changeChannel,
 	            className: 'channelButton',
 	            disabled: this.isDisabled(stateChannel, channel, path) },
-	          this.channelIconOrText(stateChannel, channel, router)
+	          this.channelIconOrText(stateChannel, channel, router, path)
 	        ),
 	        _react2.default.createElement(
 	          'span',
@@ -34778,6 +34794,9 @@
 	    destroyChannel: function destroyChannel(channel) {
 	      return dispatch((0, _channel_actions.destroyChannel)(channel));
 	    },
+	    dismountChannel: function dismountChannel() {
+	      return dispatch((0, _channel_actions.dismountChannel)());
+	    },
 	    clearTextMessages: function clearTextMessages() {
 	      return dispatch((0, _message_actions.clearTextMessages)());
 	    },
@@ -34848,11 +34867,9 @@
 	  }
 	
 	  _createClass(TextChannelNav, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(newProps) {
-	      if (!newProps.currentUser) {
-	        this.props.router.push('/login');
-	      }
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.props.dismountChannel();
 	    }
 	  }, {
 	    key: 'toggleView',
@@ -34901,21 +34918,13 @@
 	                'div',
 	                { className: 'textChannelInputLine' },
 	                _react2.default.createElement('input', { type: 'text',
+	                  placeholder: 'Create a text channel',
 	                  value: this.state.title,
 	                  onChange: this.update("title"),
 	                  className: 'textChannelInput' })
 	              )
 	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'newTextChannelSubmitBox' },
-	              _react2.default.createElement('input', { className: 'newTextChannelSubmitButton', type: 'submit', value: 'Create' }),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'closeNewTextChannelForm', onClick: this.toggleView },
-	                'Cancel'
-	              )
-	            )
+	            _react2.default.createElement('input', { className: 'newTextChannelSubmitButton', type: 'submit', value: '' })
 	          )
 	        );
 	      } else {
@@ -34986,7 +34995,6 @@
 	    key: 'handleDestroyChannel',
 	    value: function handleDestroyChannel() {
 	      this.props.destroyChannel(this.props.channel);
-	      this.props.router.push('/channels/me');
 	    }
 	  }, {
 	    key: 'placeDestroyChannelButton',
@@ -34995,13 +35003,11 @@
 	      var currentUser = _props3.currentUser;
 	      var channel = _props3.channel;
 	
-	      if (!currentUser) {
-	        this.props.router.push('/login');
-	      } else if (currentUser.id === channel.admin.id) {
+	      if (currentUser.id === channel.admin.id) {
 	        return _react2.default.createElement(
 	          'button',
 	          { onClick: this.handleDestroyChannel, className: 'channelDeleteButton' },
-	          'x'
+	          _react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
 	        );
 	      }
 	    }
@@ -35114,7 +35120,7 @@
 	                    _react2.default.createElement(
 	                      'button',
 	                      { className: 'logOutIcon', onClick: this.handleLogOut },
-	                      '>>>'
+	                      _react2.default.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' })
 	                    )
 	                  )
 	                )
@@ -35240,7 +35246,7 @@
 	            return _react2.default.createElement(
 	              'button',
 	              { onClick: this.handleDestroyTextChannel, className: 'textChannelDeleteButton' },
-	              'x'
+	              _react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
 	            );
 	          }
 	        }
@@ -35386,10 +35392,6 @@
 	  _createClass(TextChannelChat, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
-	      if (!newProps.currentUser) {
-	        this.props.router.push('/login');
-	      }
-	
 	      if (newProps.textChannel.id) {
 	        this.createPusherChannel();
 	      }
@@ -35397,13 +35399,23 @@
 	  }, {
 	    key: 'createPusherChannel',
 	    value: function createPusherChannel() {
-	      var pusher = new Pusher('a6428d82cdddd683832f', {
-	        encrypted: true
-	      });
+	      var _this2 = this;
 	
-	      var channel = pusher.subscribe('text_channel_' + this.props.textChannel.id);
+	      if (!window.pusher) {
+	        window.pusher = new Pusher('a6428d82cdddd683832f', {
+	          encrypted: true
+	        });
+	      }
+	
+	      var channel = window.pusher.subscribe('text_channel_' + this.props.params.id);
 	      channel.bind('message_posted', function (data) {
-	        this.props.fetchOneTextChannel(this.props.textChannel.id);
+	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
+	      });
+	      channel.bind('message_updated', function (data) {
+	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
+	      });
+	      channel.bind('message_destroyed', function (data) {
+	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
 	      });
 	    }
 	  }, {
@@ -35502,7 +35514,7 @@
 	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.toggleView },
-	                'Edit'
+	                _react2.default.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true' })
 	              )
 	            )
 	          );
@@ -35609,7 +35621,7 @@
 	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.toggleUpdate },
-	                'Edit'
+	                _react2.default.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true' })
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -35618,7 +35630,7 @@
 	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.handleDestroyMessage },
-	                'Delete'
+	                _react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
 	              )
 	            )
 	          );
@@ -36338,7 +36350,7 @@
 /* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -36349,6 +36361,8 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(341);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -36371,7 +36385,7 @@
 	  }
 	
 	  _createClass(ChannelSubscriptionsItem, [{
-	    key: "prepUserName",
+	    key: 'prepUserName',
 	    value: function prepUserName(username) {
 	      var result = "";
 	      if (username) {
@@ -36382,60 +36396,70 @@
 	      return result;
 	    }
 	  }, {
-	    key: "handleDestroy",
+	    key: 'handleDestroy',
 	    value: function handleDestroy() {
-	      this.props.destroySubscription(this.props.subscription.id);
-	    }
-	  }, {
-	    key: "placeDestroyButton",
-	    value: function placeDestroyButton() {
 	      var _props = this.props;
 	      var currentUser = _props.currentUser;
 	      var subscription = _props.subscription;
-	      var channel = _props.channel;
+	      var router = _props.router;
+	
+	      if (currentUser.id === subscription.user_id) {
+	        (function () {
+	          return router.push('/channels/@me');
+	        });
+	      }
+	      this.props.destroySubscription(subscription.id);
+	    }
+	  }, {
+	    key: 'placeDestroyButton',
+	    value: function placeDestroyButton() {
+	      var _props2 = this.props;
+	      var currentUser = _props2.currentUser;
+	      var subscription = _props2.subscription;
+	      var channel = _props2.channel;
 	
 	      if (currentUser.id === subscription.user_id || currentUser.id === channel.admin.id) {
 	        return _react2.default.createElement(
-	          "div",
-	          { className: "destroySubscriptionBox" },
+	          'div',
+	          { className: 'destroySubscriptionBox' },
 	          _react2.default.createElement(
-	            "button",
-	            { className: "destroySubscriptionButton",
+	            'button',
+	            { className: 'destroySubscriptionButton',
 	              onClick: this.handleDestroy },
-	            "x"
+	            _react2.default.createElement('i', { className: 'fa fa-ban', 'aria-hidden': 'true' })
 	          )
 	        );
 	      }
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      var subscription = this.props.subscription;
 	
 	      var username = subscription.username;
 	
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "channelSubscriptionBar" },
+	        'div',
+	        { className: 'channelSubscriptionBar' },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "logoAndUsername" },
+	          'div',
+	          { className: 'logoAndUsername' },
 	          _react2.default.createElement(
-	            "div",
-	            { className: "subUserLogo" },
+	            'div',
+	            { className: 'subUserLogo' },
 	            _react2.default.createElement(
-	              "div",
-	              { className: "userLogo" },
+	              'div',
+	              { className: 'userLogo' },
 	              _react2.default.createElement(
-	                "div",
-	                { className: "userLogoLetter" },
+	                'div',
+	                { className: 'userLogoLetter' },
 	                this.prepUserName(username)
 	              )
 	            )
 	          ),
 	          _react2.default.createElement(
-	            "div",
-	            { className: "userUsername" },
+	            'div',
+	            { className: 'userUsername' },
 	            username
 	          )
 	        ),
@@ -36447,7 +36471,7 @@
 	  return ChannelSubscriptionsItem;
 	}(_react2.default.Component);
 	
-	exports.default = ChannelSubscriptionsItem;
+	exports.default = (0, _reactRouter.withRouter)(ChannelSubscriptionsItem);
 
 /***/ },
 /* 424 */
@@ -36541,13 +36565,6 @@
 	  }
 	
 	  _createClass(DirectMessages, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(newProps) {
-	      if (!newProps.currentUser) {
-	        this.props.router.push('/login');
-	      }
-	    }
-	  }, {
 	    key: 'updateState',
 	    value: function updateState(property) {
 	      var _this2 = this;
@@ -36573,8 +36590,8 @@
 	      if (username !== "") {
 	        if (!this.existingUsernames().includes(username)) {
 	          var direct_message = Object.assign({}, this.state);
-	          this.props.createDirectMessage({ direct_message: direct_message });
 	          this.setState({ "username": "" });
+	          this.props.createDirectMessage({ direct_message: direct_message });
 	        }
 	      }
 	    }
@@ -36591,7 +36608,7 @@
 	            'div',
 	            { className: 'directMessageInputLine' },
 	            _react2.default.createElement('input', { type: 'text',
-	              value: this.state.title,
+	              value: this.state.username,
 	              onChange: this.updateState("username"),
 	              placeholder: 'Start a conversation',
 	              className: 'directMessageInput' })
@@ -36671,7 +36688,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'span',
-	                { className: 'textChannelNavBarTitleBox' },
+	                { className: 'textChannelNavBarTitleBox directMessageWord' },
 	                _react2.default.createElement(
 	                  'span',
 	                  { className: 'textChannelNavBarTitle' },
@@ -36725,7 +36742,7 @@
 	                    _react2.default.createElement(
 	                      'button',
 	                      { className: 'logOutIcon', onClick: this.handleLogOut },
-	                      '>>>'
+	                      _react2.default.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' })
 	                    )
 	                  )
 	                )
@@ -36963,10 +36980,6 @@
 	  _createClass(DirectChatMessage, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
-	      if (!newProps.currentUser) {
-	        this.props.router.push('/login');
-	      }
-	
 	      if (newProps.directMessage.id) {
 	        this.createPusherChannel();
 	      }
@@ -36974,13 +36987,23 @@
 	  }, {
 	    key: 'createPusherChannel',
 	    value: function createPusherChannel() {
-	      var pusher = new Pusher('a6428d82cdddd683832f', {
-	        encrypted: true
-	      });
+	      var _this2 = this;
 	
-	      var channel = pusher.subscribe('direct_message_' + this.props.directMessage.id);
+	      if (!window.pusher) {
+	        window.pusher = new Pusher('a6428d82cdddd683832f', {
+	          encrypted: true
+	        });
+	      }
+	
+	      var channel = window.pusher.subscribe('direct_message_' + this.props.params.id);
 	      channel.bind('message_posted', function (data) {
-	        this.props.fetchOneDirectMessage(this.props.directMessage.id);
+	        _this2.props.fetchOneDirectMessage(_this2.props.directMessage.id);
+	      });
+	      channel.bind('message_updated', function (data) {
+	        _this2.props.fetchOneDirectMessage(_this2.props.directMessage.id);
+	      });
+	      channel.bind('message_destroyed', function (data) {
+	        _this2.props.fetchOneDirectMessage(_this2.props.directMessage.id);
 	      });
 	    }
 	  }, {
@@ -37132,7 +37155,7 @@
 	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.toggleUpdate },
-	                'Edit'
+	                _react2.default.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true' })
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -37141,7 +37164,7 @@
 	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.handleDestroyMessage },
-	                'Delete'
+	                _react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
 	              )
 	            )
 	          );

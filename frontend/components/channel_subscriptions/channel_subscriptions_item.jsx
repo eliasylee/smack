@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 
 class ChannelSubscriptionsItem extends React.Component {
   constructor (props) {
@@ -17,7 +18,11 @@ class ChannelSubscriptionsItem extends React.Component {
   }
 
   handleDestroy () {
-    this.props.destroySubscription(this.props.subscription.id)
+    const { currentUser, subscription, router } = this.props;
+    if (currentUser.id === subscription.user_id ) {
+      () => router.push(`/channels/@me`)
+    }
+    this.props.destroySubscription(subscription.id)
   }
 
   placeDestroyButton () {
@@ -27,7 +32,7 @@ class ChannelSubscriptionsItem extends React.Component {
       return (
         <div className="destroySubscriptionBox">
           <button className="destroySubscriptionButton"
-                  onClick={this.handleDestroy}>x</button>
+                  onClick={this.handleDestroy}><i className="fa fa-ban" aria-hidden="true"></i></button>
         </div>
       )
     }
@@ -55,4 +60,4 @@ class ChannelSubscriptionsItem extends React.Component {
   }
 }
 
-export default ChannelSubscriptionsItem;
+export default withRouter(ChannelSubscriptionsItem);

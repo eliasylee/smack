@@ -14,22 +14,26 @@ class DirectChatMessage extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
-    if (!newProps.currentUser) {
-      this.props.router.push(`/login`);
-    }
-
     if (newProps.directMessage.id) {
       this.createPusherChannel();
     }
   }
 
   createPusherChannel () {
-    let pusher = new Pusher('a6428d82cdddd683832f', {
-      encrypted: true
-    });
+    if (!window.pusher) {
+      window.pusher = new Pusher('a6428d82cdddd683832f', {
+        encrypted: true
+      });
+    }
 
-    let channel = pusher.subscribe('direct_message_' + this.props.directMessage.id);
-    channel.bind('message_posted', function (data) {
+    var channel = window.pusher.subscribe('direct_message_' + this.props.params.id);
+    channel.bind('message_posted', data => {
+      this.props.fetchOneDirectMessage(this.props.directMessage.id);
+    });
+    channel.bind('message_updated', data => {
+      this.props.fetchOneDirectMessage(this.props.directMessage.id);
+    });
+    channel.bind('message_destroyed', data => {
       this.props.fetchOneDirectMessage(this.props.directMessage.id);
     });
   }

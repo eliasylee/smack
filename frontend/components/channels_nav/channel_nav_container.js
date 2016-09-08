@@ -4,6 +4,7 @@ import { createChannel, clearTextChannels } from '../../actions/channel_actions'
 import { clearTextMessages } from '../../actions/message_actions';
 
 const mapStateToProps = (state, ownProps) => ({
+  currentUser: state.session.currentUser,
   channels: state.channels.channels,
   stateChannel: state.channel.channel,
   errors: state.channel.errors,
