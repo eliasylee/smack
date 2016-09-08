@@ -30,7 +30,7 @@ class TextChannelChat extends React.Component {
       });
     }
 
-    let channel = window.pusher.subscribe('text_channel_' + this.props.params.id);
+    let channel = window.pusher.subscribe('text_channel_' + this.props.params.id[1]);
     channel.bind('message_posted', data => {
       this.props.fetchOneTextChannel(this.props.textChannel.id);
     });

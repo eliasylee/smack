@@ -35407,7 +35407,7 @@
 	        });
 	      }
 	
-	      var channel = window.pusher.subscribe('text_channel_' + this.props.params.id);
+	      var channel = window.pusher.subscribe('text_channel_' + this.props.params.id[1]);
 	      channel.bind('message_posted', function (data) {
 	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
 	      });

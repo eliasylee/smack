@@ -37,6 +37,7 @@ class Api::MessagesController < ApplicationController
 
     if @message.update(message_params)
       if text_channel
+        debugger
         Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_updated', {})
       else
         Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_updated', {})
