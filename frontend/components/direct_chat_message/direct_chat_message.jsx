@@ -76,7 +76,10 @@ class DirectChatMessage extends React.Component {
                                 textChannelTitle={directMessage.username}
                                 action="create" />
         </div>
-        <div className="channelSubscriptionsBox">
+        <div className="blankSubscriptionsBox">
+          <img src="red-logo-fist-medium.png"
+               alt="personal-channel-icon"
+               className="blankSubLogo" />
         </div>
       </div>
     )

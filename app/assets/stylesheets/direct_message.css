@@ -90,13 +90,26 @@
   height: 26px;
   width: 194px;
   padding-right: 10px;
-  color: #fff;
+  color: #747F8D;
 }
 
 .directMessageInput {
   height: 26px;
   width: 194px;
   color: #fff;
+}
+
+.directMessageInput::-webkit-input-placeholder {
+  color: #6C6E72;
+}
+.directMessageInput::-moz-placeholder {
+  color: #6C6E72;
+}
+.directMessageInput:-ms-input-placeholder {
+  color: #6C6E72;
+}
+.directMessageInput:-moz-placeholder {
+  color: #6C6E72;
 }
 
 .meSplashContainer {
@@ -149,4 +162,23 @@
   -ms-transition: all 500ms ease;
   -o-transition: all 500ms ease;
   transition: all 500ms ease;
+}
+
+.blankSubscriptionsBox {
+  top: 0;
+  bottom: 0;
+  right: 320px;
+  min-width: 240px;
+  color: #9AABB6;
+  border-left: 2px solid #ECEEEF;
+  background-color: #F3F3F3;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+
+.blankSubLogo {
+  padding-bottom: 50px;
 }

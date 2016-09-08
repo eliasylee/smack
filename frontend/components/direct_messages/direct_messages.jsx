@@ -51,13 +51,13 @@ class DirectMessages extends React.Component {
             <input type="text"
               value={this.state.title}
               onChange={this.updateState("username")}
+              placeholder="Start a conversation"
               className="directMessageInput" />
           </div>
           <div className="newDirectMessageSubmitBox">
             <input className="newdirectMessageSubmitButton"
                    type="submit"
-                   value=""
-                   placeholder="Start a conversation" />
+                   value="" />
           </div>
         </div>
       </form>

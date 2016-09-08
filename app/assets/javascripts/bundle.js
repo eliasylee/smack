@@ -36593,6 +36593,7 @@
 	            _react2.default.createElement('input', { type: 'text',
 	              value: this.state.title,
 	              onChange: this.updateState("username"),
+	              placeholder: 'Start a conversation',
 	              className: 'directMessageInput' })
 	          ),
 	          _react2.default.createElement(
@@ -36600,8 +36601,7 @@
 	            { className: 'newDirectMessageSubmitBox' },
 	            _react2.default.createElement('input', { className: 'newdirectMessageSubmitButton',
 	              type: 'submit',
-	              value: '',
-	              placeholder: 'Start a conversation' })
+	              value: '' })
 	          )
 	        )
 	      );
@@ -37048,7 +37048,13 @@
 	            textChannelTitle: directMessage.username,
 	            action: 'create' })
 	        ),
-	        _react2.default.createElement('div', { className: 'channelSubscriptionsBox' })
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'blankSubscriptionsBox' },
+	          _react2.default.createElement('img', { src: 'red-logo-fist-medium.png',
+	            alt: 'personal-channel-icon',
+	            className: 'blankSubLogo' })
+	        )
 	      );
 	    }
 	  }]);
