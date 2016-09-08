@@ -1,0 +1,152 @@
+/* All Direct Message related CSS */
+
+.directMessageUserLogo {
+  width: 30px;
+  height: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  text-align: center;
+  align-content: center;
+  color: #fff;
+}
+
+.directMessageUserLogoLetter {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: #e6544a;
+  font-size: 15px;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.activeDirectMessageButton, .inactiveDirectMessageButton {
+  height: 40px;
+  width: 240px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+}
+
+.inactiveDirectMessageButton {
+  color: #6C6E72;
+}
+
+.inactiveDirectMessageButton:hover, .activeDirectMessageButton {
+  background-color: #282B30;
+  color: #fff;
+}
+
+.directMessageHeaderBox {
+  min-height: 56px;
+  width: 100%;
+  border-bottom: 2px solid #24272B;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.directMessageFormBoxOuter {
+  background-color: #282B30;
+  border-radius: 6px;
+  margin: auto;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.createDirectMessageForm {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.createDirectMessageNameBox {
+  height: 32px;
+  width: 210px;
+  border-radius: 6px;
+  border: 2px solid #212327;
+  background-color: #24272B;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.directMessageInputLine {
+  padding-left: 10px;
+  height: 26px;
+  width: 194px;
+  padding-right: 10px;
+  color: #fff;
+}
+
+.directMessageInput {
+  height: 26px;
+  width: 194px;
+  color: #fff;
+}
+
+.meSplashContainer {
+  position: fixed;
+  height: 100%;
+  width: 75%;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  z-index: -10;
+}
+
+.meSplashPageInnerContainer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  z-index: -10;
+}
+
+.meSplashContainerLogo {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  height: 80px;
+  z-index: -10;
+}
+
+/* Me Channel Button */
+
+.activeMeChannelButton, .inactiveMeChannelButton:hover {
+  border-radius: 15px;
+  background-color: #e6544a;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}
+
+.inactiveMeChannelButton {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  background-color: #2E3136;
+  -webkit-transition: all 500ms ease;
+  -moz-transition: all 500ms ease;
+  -ms-transition: all 500ms ease;
+  -o-transition: all 500ms ease;
+  transition: all 500ms ease;
+}

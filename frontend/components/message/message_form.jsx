@@ -9,6 +9,7 @@ class MessageForm extends React.Component {
                    chatable_id: this.props.chatId };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.messageFormClass = this.messageFormClass.bind(this);
+    this.createPlaceHolder = this.createPlaceHolder.bind(this);
   }
 
   handleSubmit (e) {
@@ -48,9 +49,15 @@ class MessageForm extends React.Component {
   }
 
   createPlaceHolder (textChannelTitle) {
-    return (
-      `Chat in ${textChannelTitle}...`
-    )
+    if (this.props.chatable_type === "TextChannel") {
+      return (
+        `Chat in ${textChannelTitle}...`
+      )
+    } else {
+      return (
+        `Chat with ${textChannelTitle}...`
+      )
+    }
   }
 
   createMessageForm (textChannelTitle) {
@@ -61,10 +68,10 @@ class MessageForm extends React.Component {
         </div>
         <div className="createMessageBodyBox">
           <input type="textarea"
-            placeholder={this.createPlaceHolder(textChannelTitle)}
-            value={this.state.body}
-            onChange={this.updateState("body")}
-            className="messageInput" />
+                 placeholder={this.createPlaceHolder(textChannelTitle)}
+                 value={this.state.body}
+                 onChange={this.updateState("body")}
+                 className="messageInput" />
         </div>
       </form>
     )

@@ -1,24 +1,3 @@
-isActive () {
-  const { router } = this.props;
-  let path = router.path;
-  if ( path.slice(path.length - 3, path.length) === "@me" ) {
-    return "activeMeChannelButton";
-  } else {
-    return "inactiveMeChannelButton";
-  }
-};
-
-isDisabled () {
-  const { router } = this.props;
-  let path = router.path;
-  if ( path.slice(path.length - 3, path.length) === "@me" ) {
-    return "disabled";
-  } else {
-    return "";
-  }
-};
-
-
 User.create!(username: "Welcome!", password: "39cn109283e01wjc1owhd10v10wmdjskanlkaj0dw19x1")
 User.create!(username: "guest", password: "password")
 User.create!(username: "Sunny", password: "efijo[wfieja[odif]]")

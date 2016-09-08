@@ -102,7 +102,7 @@ class ChannelNav extends React.Component {
         <div className="channelNavBarBackground">
           <div className="channelNavBar">
             <div className="meChannelButtonBox">
-              <MeChannelItem />
+              <MeChannelItem path={this.props.path}/>
             </div>
             <div className="navBarSeparator"></div>
             <div className="channelNavBarButtons">
@@ -111,6 +111,7 @@ class ChannelNav extends React.Component {
                                        stateChannel={stateChannel}
                                        clearTextChannels={clearTextChannels}
                                        clearTextMessages={clearTextMessages}
+                                       path={this.props.path}
                                        key={channelKey} />
               })}
             </div>

@@ -9,6 +9,7 @@ import TextChannelNavContainer from '../text_channels_nav/text_channel_nav_conta
 import TextChannelChatContainer from '../text_channel_chat/text_channel_chat_container';
 import DirectMessagesContainer from '../direct_messages/direct_messages_container';
 import DirectChatMessageContainer from '../direct_chat_message/direct_chat_message_container';
+import MeSplashContainer from '../direct_messages/me_splash_container';
 
 import { fetchAllChannels, fetchOneChannel } from '../../actions/channel_actions';
 import { fetchOneTextChannel } from '../../actions/text_channel_actions';
@@ -24,7 +25,7 @@ const AppRouter = ({ currentUser, store }) => {
 
   const redirectIfLoggedIn = (nextState, replace) => {
     if (currentUser) {
-      replace('/channels/1/1');
+      replace('/channels/@me');
     }
   }
 
@@ -57,6 +58,7 @@ const AppRouter = ({ currentUser, store }) => {
         <Route path="/login" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
         <Route path="/channels" component={ChannelNavContainer} onEnter={fetchAllChannelsOnEnter}>
           <Route path="/channels/@me" component={DirectMessagesContainer} onEnter={fetchAllDirectMessagesOnEnter}>
+            <IndexRoute component={MeSplashContainer} />
             <Route path="/channels/@me/:id" component={DirectChatMessageContainer} onEnter={fetchOneDirectMessageOnEnter} />
           </Route>
           <Route path="/channels/:id" component={TextChannelNavContainer} onEnter={fetchChannelInformation}>

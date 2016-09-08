@@ -10,6 +10,7 @@ class DirectMessages extends React.Component {
     this.existingUsernames = this.existingUsernames.bind(this);
     this.updateState = this.updateState.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogOut = this.handleSubmit.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -44,21 +45,22 @@ class DirectMessages extends React.Component {
 
   createDirectMessageForm () {
     return (
-      <div className="createTextChannelFormBoxInner">
-        <form onSubmit={this.handleSubmit} className="createTextChannelForm">
-          <div className="createTextChannelNameBox">
-            <div className="textChannelInputLine">
-              <input type="text"
-                value={this.state.title}
-                onChange={this.updateState("username")}
-                className="textChannelInput" />
-            </div>
+      <form onSubmit={this.handleSubmit} className="createDirectMessageForm">
+        <div className="createDirectMessageNameBox">
+          <div className="directMessageInputLine">
+            <input type="text"
+              value={this.state.title}
+              onChange={this.updateState("username")}
+              className="directMessageInput" />
           </div>
-          <div className="newTextChannelSubmitBox">
-            <input className="newTextChannelSubmitButton" type="submit" value="Add" />
+          <div className="newDirectMessageSubmitBox">
+            <input className="newdirectMessageSubmitButton"
+                   type="submit"
+                   value=""
+                   placeholder="Start a conversation" />
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     )
   }
 
@@ -100,8 +102,8 @@ class DirectMessages extends React.Component {
         <div className="textChannelNavBarBackground">
           <div className="textChannelNavBarBackgroundInner">
             <div className="textChannelNavBar">
-              <span className="textChannelNavBarHeaderBox">
-                <div className="createTextChannelFormBoxOuter">
+              <span className="directMessageHeaderBox">
+                <div className="directMessageFormBoxOuter">
                   {this.createDirectMessageForm()}
                 </div>
               </span>

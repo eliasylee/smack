@@ -12,9 +12,9 @@ class DirectMessagesItem extends React.Component {
   isActive () {
     const { stateDirectMessage, directMessage } = this.props;
     if (stateDirectMessage && directMessage.id === stateDirectMessage.id) {
-      return "activeTextChannelButton";
+      return "activeDirectMessageButton";
     } else {
-      return "inactiveTextChannelButton";
+      return "inactiveDirectMessageButton";
     }
   };
 
@@ -50,11 +50,10 @@ class DirectMessagesItem extends React.Component {
       <div className={this.isActive()}
            onClick={this.changeDirectMessage}
            disabled={this.isDisabled()}>
+        <div className="directMessageUserLogo">
+          <div className="directMessageUserLogoLetter">{this.prepUserName(directMessage.username)}</div>
+        </div>
         <div className="textChannelButtonLeft">
-          <div className="userLogo">
-            <div className="userLogoLetter">{this.prepUserName(directMessage.username)}</div>
-          </div>
-          <ul>#</ul>
           <ul>{directMessage.username}</ul>
         </div>
       </div>

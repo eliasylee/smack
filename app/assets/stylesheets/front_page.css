@@ -68,15 +68,14 @@
   text-align: center;
   background-color: #fff;
   color: black;
-  border: 1px solid #e6544a;
-  border-bottom: 1px solid #808080;
-  box-shadow: 0 5px #ca271c;
+  border: 5px solid #e6544a;
+  box-shadow: 0 10px #ca271c;
 }
 
 .frontPageButton:hover {
   background-color: #fff;
   color: #e6544a;
-  box-shadow: 0 3px #ca271c;
+  box-shadow: 0 8px #ca271c;
   transform: translateY(2px);
 }
 
@@ -84,7 +83,7 @@
   background-color: #e6544a;
   color: #fff;
   box-shadow: 0 0px #ca271c;
-  transform: translateY(3px);
+  transform: translateY(10px);
 }
 
 .frontPageLogoLarge {

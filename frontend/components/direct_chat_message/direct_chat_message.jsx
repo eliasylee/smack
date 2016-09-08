@@ -38,7 +38,7 @@ class DirectChatMessage extends React.Component {
     return (
       <header className="textChannelChatBoxHeader">
         <div className="textChannelChatBoxHeaderLeft">
-          <div className="textChannelChatBoxHash">#</div>
+          <div className="textChannelChatBoxHash">@</div>
           <div className="textChannelChatBoxName">{this.props.directMessage.username}</div>
         </div>
       </header>

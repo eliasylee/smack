@@ -14,7 +14,7 @@ const DirectMessageReducer = (state = defaultState, action) => {
     case DirectMessageConstants.RECEIVE_ONE_DIRECT_MESSAGE:
       let keyedMessages = messageSelector(action.directMessage.messages);
       newState.id = action.directMessage.id;
-      newState.username = action.username;
+      newState.username = action.directMessage.username;
       newState.messages = keyedMessages;
       return newState
     case DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:

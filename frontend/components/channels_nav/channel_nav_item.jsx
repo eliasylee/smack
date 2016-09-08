@@ -43,8 +43,8 @@ class ChannelNavItem extends React.Component {
     }
   }
 
-  isActiveChannelBar (stateChannel, channel) {
-    if (channel.id === stateChannel.id) {
+  isActiveChannelBar (stateChannel, channel, path) {
+    if (!path.includes("@me") && channel.id === stateChannel.id) {
       return "activeChannelBar";
     } else {
       return "inactiveChannelBar";
@@ -59,8 +59,8 @@ class ChannelNavItem extends React.Component {
     }
   };
 
-  isActiveText (stateChannel, channel) {
-    if (channel.id === stateChannel.id) {
+  isActiveText (stateChannel, channel, path) {
+    if (!path.includes("@me") && channel.id === stateChannel.id) {
       return "activeText";
     } else {
       return "inactiveText";
@@ -84,13 +84,13 @@ class ChannelNavItem extends React.Component {
   }
 
   render () {
-    const { stateChannel, channel, router, clearTextChannels, clearTextMessages } = this.props;
+    const { stateChannel, channel, router, clearTextChannels, clearTextMessages, path } = this.props;
     return (
       <div className="channelButtonBox" >
-        <div className={this.isActiveChannelBar(stateChannel, channel)}></div>
+        <div className={this.isActiveChannelBar(stateChannel, channel, path)}></div>
         <button onClick={this.changeChannel}
                 className="channelButton"
-                disabled={this.isDisabled(stateChannel, channel)} >
+                disabled={this.isDisabled(stateChannel, channel, path)} >
         {this.channelIconOrText(stateChannel, channel, router)}
         </button>
         <span className="channelNavHover">{this.prepChannelTitle(channel)}</span>

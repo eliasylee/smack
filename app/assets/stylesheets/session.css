@@ -160,17 +160,17 @@
   height: 55px;
   background-color: #e6544a;
   border-radius: 3px;
-  box-shadow: 0 5px #ca271c;
+  box-shadow: 0 10px #ca271c;
 }
 
 .sessionSubmitButton:hover {
-  box-shadow: 0 3px #ca271c;
+  box-shadow: 0 8px #ca271c;
   transform: translateY(2px);
 }
 
 .sessionSubmitButton:active {
   box-shadow: 0 0px #ca271c;
-  transform: translateY(3px);
+  transform: translateY(10px);
 }
 
 .sessionFooterBox {
@@ -196,17 +196,17 @@
   color: #fff;
   background-color: #e6544a;
   border-radius: 2px;
-  box-shadow: 0 5px #ca271c;
+  box-shadow: 0 10px #ca271c;
 }
 
 .guestLogIn:hover {
-  box-shadow: 0 3px #ca271c;
+  box-shadow: 0 8px #ca271c;
   transform: translateY(2px);
 }
 
 .guestLogIn:active {
   box-shadow: 0 0px #ca271c;
-  transform: translateY(3px);
+  transform: translateY(10px);
 }
 
 .sessionFormFooter a,
