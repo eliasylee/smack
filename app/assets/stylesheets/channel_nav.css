@@ -242,7 +242,7 @@
   left: 80px;
   top: 28%;
   width: 240px;
-  height: 300px;
+  height: 240px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -252,7 +252,7 @@
 
 .createChannelFormBoxInner {
   width: 200px;
-  height: 300px;
+  height: 240px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;;

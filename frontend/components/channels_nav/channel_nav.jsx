@@ -63,15 +63,6 @@ class ChannelNav extends React.Component {
                   className="channelInput" />
               </div>
             </div>
-            <div className="createChannelDescriptionBox">
-              <div className="descriptionWord">Description</div>
-              <div className="descriptionInputLine">
-                <input type="text"
-                  value={this.state.description}
-                  onChange={this.updateState("description")}
-                  className="channelInput" />
-              </div>
-            </div>
             <div className="createChannelUrlBox">
               <div className="iconurlWord">Icon URL</div>
               <div className="urlInputLine">

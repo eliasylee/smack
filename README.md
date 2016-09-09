@@ -12,25 +12,39 @@ Smack is a full-stack browser application inspired by Slack and built for the ga
 
 Smack makes it easy to talk to different groups through personalized `channels`, which are assigned to `users`. Owned channels are created under users and each possess a single `admin_id` that refer to the creator.
 
+![image of channel-nav](public/readme/channel-nav.png)
+
 Users who create their own channel, as admins, can invite as well as remove other users from their channel. New users are added to a channel through a `subscription` object, which has foreign keys linking a single user to a single channel.
+
+![image of add-members](public/readme/add-members.png)
 
 Each channel has unique `text_channels`, which allow users to compartmentalize separate discussions within the same group.
 
+![image of text-channels](public/readme/text-channels.png)
+
 Admins can add and remove text-channels as well as edit each text-channel's description.
+
+![image of add-channel](public/readme/add-channel.png)
+![image of delete-channel](public/readme/delete-channel.png)
+![image of edit-channel](public/readme/edit-channel.png)
 
 ### Direct-Messages
 
-Direct messaging is personal to each individual through their "Me Channel", which is located in the top left for all users. Each `direct_message` is a reference to two users in the database.
+Direct messaging is personal to each individual through their `me_channel`, which is located in the top left for all users. Each `direct_message` is a reference to two users in the database.
+
+![image of me-channel](public/readme/me-channel.png)
 
 Users can add each other to begin one-on-one conversations.
 
+![image of start-direct-message](public/readme/start-direct-message.png)
+
 Previous direct messages are listed for easy-access on future occasions.
+
+![image of direct-message-list](public/readme/direct-message-list.png)
 
 ### Live Chat
 
 Both text-channels and direct-messages feature live chat functionality enabled through Pusher, allowing users to chat in real-time.
-
-
 
 When users are in a particular text-channel or direct-message chat, they are subscribed to that chat's Pusher "channel".
 
@@ -66,13 +80,20 @@ componentDidMount () {
 }
 ```
 
-### messages
+### Messages
 
 `Messages` are pulled along with each individual text-channel and direct-message when retrieved from the database. The message model was implemented with polymorphism because messages have the same functionality regardless of its location in the application.
 
+![image of direct-message-list](public/readme/direct-message-list.png)
+
 Messages can be easily created, edited, and deleted.
 
+![image of create-message](public/readme/create-message.png)
+![image of edit-message](public/readme/edit-message.png)
+
 ### Single-Page
+
+![image of one-page](public/readme/one-page.png)
 
 Smack is a one-page app and allows for quick navigation through its various components. Each main component, `channel_nav`, `text_channel_nav`, `direct_messages`, and `text_chat_box` is populated with information from the Rails database and rendered only when necessary.
 

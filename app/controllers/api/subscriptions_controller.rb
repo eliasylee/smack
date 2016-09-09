@@ -10,8 +10,6 @@ class Api::SubscriptionsController < ApplicationController
 
     if @subscription.save
       render :create
-    else
-      render json: @subscription.errors.full_messages, status: 422
     end
   end
 
@@ -20,8 +18,6 @@ class Api::SubscriptionsController < ApplicationController
 
     if @subscription.destroy
       render json: {}
-    else
-      render json: @subscription.errors.full_messages, status: 422
     end
   end
 

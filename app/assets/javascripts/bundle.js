@@ -34398,23 +34398,6 @@
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'createChannelDescriptionBox' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'descriptionWord' },
-	                'Description'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'descriptionInputLine' },
-	                _react2.default.createElement('input', { type: 'text',
-	                  value: this.state.description,
-	                  onChange: this.updateState("description"),
-	                  className: 'channelInput' })
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
 	              { className: 'createChannelUrlBox' },
 	              _react2.default.createElement(
 	                'div',
@@ -35945,7 +35928,7 @@
 	  }, {
 	    key: "createPlaceHolder",
 	    value: function createPlaceHolder(textChannelTitle) {
-	      if (this.props.chatable_type === "TextChannel") {
+	      if (this.props.chatType === "TextChannel") {
 	        return "Chat in " + textChannelTitle + "...";
 	      } else {
 	        return "Chat with " + textChannelTitle + "...";

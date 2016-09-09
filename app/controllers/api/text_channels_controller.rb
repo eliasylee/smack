@@ -13,8 +13,6 @@ class Api::TextChannelsController < ApplicationController
                       chatable_type: "TextChannel")
 
       render :show
-    else
-      render json: @text_channel.errors.full_messages, status: 422
     end
   end
 
@@ -23,8 +21,6 @@ class Api::TextChannelsController < ApplicationController
 
     if @text_channel.update(text_channel_params)
       render :show
-    else
-      render json: @text_channel.errors.full_messages, status: 422
     end
   end
 
@@ -33,8 +29,6 @@ class Api::TextChannelsController < ApplicationController
 
     if @text_channel.destroy
       render json: {}
-    else
-      render json: @text_channel.errors.full_messages, status: 422
     end
   end
 

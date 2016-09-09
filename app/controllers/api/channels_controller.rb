@@ -21,8 +21,6 @@ class Api::ChannelsController < ApplicationController
       Subscription.create!(user_id: current_user.id, channel_id: @channel.id)
 
       render :show
-    else
-      render json: @channel.errors.full_messages, status: 422
     end
   end
 
@@ -31,8 +29,6 @@ class Api::ChannelsController < ApplicationController
 
     if @channel.update(channel_params)
       render :show
-    else
-      render json: @channel.errors.full_messages, status: 422
     end
   end
 
@@ -41,8 +37,6 @@ class Api::ChannelsController < ApplicationController
 
     if @channel.destroy
       render json: {}
-    else
-      render json: @channel.errors.full_messages, status: 422
     end
   end
 

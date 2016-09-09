@@ -49,7 +49,7 @@ class MessageForm extends React.Component {
   }
 
   createPlaceHolder (textChannelTitle) {
-    if (this.props.chatable_type === "TextChannel") {
+    if (this.props.chatType === "TextChannel") {
       return (
         `Chat in ${textChannelTitle}...`
       )

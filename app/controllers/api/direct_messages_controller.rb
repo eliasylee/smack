@@ -20,8 +20,6 @@ class Api::DirectMessagesController < ApplicationController
                       chatable_type: "DirectMessage")
 
       render :create
-    else
-      render json: @direct_message.errors.full_messages, status: 422
     end
   end
 
