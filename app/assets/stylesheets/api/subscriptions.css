@@ -17,7 +17,7 @@
 
 .subscriptionTop {
   width: 240px;
-  height: 90%;
+  height: 70%;
   padding-top: 30px;
   padding-bottom: 30px;
   margin-left: auto;
@@ -32,7 +32,8 @@
 }
 
 .subscriptionsList {
-
+  height: 90%;
+  overflow-y: scroll;
 }
 
 .logoAndUsername {
@@ -94,6 +95,10 @@
 
 .destroySubscriptionButton:hover {
   color: #E6544A;
+}
+
+.subscriptionFormBox {
+
 }
 
 .subscriptionForm {

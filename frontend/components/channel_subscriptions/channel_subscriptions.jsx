@@ -69,7 +69,9 @@ class ChannelSubscriptions extends React.Component {
             })}
           </div>
         </div>
-        {this.renderSubscriptionForm()}
+        <div className="subscriptionFormBox">
+          {this.renderSubscriptionForm()}
+        </div>
       </div>
     )
   }

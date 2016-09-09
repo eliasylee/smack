@@ -17,6 +17,16 @@ class TextChannelChat extends React.Component {
     this.createPusherChannel = this.createPusherChannel.bind(this);
   }
 
+  componentDidUpdate () {
+    let objDiv = document.getElementById("scrollBottom");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  }
+
+  componentDidMount () {
+    let objDiv = document.getElementById("scrollBottom");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  }
+
   componentWillReceiveProps (newProps) {
     if (newProps.textChannel.id) {
       this.createPusherChannel();
@@ -77,7 +87,7 @@ class TextChannelChat extends React.Component {
     if (messages) {
       let messageKeys = Object.keys(messages).reverse()
       return (
-        <div className="textChannelMessagesBox">
+        <div className="textChannelMessagesBox" id="scrollBottom">
           {messageKeys.reverse().map( messageKey => {
             return <TextChannelChatItem message={messages[messageKey]}
                                         textChannel={textChannel}

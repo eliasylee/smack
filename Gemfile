@@ -26,6 +26,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'pusher'
 
+gem 'jquery'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 

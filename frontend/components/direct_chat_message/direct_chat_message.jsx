@@ -13,6 +13,16 @@ class DirectChatMessage extends React.Component {
     this.waitForMessages = this.waitForMessages.bind(this);
   }
 
+  componentDidUpdate () {
+    let objDiv = document.getElementById("scrollBottom");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  }
+
+  componentDidMount () {
+    let objDiv = document.getElementById("scrollBottom");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  }
+
   componentWillReceiveProps (newProps) {
     if (newProps.directMessage.id) {
       this.createPusherChannel();
@@ -59,7 +69,7 @@ class DirectChatMessage extends React.Component {
     if (directChatMessages) {
       let keys = Object.keys(directChatMessages).reverse()
       return (
-        <div className="textChannelMessagesBox">
+        <div className="textChannelMessagesBox" id="scrollBottom">
           {keys.reverse().map( key => {
             return <DirectChatMessageItem message={directChatMessages[key]}
                                           directMessage={directMessage}

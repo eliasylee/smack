@@ -35391,6 +35391,18 @@
 	  }
 	
 	  _createClass(TextChannelChat, [{
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var objDiv = document.getElementById("scrollBottom");
+	      objDiv.scrollTop = objDiv.scrollHeight;
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var objDiv = document.getElementById("scrollBottom");
+	      objDiv.scrollTop = objDiv.scrollHeight;
+	    }
+	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.textChannel.id) {
@@ -35484,7 +35496,7 @@
 	        var messageKeys = Object.keys(messages).reverse();
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'textChannelMessagesBox' },
+	          { className: 'textChannelMessagesBox', id: 'scrollBottom' },
 	          messageKeys.reverse().map(function (messageKey) {
 	            return _react2.default.createElement(_text_channel_chat_item2.default, { message: messages[messageKey],
 	              textChannel: textChannel,
@@ -36341,7 +36353,11 @@
 	            })
 	          )
 	        ),
-	        this.renderSubscriptionForm()
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'subscriptionFormBox' },
+	          this.renderSubscriptionForm()
+	        )
 	      );
 	    }
 	  }]);
@@ -36983,6 +36999,18 @@
 	  }
 	
 	  _createClass(DirectChatMessage, [{
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var objDiv = document.getElementById("scrollBottom");
+	      objDiv.scrollTop = objDiv.scrollHeight;
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var objDiv = document.getElementById("scrollBottom");
+	      objDiv.scrollTop = objDiv.scrollHeight;
+	    }
+	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.directMessage.id) {
@@ -37051,7 +37079,7 @@
 	        var keys = Object.keys(directChatMessages).reverse();
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'textChannelMessagesBox' },
+	          { className: 'textChannelMessagesBox', id: 'scrollBottom' },
 	          keys.reverse().map(function (key) {
 	            return _react2.default.createElement(_direct_chat_message_item2.default, { message: directChatMessages[key],
 	              directMessage: directMessage,
