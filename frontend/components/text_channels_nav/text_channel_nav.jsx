@@ -111,6 +111,7 @@ class TextChannelNav extends React.Component {
   }
 
   handleDestroyChannel () {
+    this.props.router.push(`/channels/@me`);
     this.props.destroyChannel(this.props.channel);
   }
 

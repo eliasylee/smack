@@ -1,128 +1,45 @@
 # Smack
 
-[heroku]: http://www.herokuapp.com
+[Smack live][heroku]
 
-## Minimum Viable Product
+[heroku]: http://www.smack-fsp.herokuapp.com
 
-Smack is a Slack/Discord-inspired chat site focused on serving the gaming community.
+Smack is a full-stack browser application inspired by Slack and built for the gaming community. It utilizes Ruby on Rails and a PostgreSQL database for the back-end and React/Redux for the front-end.
 
-0. Hosting on Heroku
-0. Production README
-0. New account creation, login, and guest/demo login
-0. Channels
-  * Adequate styling
-  * Smooth, bug-free navigation
-  * Adequate and appropriate seeds to demonstrate the feature
-0. Live chat
-  * Adequate styling
-  * Smooth, bug-free navigation
-  * Adequate and appropriate seeds to demonstrate the feature
-0. Direct Message
-  * Adequate styling
-  * Smooth, bug-free navigation
-  * Adequate and appropriate seeds to demonstrate the feature
-0. Team or multi-person DM
-  * Adequate styling
-  * Smooth, bug-free navigation
-  * Adequate and appropriate seeds to demonstrate the feature
+## Features and Implementation
 
-## Design Docs
-* [Wireframes][wireframes]
-* [React Components][components]
-* [API endpoints][api-endpoints]
-* [DB schema][schema]
-* [Redux Structure][redux-structure]
-* [Sample State][sample-state]
+### Channels & Text-Channels
 
-[wireframes]: wireframes
-[components]: component-heirarchy.md
-[redux-structure]: redux-structure.md
-[sample-state]: sample-state.md
-[api-endpoints]: api-endpoints.md
-[schema]: schema.md
+Smack makes it easy to talk to different groups through personalized channels.
 
-## Implementation Timeline
+Users who create their own channel are assigned as admins and can invite as well as remove other users from their channel.
 
-### Phase 0: Websocket Set-Up
+Each channel has unique text-channels, which allow users to compartmentalize separate discussions within the same group.
 
-**Objective** Integrate Websocket for live chat functionality.
+Admins can add and remove text-channels as well as edit each text-channel's description.
 
-- [ ] Implement Websocket-Rails or Action-Cable
+### Direct-Messages
 
-### Phase 1: Backend setup and Front End User Authentication (2 days)
+Direct messaging is personal to each individual through their "Me Channel", which is located in the top left for all users.
 
-**Objective:** Functioning rails project with front-end Authentication
+Users can add each other to begin one-on-one conversations.
 
-- [ ] New Rails project
-- [ ] `User` model/migration
-- [ ] Back end authentication (session/password)
-- [ ] `StaticPages` controller and root view
-- [ ] Webpack & react/redux modules
-- [ ] `APIUtil` to interact with the API
-- [ ] Redux cycle for front-end authentication
-- [ ] User sign-up/sign-in components
-- [ ] Blank landing component after sign-up/sign-in
-- [ ] Style sign-up/sign-in components
-- [ ] Seed users
+Previous direct messages are listed for easy-access on future occasions.
 
-### Phase 2: Channels (2 days)
+### Live Chat
 
-**Objective:** Channels belong to users and can be created, read, edited and destroyed through the API.
+Both text-channels and direct-messages feature live chat functionality enabled through Pusher, allowing users to chat in real-time.
 
-- [ ] `Channel` model
-- [ ] Seed database with a small amount of test data
-- [ ] CRUD API for channels (`ChannelsController`)
-- [ ] JBuilder views for channel
-- Channel components and respective Redux loops
-  - [ ] `ChannelsIndex`
-  - [ ] `ChannelForm`
-- [ ] Style channels components
-- [ ] Seed channels
+When users are in a particular text-channel or direct-message chat, they are subscribed to that chat's Pusher "channel".
 
-### Phase 3: Text Channels (2 days)
+Each Pusher channel is bound to message posted, message updated, and message destroyed events.
 
-**Objective:** Text channels belong to channels and can be created, read, edited and destroyed through the API.
+### Single-Page
 
-- [ ] `Text Channel` model
-- [ ] Seed database with a small amount of test data
-- [ ] CRUD API for text channels (`TextChannelsController`)
-- [ ] JBuilder views for text channel
-- Text Channel components and respective Redux loops
-  - [ ] `TextChannelsIndex`
-  - [ ] `TextChannelForm`
-- [ ] Style text channels components
-- [ ] Seed text channels
+Smack is a one-page app and allows for quick navigation throughout the pages.
 
-### Phase 4: Direct Messages (2 days)
+## Future Development
 
-**Objective:** Direct Messages belong to users and can be created, read, edited and destroyed through the API.
+### Voice Chat
 
-- [ ] `Direct Message` model
-- [ ] Seed database with a small amount of test data
-- [ ] CRUD API for direct messages (`DirectMessagesController`)
-- [ ] JBuilder views for direct messages
-- Direct message components and respective Redux loops
-  - [ ] `DirectMessagesIndex`
-  - [ ] `DirectMessageForm`
-- [ ] Style direct messages components
-- [ ] Seed direct messages
-
-### Phase 5: Chat Lines (2 days)
-
-**Objective:** Chat lines belong to direct messages and text channels and can be created, read, edited and destroyed through the API.
-
-- [ ] `Chat Line` model
-- [ ] Seed database with a small amount of test data
-- [ ] CRUD API for chat lines (`ChatLinesController`)
-- [ ] JBuilder views for direct messages
-- Chat line components and respective Redux loops
-  - [ ] `ChatLinesIndex`
-  - [ ] `ChatLineForm`
-- [ ] Style chat lines components
-- [ ] Seed chat lines
-
-### Bonus Features (TBD)
-- [ ] Friend's List that automatically direct to empty DM page
-- [ ] Emote functionality in Chat Line Creation
-- [ ] Pinned Messages
-- [ ] Message mentions
+### Responsive Search

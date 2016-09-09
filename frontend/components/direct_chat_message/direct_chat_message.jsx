@@ -17,6 +17,10 @@ class DirectChatMessage extends React.Component {
     if (newProps.directMessage.id) {
       this.createPusherChannel();
     }
+
+    if (newProps.directMessage.id !== this.props.directMessage.id) {
+      window.pusher.unsubscribe('direct_message_' + this.props.directMessage.id);
+    }
   }
 
   createPusherChannel () {

@@ -12,7 +12,7 @@
 }
 
 .loginBackground {
-  background-image: url("http://wallpapercave.com/wp/rxXhHYr.jpg");
+  background-image: url("http://res.cloudinary.com/shyguy/image/upload/v1473380082/logInBackground.jpg");
   background-position: center center;
   position: absolute;
   top: 0;
@@ -23,7 +23,7 @@
 }
 
 .signupBackground {
-  background-image: url("http://www.zastavki.com/pictures/originals/2015/Games_The_battle_in_the_game_World_of_Warcraft_Mists_of_Pandaria_101685_.png");
+  background-image: url("http://res.cloudinary.com/shyguy/image/upload/v1473379114/signUpBackground.jpg");
   background-position: center center;
   position: absolute;
   top: 0;

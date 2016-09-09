@@ -10,7 +10,7 @@ class DirectMessages extends React.Component {
     this.existingUsernames = this.existingUsernames.bind(this);
     this.updateState = this.updateState.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleLogOut = this.handleSubmit.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
   }
 
   updateState (property) {

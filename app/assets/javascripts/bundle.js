@@ -34994,6 +34994,7 @@
 	  }, {
 	    key: 'handleDestroyChannel',
 	    value: function handleDestroyChannel() {
+	      this.props.router.push('/channels/@me');
 	      this.props.destroyChannel(this.props.channel);
 	    }
 	  }, {
@@ -35394,6 +35395,10 @@
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.textChannel.id) {
 	        this.createPusherChannel();
+	      }
+	
+	      if (newProps.textChannel.id !== this.props.textChannel.id) {
+	        window.pusher.unsubscribe('text_channel_' + this.props.textChannel.id);
 	      }
 	    }
 	  }, {
@@ -36560,7 +36565,7 @@
 	    _this.existingUsernames = _this.existingUsernames.bind(_this);
 	    _this.updateState = _this.updateState.bind(_this);
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    _this.handleLogOut = _this.handleSubmit.bind(_this);
+	    _this.handleLogOut = _this.handleLogOut.bind(_this);
 	    return _this;
 	  }
 	
@@ -36982,6 +36987,10 @@
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.directMessage.id) {
 	        this.createPusherChannel();
+	      }
+	
+	      if (newProps.directMessage.id !== this.props.directMessage.id) {
+	        window.pusher.unsubscribe('direct_message_' + this.props.directMessage.id);
 	      }
 	    }
 	  }, {

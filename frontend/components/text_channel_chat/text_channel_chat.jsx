@@ -21,6 +21,10 @@ class TextChannelChat extends React.Component {
     if (newProps.textChannel.id) {
       this.createPusherChannel();
     }
+
+    if (newProps.textChannel.id !== this.props.textChannel.id) {
+      window.pusher.unsubscribe('text_channel_' + this.props.textChannel.id);
+    }
   }
 
   createPusherChannel () {
