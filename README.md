@@ -84,7 +84,7 @@ componentDidMount () {
 
 `Messages` are pulled along with each individual text-channel and direct-message when retrieved from the database. The message model was implemented with polymorphism because messages have the same functionality regardless of its location in the application.
 
-![image of direct-message-list](public/readme/direct-message-list.png)
+![image of channel-messages](public/readme/channel-messages.png)
 
 Messages can be easily created, edited, and deleted.
 
