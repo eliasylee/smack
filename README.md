@@ -6,6 +6,8 @@
 
 Smack is a full-stack browser application inspired by Slack and built for the gaming community. It utilizes Ruby on Rails and a PostgreSQL database for the back-end and React/Redux for the front-end.
 
+![image of logo](public/red-logo.png)
+
 ## Features and Implementation
 
 ### Channels & Text-Channels
