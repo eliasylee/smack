@@ -1,5 +1,3 @@
-# Smack
-
 ![image of logo](public/red-logo.png)
 
 [Smack live][heroku]
