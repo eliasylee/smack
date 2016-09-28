@@ -1,6 +1,10 @@
 class Api::TextChannelsController < ApplicationController
   def show
-    @text_channel = TextChannel.find_by_id(params[:id])
+    check = current_user.text_channels { |channel| channel.id == params[:id] }
+
+    unless check.empty?
+      @text_channel = TextChannel.find_by_id(params[:id])
+    end
   end
 
   def create

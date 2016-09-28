@@ -4,7 +4,11 @@ class Api::ChannelsController < ApplicationController
   end
 
   def show
-    @channel = Channel.find_by_id(params[:id])
+    check = current_user.channels { |channel| channel.id == params[:id] }
+
+    unless check.empty?
+      @channel = Channel.find_by_id(params[:id])
+    end
   end
 
   def create

@@ -1,7 +1,11 @@
 class Api::SubscriptionsController < ApplicationController
   def show
-    @channel = Channel.find_by_id(params[:id])
-    @subscriptions = @channel.subscriptions
+    check = current_user.channels { |channel| channel.id == params[:id] }
+
+    unless check.empty?
+      @channel = Channel.find_by_id(params[:id])
+      @subscriptions = @channel.subscriptions
+    end
   end
 
   def create

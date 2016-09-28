@@ -12,6 +12,10 @@ class User < ApplicationRecord
   has_many :channels,
     through: :subscriptions
 
+  has_many :text_channels,
+    through: :channels,
+    source: :text_channels
+
   has_many :written_messages,
     foreign_key: :author_id
 
