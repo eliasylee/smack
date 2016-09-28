@@ -23,12 +23,15 @@ const isDisabled = (path) => {
 
 const MeChannelItem = ({ channel, router, path }) => {
   return (
-    <button onClick={changeChannel(router)}
-            disabled={isDisabled(path)}>
-      <img src="white-logo-fist-small.png"
-           alt="personal-channel-icon"
-           className={isActive(path)}/>
-    </button>
+    <div className="channelButtonBox">
+      <button onClick={changeChannel(router)}
+              disabled={isDisabled(path)}>
+        <img src="white-logo-fist-small.png"
+             alt="personal-channel-icon"
+             className={isActive(path)}/>
+      </button>
+      <span className="meChannelNavHover">Direct Messages</span>
+    </div>
   )
 }
 

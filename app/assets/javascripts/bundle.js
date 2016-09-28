@@ -34713,12 +34713,21 @@
 	  var path = _ref.path;
 	
 	  return _react2.default.createElement(
-	    'button',
-	    { onClick: changeChannel(router),
-	      disabled: isDisabled(path) },
-	    _react2.default.createElement('img', { src: 'white-logo-fist-small.png',
-	      alt: 'personal-channel-icon',
-	      className: isActive(path) })
+	    'div',
+	    { className: 'channelButtonBox' },
+	    _react2.default.createElement(
+	      'button',
+	      { onClick: changeChannel(router),
+	        disabled: isDisabled(path) },
+	      _react2.default.createElement('img', { src: 'white-logo-fist-small.png',
+	        alt: 'personal-channel-icon',
+	        className: isActive(path) })
+	    ),
+	    _react2.default.createElement(
+	      'span',
+	      { className: 'meChannelNavHover' },
+	      'Direct Messages'
+	    )
 	  );
 	};
 	
