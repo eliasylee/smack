@@ -7,7 +7,6 @@ import { fetchOneTextChannel,
          updateTextChannel,
          destroyTextChannel } from '../../actions/text_channel_actions';
 import { logout } from '../../actions/session_actions';
-import { clearTextMessages } from '../../actions/message_actions';
 
 const mapStateToProps = state => ({
   currentUser: state.session.currentUser,
@@ -24,7 +23,6 @@ const mapDispatchToProps = dispatch => ({
   destroyTextChannel: textChannel => dispatch(destroyTextChannel(textChannel)),
   destroyChannel: channel => dispatch(destroyChannel(channel)),
   dismountChannel: () => dispatch(dismountChannel()),
-  clearTextMessages: () => dispatch(clearTextMessages()),
   logout: () => dispatch(logout())
 });
 

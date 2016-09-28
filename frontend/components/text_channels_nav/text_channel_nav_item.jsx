@@ -33,7 +33,6 @@ class TextChannelNavItem extends React.Component {
   changeTextChannel () {
     const { textChannel, stateTextChannel, clearTextMessages, router, channelId } = this.props;
     if (textChannel.id !== stateTextChannel.id) {
-      clearTextMessages();
       router.push(`/channels/${this.props.channelId}/${textChannel.id}`)
     }
   };

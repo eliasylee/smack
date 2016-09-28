@@ -3,7 +3,6 @@ export const MessageConstants = {
   RECEIVE_ONE_MESSAGE: 'RECEIVE_ONE_MESSAGE',
   UPDATE_MESSAGE: 'UPDATE_MESSAGE',
   DESTROY_MESSAGE: 'DESTROY_MESSAGE',
-  CLEAR_TEXT_MESSAGES: 'CLEAR_TEXT_MESSAGES',
   RECEIVE_ERRORS: 'RECEIVE_ERRORS'
 }
 
@@ -25,10 +24,6 @@ export const updateMessage = message => ({
 export const destroyMessage = message => ({
   type: MessageConstants.DESTROY_MESSAGE,
   message
-})
-
-export const clearTextMessages = () => ({
-  type: MessageConstants.CLEAR_TEXT_MESSAGES
 })
 
 export const receiveErrors = errors => ({

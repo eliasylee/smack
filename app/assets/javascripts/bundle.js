@@ -26188,7 +26188,6 @@
 	  RECEIVE_ONE_MESSAGE: 'RECEIVE_ONE_MESSAGE',
 	  UPDATE_MESSAGE: 'UPDATE_MESSAGE',
 	  DESTROY_MESSAGE: 'DESTROY_MESSAGE',
-	  CLEAR_TEXT_MESSAGES: 'CLEAR_TEXT_MESSAGES',
 	  RECEIVE_ERRORS: 'RECEIVE_ERRORS'
 	};
 	
@@ -26217,12 +26216,6 @@
 	  return {
 	    type: MessageConstants.DESTROY_MESSAGE,
 	    message: message
-	  };
-	};
-	
-	var clearTextMessages = exports.clearTextMessages = function clearTextMessages() {
-	  return {
-	    type: MessageConstants.CLEAR_TEXT_MESSAGES
 	  };
 	};
 	
@@ -34755,8 +34748,6 @@
 	
 	var _session_actions = __webpack_require__(189);
 	
-	var _message_actions = __webpack_require__(305);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state) {
@@ -34788,9 +34779,6 @@
 	    },
 	    dismountChannel: function dismountChannel() {
 	      return dispatch((0, _channel_actions.dismountChannel)());
-	    },
-	    clearTextMessages: function clearTextMessages() {
-	      return dispatch((0, _message_actions.clearTextMessages)());
 	    },
 	    logout: function logout() {
 	      return dispatch((0, _session_actions.logout)());
@@ -35211,7 +35199,6 @@
 	      var channelId = _props3.channelId;
 	
 	      if (textChannel.id !== stateTextChannel.id) {
-	        clearTextMessages();
 	        router.push('/channels/' + this.props.channelId + '/' + textChannel.id);
 	      }
 	    }
@@ -35398,16 +35385,20 @@
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.textChannel.id) {
-	        this.createPusherChannel();
+	        var newChannel = 'text_channel_' + newProps.textChannel.id;
+	
+	        if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+	          this.createPusherChannel(newProps.textChannel.id);
+	        }
 	      }
 	
-	      if (newProps.textChannel.id !== this.props.textChannel.id) {
+	      if (window.pusher && newProps.textChannel.id !== this.props.textChannel.id) {
 	        window.pusher.unsubscribe('text_channel_' + this.props.textChannel.id);
 	      }
 	    }
 	  }, {
 	    key: 'createPusherChannel',
-	    value: function createPusherChannel() {
+	    value: function createPusherChannel(channelId) {
 	      var _this2 = this;
 	
 	      if (!window.pusher) {
@@ -35416,7 +35407,7 @@
 	        });
 	      }
 	
-	      var channel = window.pusher.subscribe('text_channel_' + this.props.params.id[1]);
+	      var channel = window.pusher.subscribe('text_channel_' + channelId);
 	      channel.bind('message_posted', function (data) {
 	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
 	      });
@@ -37006,10 +36997,14 @@
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.directMessage.id) {
-	        this.createPusherChannel();
+	        var newChannel = 'direct_message_' + newProps.directMessage.id;
+	
+	        if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+	          this.createPusherChannel(newChannel);
+	        }
 	      }
 	
-	      if (newProps.directMessage.id !== this.props.directMessage.id) {
+	      if (window.pusher && newProps.directMessage.id !== this.props.directMessage.id) {
 	        window.pusher.unsubscribe('direct_message_' + this.props.directMessage.id);
 	      }
 	    }

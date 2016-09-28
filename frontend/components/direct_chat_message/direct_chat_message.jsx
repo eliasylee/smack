@@ -25,10 +25,14 @@ class DirectChatMessage extends React.Component {
 
   componentWillReceiveProps (newProps) {
     if (newProps.directMessage.id) {
-      this.createPusherChannel();
+      let newChannel = 'direct_message_' + newProps.directMessage.id;
+
+      if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+        this.createPusherChannel(newChannel);
+      }
     }
 
-    if (newProps.directMessage.id !== this.props.directMessage.id) {
+    if (window.pusher && newProps.directMessage.id !== this.props.directMessage.id) {
       window.pusher.unsubscribe('direct_message_' + this.props.directMessage.id);
     }
   }
@@ -40,7 +44,7 @@ class DirectChatMessage extends React.Component {
       });
     }
 
-    var channel = window.pusher.subscribe('direct_message_' + this.props.params.id);
+    let channel = window.pusher.subscribe('direct_message_' + this.props.params.id);
     channel.bind('message_posted', data => {
       this.props.fetchOneDirectMessage(this.props.directMessage.id);
     });
