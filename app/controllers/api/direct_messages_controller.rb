@@ -5,8 +5,12 @@ class Api::DirectMessagesController < ApplicationController
   end
 
   def show
-    @current_user = current_user
-    @direct_message = DirectMessage.find_by_id(params[:id])
+    check = current_user.direct_messages { |direct_message| direct_message.id == params[:id] }
+
+    unless check.empty?
+      @current_user = current_user
+      @direct_message = DirectMessage.find_by_id(params[:id])
+    end
   end
 
   def create
