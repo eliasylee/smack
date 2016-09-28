@@ -175,22 +175,23 @@
   justify-content: space-between;;
 }
 
-.messageEditButton {
-  opacity: 0;
-}
-
+.messageEditButton,
 .messageDeleteButton {
   opacity: 0;
 }
 
-.textChannelMessageBody:hover .messageEditButton {
+.textChannelMessageBody:hover .messageEditButton,
+.textChannelMessageBody:hover .messageDeleteButton {
   opacity: 100;
   color: #737f8d;
 }
 
-.textChannelMessageBody:hover .messageDeleteButton {
-  opacity: 100;
-  color: #737f8d;
+.messageEditButton:hover {
+  color: #
+}
+
+.messageDeleteButton:hover {
+  color: #
 }
 
 .messageBoxOuter {

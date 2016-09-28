@@ -144,7 +144,7 @@ class TextChannelNav extends React.Component {
                 <span className="textChannelTitleHeader">
                   <span>{this.props.channel.title}</span>
                 </span>
-                <div className="destroyChannelBox" onClick={this.handleDestroyChannel}>
+                <div className="destroyChannelBox">
                   {this.placeDestroyChannelButton()}
                 </div>
               </span>

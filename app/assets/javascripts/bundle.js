@@ -26766,6 +26766,7 @@
 	      var errors = function errors(data) {
 	        return dispatch((0, _channel_actions.receiveChannelErrors)(data));
 	      };
+	      console.log(action);
 	      switch (action.type) {
 	        case _channel_actions.ChannelConstants.FETCH_ALL_CHANNELS:
 	          (0, _channel_api_util.fetchAllChannels)(fetchAllSuccess, errors);
@@ -35035,7 +35036,7 @@
 	                ),
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'destroyChannelBox', onClick: this.handleDestroyChannel },
+	                  { className: 'destroyChannelBox' },
 	                  this.placeDestroyChannelButton()
 	                )
 	              ),

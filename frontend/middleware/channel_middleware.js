@@ -15,6 +15,7 @@ const ChannelMiddleware = ({ dispatch }) => next => action => {
   const createChannelSuccess = data => dispatch(receiveNewChannel(data));
   const updateChannelSuccess = data => dispatch(receiveOneChannel(data));
   const errors = data => dispatch(receiveChannelErrors(data));
+  console.log(action);
   switch (action.type) {
     case ChannelConstants.FETCH_ALL_CHANNELS:
       fetchAllChannels(fetchAllSuccess, errors);
