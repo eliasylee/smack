@@ -27,6 +27,10 @@ class TextChannelChat extends React.Component {
     objDiv.scrollTop = objDiv.scrollHeight;
   }
 
+  componentWillUnmount () {
+    window.pusher.unsubscribe('text_channel_' + this.props.textChannel.id);
+  }
+
   componentWillReceiveProps (newProps) {
     if (newProps.textChannel.id) {
       let newChannel = 'text_channel_' + newProps.textChannel.id;

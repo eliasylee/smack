@@ -35382,6 +35382,11 @@
 	      objDiv.scrollTop = objDiv.scrollHeight;
 	    }
 	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      window.pusher.unsubscribe('text_channel_' + this.props.textChannel.id);
+	    }
+	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.textChannel.id) {
@@ -36992,6 +36997,11 @@
 	    value: function componentDidMount() {
 	      var objDiv = document.getElementById("scrollBottom");
 	      objDiv.scrollTop = objDiv.scrollHeight;
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      window.pusher.unsubscribe('direct_message_' + this.props.directMessage.id);
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',

@@ -23,6 +23,10 @@ class DirectChatMessage extends React.Component {
     objDiv.scrollTop = objDiv.scrollHeight;
   }
 
+  componentWillUnmount () {
+    window.pusher.unsubscribe('direct_message_' + this.props.directMessage.id);
+  }
+
   componentWillReceiveProps (newProps) {
     if (newProps.directMessage.id) {
       let newChannel = 'direct_message_' + newProps.directMessage.id;
