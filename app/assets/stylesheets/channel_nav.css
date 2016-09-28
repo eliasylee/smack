@@ -93,6 +93,10 @@
   background-color: #e6544a;
 }
 
+.meChannelNavHover {
+  width: 100px;
+}
+
 .channelButtonBox:hover span {
   display: block;
   flex-shrink: 0;
