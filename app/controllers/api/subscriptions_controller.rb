@@ -10,10 +10,15 @@ class Api::SubscriptionsController < ApplicationController
 
   def create
     user = User.find_by_username(subscription_params[:username])
-    @subscription = Subscription.new({ user_id: user.id, channel_id: subscription_params[:channel_id]})
 
-    if @subscription.save
-      render :create
+    if user
+      @subscription = Subscription.new({ user_id: user.id, channel_id: subscription_params[:channel_id]})
+
+      if @subscription.save
+        render :create
+      end
+    else
+      render(json: ["User not found"], status: 404)
     end
   end
 

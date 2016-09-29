@@ -252,15 +252,18 @@
   color: #747F8D;
 }
 
-::-webkit-input-placeholder {
-  color: #E4E6E8;
+.messageInput::-webkit-input-placeholder {
+  color: #DADDDF;
 }
-::-moz-placeholder {
-  color: #E4E6E8;
+
+.messageInput::-moz-placeholder {
+  color: #DADDDF;
 }
-:-ms-input-placeholder {
-  color: #E4E6E8;
+
+.messageInput:-ms-input-placeholder {
+  color: #DADDDF;
 }
-:-moz-placeholder {
-  color: #E4E6E8;
+
+.messageInput:-moz-placeholder {
+  color: #DADDDF;
 }

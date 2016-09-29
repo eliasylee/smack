@@ -26325,6 +26325,10 @@
 	      var newSub = action.subscription;
 	      newState[newSub.id] = newSub;
 	      return newState;
+	    case _subscription_actions.SubscriptionConstants.RECEIVE_SUBSCRIPTION_ERRORS:
+	      var errors = action.errors;
+	      newState['errors'] = errors;
+	      return newState;
 	    case _subscription_actions.SubscriptionConstants.DESTROY_SUBSCRIPTION:
 	      var destroyedSubId = action.subscription;
 	      delete newState[destroyedSubId];
@@ -26350,7 +26354,8 @@
 	  RECEIVE_ALL_SUBSCRIPTIONS: 'RECEIVE_ALL_SUBSCRIPTIONS',
 	  CREATE_SUBSCRIPTION: 'CREATE_SUBSCRIPTION',
 	  RECEIVE_SUBSCRIPTION: 'RECEIVE_SUBSCRIPTION',
-	  DESTROY_SUBSCRIPTION: 'DESTROY_SUBSCRIPTION'
+	  DESTROY_SUBSCRIPTION: 'DESTROY_SUBSCRIPTION',
+	  RECEIVE_SUBSCRIPTION_ERRORS: 'RECEIVE_SUBSCRIPTION_ERRORS'
 	};
 	
 	var fetchAllSubscriptions = exports.fetchAllSubscriptions = function fetchAllSubscriptions(channel) {
@@ -26385,6 +26390,13 @@
 	  return {
 	    type: SubscriptionConstants.DESTROY_SUBSCRIPTION,
 	    subscription: subscription
+	  };
+	};
+	
+	var receiveSubscriptionErrors = exports.receiveSubscriptionErrors = function receiveSubscriptionErrors(errors) {
+	  return {
+	    type: SubscriptionConstants.RECEIVE_SUBSCRIPTION_ERRORS,
+	    errors: errors
 	  };
 	};
 
@@ -27075,12 +27087,15 @@
 	      var createSuccess = function createSuccess(data) {
 	        return dispatch((0, _subscription_actions.receiveSubscription)(data));
 	      };
+	      var receiveErrors = function receiveErrors(data) {
+	        return dispatch((0, _subscription_actions.receiveSubscriptionErrors)(data.responseJSON));
+	      };
 	      switch (action.type) {
 	        case _subscription_actions.SubscriptionConstants.FETCH_ALL_SUBSCRIPTIONS:
 	          (0, _subscription_api_util.fetchAllSubscriptions)(action.channel, fetchAllSuccess);
 	          return next(action);
 	        case _subscription_actions.SubscriptionConstants.CREATE_SUBSCRIPTION:
-	          (0, _subscription_api_util.createSubscription)(action.subscription, createSuccess);
+	          (0, _subscription_api_util.createSubscription)(action.subscription, createSuccess, receiveErrors);
 	          return next(action);
 	        case _subscription_actions.SubscriptionConstants.DESTROY_SUBSCRIPTION:
 	          (0, _subscription_api_util.destroySubscription)(action.subscription, function () {
@@ -27114,12 +27129,13 @@
 	  });
 	};
 	
-	var createSubscription = exports.createSubscription = function createSubscription(subscription, success) {
+	var createSubscription = exports.createSubscription = function createSubscription(subscription, success, error) {
 	  $.ajax({
 	    method: 'POST',
 	    url: '/api/subscriptions',
 	    data: subscription,
-	    success: success
+	    success: success,
+	    error: error
 	  });
 	};
 	
@@ -36270,6 +36286,7 @@
 	    };
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    _this.renderSubscriptionForm = _this.renderSubscriptionForm.bind(_this);
+	    _this.renderErrors = _this.renderErrors.bind(_this);
 	    return _this;
 	  }
 	
@@ -36305,6 +36322,14 @@
 	      };
 	    }
 	  }, {
+	    key: 'renderErrors',
+	    value: function renderErrors() {
+	      var subs = this.props.subscriptions;
+	      if (subs['errors']) {
+	        return subs['errors'];
+	      }
+	    }
+	  }, {
 	    key: 'renderSubscriptionForm',
 	    value: function renderSubscriptionForm() {
 	      if (this.props.currentUser.id === this.props.channel.admin.id) {
@@ -36325,10 +36350,18 @@
 	              _react2.default.createElement('input', { type: 'text',
 	                className: 'subscriptionUsernameInput',
 	                onChange: this.updateState("username"),
+	                placeholder: this.renderErrors(),
 	                value: this.state.username })
 	            )
 	          )
 	        );
+	      }
+	    }
+	  }, {
+	    key: 'excludeErrors',
+	    value: function excludeErrors(key) {
+	      if (key !== 'errors') {
+	        return key;
 	      }
 	    }
 	  }, {
@@ -36338,7 +36371,8 @@
 	
 	      var subscriptions = this.props.subscriptions;
 	
-	      var subKeys = Object.keys(subscriptions);
+	      var subKeys = Object.keys(subscriptions).filter(this.excludeErrors);
+	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'subscriptionsBox' },

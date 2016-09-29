@@ -336,12 +336,15 @@
 .channelInput::-webkit-input-placeholder {
   color: #6C6E72;
 }
+
 .channelInput::-moz-placeholder {
   color: #6C6E72;
 }
+
 .channelInput:-ms-input-placeholder {
   color: #6C6E72;
 }
+
 .channelInput:-moz-placeholder {
   color: #6C6E72;
 }

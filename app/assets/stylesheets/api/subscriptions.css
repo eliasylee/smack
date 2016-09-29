@@ -125,6 +125,7 @@
 .subscriptionUsernameBox {
   width: 190px;
   background-color: #fff;
+  border: 1px solid #DADDDF;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
 }
@@ -132,4 +133,17 @@
 .subscriptionUsernameInput {
   width: 160px;
   padding: 10px;
+}
+
+.subscriptionUsernameInput::-webkit-input-placeholder {
+  color: #E6544A;
+}
+.subscriptionUsernameInput::-moz-placeholder {
+  color: #E6544A;
+}
+.subscriptionUsernameInput:-ms-input-placeholder {
+  color: #E6544A;
+}
+.subscriptionUsernameInput:-moz-placeholder {
+  color: #E6544A;
 }

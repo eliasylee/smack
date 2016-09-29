@@ -14,6 +14,10 @@ const SubscriptionsReducer = (state = defaultState, action) => {
       let newSub = action.subscription;
       newState[newSub.id] = newSub;
       return newState
+    case SubscriptionConstants.RECEIVE_SUBSCRIPTION_ERRORS:
+      let errors = action.errors;
+      newState['errors'] = errors;
+      return newState;
     case SubscriptionConstants.DESTROY_SUBSCRIPTION:
       let destroyedSubId = action.subscription;
       delete newState[destroyedSubId];

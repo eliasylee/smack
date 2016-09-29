@@ -7,12 +7,13 @@ export const fetchAllSubscriptions = (channel, success) => {
   });
 };
 
-export const createSubscription = (subscription, success) => {
+export const createSubscription = (subscription, success, error) => {
   $.ajax({
     method: 'POST',
     url: '/api/subscriptions',
     data: subscription,
-    success
+    success,
+    error
   });
 };
 

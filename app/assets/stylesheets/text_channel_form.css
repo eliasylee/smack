@@ -38,12 +38,15 @@
 .textChannelInput::-webkit-input-placeholder {
   color: #6C6E72;
 }
+
 .textChannelInput::-moz-placeholder {
   color: #6C6E72;
 }
+
 .textChannelInput:-ms-input-placeholder {
   color: #6C6E72;
 }
+
 .textChannelInput:-moz-placeholder {
   color: #6C6E72;
 }

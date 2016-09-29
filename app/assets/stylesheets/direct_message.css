@@ -100,12 +100,15 @@
 .directMessageInput::-webkit-input-placeholder {
   color: #6C6E72;
 }
+
 .directMessageInput::-moz-placeholder {
   color: #6C6E72;
 }
+
 .directMessageInput:-ms-input-placeholder {
   color: #6C6E72;
 }
+
 .directMessageInput:-moz-placeholder {
   color: #6C6E72;
 }

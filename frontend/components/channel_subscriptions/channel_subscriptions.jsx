@@ -10,6 +10,7 @@ class ChannelSubscriptions extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderSubscriptionForm = this.renderSubscriptionForm.bind(this);
+    this.renderErrors = this.renderErrors.bind(this);
   }
 
   handleSubmit (e) {
@@ -18,19 +19,26 @@ class ChannelSubscriptions extends React.Component {
 
     let usernames = [];
     Object.keys(subscriptions).forEach( key => {
-      usernames.push(subscriptions[key].username)
+      usernames.push(subscriptions[key].username);
     });
 
     if (!usernames.includes(this.state.username) && username !== "") {
       let subscription = this.state;
       subscription.channel_id = channel.id;
       this.props.createSubscription({ subscription });
-      this.setState({ "username": "" })
+      this.setState({ "username": "" });
     }
   }
 
   updateState (property) {
-    return e => this.setState({[property]: e.target.value});
+    return e => this.setState({ [property]: e.target.value });
+  }
+
+  renderErrors () {
+    let subs = this.props.subscriptions;
+    if (subs['errors']) {
+      return subs['errors'];
+    }
   }
 
   renderSubscriptionForm () {
@@ -43,6 +51,7 @@ class ChannelSubscriptions extends React.Component {
                 <input type="text"
                        className="subscriptionUsernameInput"
                        onChange={this.updateState("username")}
+                       placeholder={this.renderErrors()}
                        value={this.state.username} />
               </div>
             </div>
@@ -51,9 +60,16 @@ class ChannelSubscriptions extends React.Component {
     }
   }
 
+  excludeErrors (key) {
+    if (key !== 'errors') {
+      return key;
+    }
+  }
+
   render () {
     const { subscriptions } = this.props;
-    let subKeys = Object.keys(subscriptions);
+    let subKeys = Object.keys(subscriptions).filter(this.excludeErrors);
+
     return (
       <div className="subscriptionsBox">
         <div className="subscriptionTop">
