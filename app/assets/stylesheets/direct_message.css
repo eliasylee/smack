@@ -44,7 +44,7 @@
 
 .inactiveDirectMessageButton:hover, .activeDirectMessageButton {
   background-color: #282B30;
-  color: #fff;3
+  color: #fff;
 }
 
 .destroyDirectMessageBox {
