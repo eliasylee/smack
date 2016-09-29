@@ -21,6 +21,12 @@ class ChannelNav extends React.Component {
     if (!newProps.currentUser) {
       this.props.router.push(`/login`);
     }
+
+    if (newProps.location.pathname !== this.props.path) {
+      if (this.state.view) {
+        this.toggleView();
+      }
+    }
   }
 
   handleSubmit (e) {

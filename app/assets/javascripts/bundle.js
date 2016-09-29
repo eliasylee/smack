@@ -28121,20 +28121,15 @@
 	  };
 	
 	  var checkChannelId = function checkChannelId(nextState, replace) {
-	    var channelIds = Object.keys(store.getState().channels.channels);
+	    var channelIds = store.getState().session.currentUser.channel_ids;
 	
-	    if (!channelIds.includes(nextState.params.id[0])) {
+	    if (!channelIds.includes(parseInt(nextState.params.id[0]))) {
 	      replace('/channels/@me');
 	    }
 	  };
 	
 	  var checkDirectMessageId = function checkDirectMessageId(nextState, replace) {
-	    var directMessages = store.getState().directMessages;
-	    var directMessageIds = [];
-	
-	    directMessages.forEach(function (directMessage) {
-	      directMessageIds.push(directMessage.id);
-	    });
+	    var directMessageIds = store.getState().session.currentUser.direct_message_ids;
 	
 	    if (!directMessageIds.includes(parseInt(nextState.params.id))) {
 	      replace('/channels/@me');
@@ -34353,6 +34348,12 @@
 	    value: function componentWillReceiveProps(newProps) {
 	      if (!newProps.currentUser) {
 	        this.props.router.push('/login');
+	      }
+	
+	      if (newProps.location.pathname !== this.props.path) {
+	        if (this.state.view) {
+	          this.toggleView();
+	        }
 	      }
 	    }
 	  }, {
