@@ -26,15 +26,17 @@ class ChannelSubscriptionsItem extends React.Component {
   }
 
   placeDestroyButton () {
-    const { currentUser, subscription, channel } = this.props;
+    const { currentUser, subscription, channel, admin } = this.props;
     if (currentUser.id === subscription.user_id ||
         currentUser.id === channel.admin.id) {
-      return (
-        <div className="destroySubscriptionBox">
-          <button className="destroySubscriptionButton"
-                  onClick={this.handleDestroy}><i className="fa fa-ban" aria-hidden="true"></i></button>
-        </div>
-      )
+      if (!admin) {
+        return (
+          <div className="destroySubscriptionBox">
+            <button className="destroySubscriptionButton"
+                    onClick={this.handleDestroy}><i className="fa fa-ban" aria-hidden="true"></i></button>
+          </div>
+        )
+      }
     }
   }
 

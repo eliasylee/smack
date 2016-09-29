@@ -36464,6 +36464,22 @@
 	      }
 	    }
 	  }, {
+	    key: 'renderAdmin',
+	    value: function renderAdmin(admin) {
+	      var subscriptions = this.props.subscriptions;
+	
+	      var subKeys = Object.keys(subscriptions).filter(this.excludeErrors);
+	      if (subKeys[0]) {
+	        var _admin = subKeys[0];
+	        return _react2.default.createElement(_channel_subscriptions_item2.default, { subscription: subscriptions[_admin],
+	          destroySubscription: this.props.destroySubscription,
+	          currentUser: this.props.currentUser,
+	          channel: this.props.channel,
+	          admin: true,
+	          key: _admin });
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this3 = this;
@@ -36471,6 +36487,8 @@
 	      var subscriptions = this.props.subscriptions;
 	
 	      var subKeys = Object.keys(subscriptions).filter(this.excludeErrors);
+	      var admin = subKeys[0] || [];
+	      var members = subKeys.slice(2, subKeys.length) || [];
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -36480,17 +36498,28 @@
 	          { className: 'subscriptionTop' },
 	          _react2.default.createElement(
 	            'div',
+	            { className: 'subscriptionAdminBox' },
+	            'Channel Admin'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'subscriptionAdmin' },
+	            this.renderAdmin(admin)
+	          ),
+	          _react2.default.createElement(
+	            'div',
 	            { className: 'subscriptionHeader' },
 	            'Channel Members'
 	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'subscriptionsList' },
-	            subKeys.map(function (subKey) {
+	            members.map(function (subKey) {
 	              return _react2.default.createElement(_channel_subscriptions_item2.default, { subscription: subscriptions[subKey],
 	                destroySubscription: _this3.props.destroySubscription,
 	                currentUser: _this3.props.currentUser,
 	                channel: _this3.props.channel,
+	                admin: false,
 	                key: subKey });
 	            })
 	          )
@@ -36580,18 +36609,21 @@
 	      var currentUser = _props2.currentUser;
 	      var subscription = _props2.subscription;
 	      var channel = _props2.channel;
+	      var admin = _props2.admin;
 	
 	      if (currentUser.id === subscription.user_id || currentUser.id === channel.admin.id) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'destroySubscriptionBox' },
-	          _react2.default.createElement(
-	            'button',
-	            { className: 'destroySubscriptionButton',
-	              onClick: this.handleDestroy },
-	            _react2.default.createElement('i', { className: 'fa fa-ban', 'aria-hidden': 'true' })
-	          )
-	        );
+	        if (!admin) {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'destroySubscriptionBox' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'destroySubscriptionButton',
+	                onClick: this.handleDestroy },
+	              _react2.default.createElement('i', { className: 'fa fa-ban', 'aria-hidden': 'true' })
+	            )
+	          );
+	        }
 	      }
 	    }
 	  }, {

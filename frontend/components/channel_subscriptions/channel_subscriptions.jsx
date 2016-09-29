@@ -67,20 +67,43 @@ class ChannelSubscriptions extends React.Component {
     }
   }
 
+  renderAdmin (admin) {
+    const { subscriptions } = this.props;
+    let subKeys = Object.keys(subscriptions).filter(this.excludeErrors);
+    if (subKeys[0]) {
+      let admin = subKeys[0]
+      return (
+        <ChannelSubscriptionsItem subscription={subscriptions[admin]}
+                                  destroySubscription={this.props.destroySubscription}
+                                  currentUser={this.props.currentUser}
+                                  channel={this.props.channel}
+                                  admin={true}
+                                  key={admin} />
+      )
+    }
+  }
+
   render () {
     const { subscriptions } = this.props;
     let subKeys = Object.keys(subscriptions).filter(this.excludeErrors);
+    let admin = subKeys[0] || [];
+    let members = subKeys.slice(2, subKeys.length) || [];
 
     return (
       <div className="subscriptionsBox">
         <div className="subscriptionTop">
+          <div className="subscriptionAdminBox">Channel Admin</div>
+          <div className="subscriptionAdmin">
+            {this.renderAdmin(admin)}
+          </div>
           <div className="subscriptionHeader">Channel Members</div>
           <div className="subscriptionsList">
-            { subKeys.map( subKey => {
+            { members.map( subKey => {
               return <ChannelSubscriptionsItem subscription={subscriptions[subKey]}
                                                destroySubscription={this.props.destroySubscription}
                                                currentUser={this.props.currentUser}
                                                channel={this.props.channel}
+                                               admin={false}
                                                key={subKey} />
             })}
           </div>
