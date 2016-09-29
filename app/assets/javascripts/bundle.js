@@ -37112,20 +37112,24 @@
 	          disabled: this.isDisabled() },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'directMessageUserLogo' },
+	          { className: 'directMessageLeftSide' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'directMessageUserLogoLetter' },
-	            this.prepUserName(directMessage.username)
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'textChannelButtonLeft' },
+	            { className: 'directMessageUserLogo' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'directMessageUserLogoLetter' },
+	              this.prepUserName(directMessage.username)
+	            )
+	          ),
 	          _react2.default.createElement(
-	            'ul',
-	            null,
-	            directMessage.username
+	            'div',
+	            { className: 'textChannelButtonLeft' },
+	            _react2.default.createElement(
+	              'ul',
+	              null,
+	              directMessage.username
+	            )
 	          )
 	        ),
 	        _react2.default.createElement(

@@ -57,11 +57,13 @@ class DirectMessagesItem extends React.Component {
       <div className={this.isActive()}
            onClick={this.changeDirectMessage}
            disabled={this.isDisabled()}>
-        <div className="directMessageUserLogo">
-          <div className="directMessageUserLogoLetter">{this.prepUserName(directMessage.username)}</div>
-        </div>
-        <div className="textChannelButtonLeft">
-          <ul>{directMessage.username}</ul>
+        <div className="directMessageLeftSide">
+          <div className="directMessageUserLogo">
+            <div className="directMessageUserLogoLetter">{this.prepUserName(directMessage.username)}</div>
+          </div>
+          <div className="textChannelButtonLeft">
+            <ul>{directMessage.username}</ul>
+          </div>
         </div>
         <div className="destroyDirectMessageBox">
           <button className="destroyDirectMessageButton"

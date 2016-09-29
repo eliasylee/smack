@@ -4,11 +4,17 @@
   margin-bottom: 10px;
 }
 
+.directMessageLeftSide {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .directMessageUserLogo {
   width: 30px;
   height: 30px;
   margin-left: 20px;
-  margin-right: 20px;
+  margin-right: 15px;
   display: flex;
   text-align: center;
   align-content: center;
