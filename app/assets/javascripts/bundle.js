@@ -34404,21 +34404,18 @@
 	              { className: 'createChannelTitle' },
 	              'Create Channel'
 	            ),
+	            _react2.default.createElement('div', { className: 'channelNavSeparator' }),
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'createChannelNameBox' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'channelWord' },
-	                'Channel Name'
-	              ),
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'titleInputLine' },
 	                _react2.default.createElement('input', { type: 'text',
 	                  value: this.state.title,
 	                  onChange: this.updateState("title"),
-	                  className: 'channelInput' })
+	                  className: 'channelInput',
+	                  placeholder: 'Channel Name' })
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -34426,18 +34423,15 @@
 	              { className: 'createChannelUrlBox' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'iconurlWord' },
-	                'Icon URL'
-	              ),
-	              _react2.default.createElement(
-	                'div',
 	                { className: 'urlInputLine' },
 	                _react2.default.createElement('input', { type: 'text',
 	                  value: this.state.icon_url,
 	                  onChange: this.updateState("icon_url"),
-	                  className: 'channelInput' })
+	                  className: 'channelInput',
+	                  placeholder: 'Channel Icon URL' })
 	              )
 	            ),
+	            _react2.default.createElement('div', { className: 'channelNavSeparatorBottom' }),
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'channelSubmitBox' },

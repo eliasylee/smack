@@ -247,63 +247,123 @@
 /* Modal Create Channel Form */
 
 .createChannelFormBoxOuter {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  color: #fff;
   position: absolute;
-  z-index: 5;
   left: 80px;
-  top: 28%;
+  height: 100vh;
   width: 240px;
-  height: 240px;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  color: #6C6E72;
+  text-transform: uppercase;
+  background-color: #2E3136;
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: rgba(0,0,0,0.9);
-  text-transform: uppercase;
 }
 
 .createChannelFormBoxInner {
   width: 200px;
-  height: 240px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createChannelForm {
+  height: 100%;
+  margin-top: 35px;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
 .createChannelTitle {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
-  padding: 20px 0px 20px 0px;
+  text-align: center;
+  padding: 0px 0px 10px 0px;
 }
 
-.channelWord, .descriptionWord, .iconurlWord {
+.createChannelTitle:hover {
+  color: #fff;
+}
+
+.channelNavSeparator, .channelNavSeparatorBottom {
+  margin: 19px 10px 35px 10px;
+  width: 200px;
+  min-height: 3px;
+  background: #616365;
+}
+
+.channelNavSeparatorBottom {
+  margin-top: 35px;
+  min-height: 2px;
+}
+
+.channelWord, .iconurlWord {
   padding: 5px 0px 5px 0px;
 }
 
-.titleInputLine, .descriptionInputLine, .urlInputLine {
+.createChannelNameBox, .createChannelUrlBox {
+  height: 32px;
   width: 200px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #fff;
+  border-radius: 6px;
+  border: 2px solid #212327;
+  background-color: #24272B;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleInputLine, .urlInputLine {
+  color: #fff;
+  height: 26px;
+  width: 190px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .channelInput {
-  width: 200px;
+  width: 180px;
+}
+
+.channelInput::-webkit-input-placeholder {
+  color: #6C6E72;
+}
+.channelInput::-moz-placeholder {
+  color: #6C6E72;
+}
+.channelInput:-ms-input-placeholder {
+  color: #6C6E72;
+}
+.channelInput:-moz-placeholder {
+  color: #6C6E72;
 }
 
 .channelSubmitBox {
-  padding-top: 20px;
   font-size: 20px;
   font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+.channelSubmitButton {
+  margin-left: 10px;
 }
 
 .closeCreateChannelForm {
-  color: #fff;
+  color: #6C6E72;
   float: right;
   font-size: 20px;
   font-weight: bold;
   text-transform: uppercase;
+  margin-right: 10px;
 }
 
 .closeCreateChannelForm:hover,

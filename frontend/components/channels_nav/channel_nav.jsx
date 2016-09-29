@@ -54,24 +54,26 @@ class ChannelNav extends React.Component {
         <div className="createChannelFormBoxInner">
           <form onSubmit={this.handleSubmit} className="createChannelForm">
             <div className="createChannelTitle">Create Channel</div>
+            <div className="channelNavSeparator"></div>
             <div className="createChannelNameBox">
-              <div className="channelWord">Channel Name</div>
               <div className="titleInputLine">
                 <input type="text"
                   value={this.state.title}
                   onChange={this.updateState("title")}
-                  className="channelInput" />
+                  className="channelInput"
+                  placeholder="Channel Name" />
               </div>
             </div>
             <div className="createChannelUrlBox">
-              <div className="iconurlWord">Icon URL</div>
               <div className="urlInputLine">
                 <input type="text"
                   value={this.state.icon_url}
                   onChange={this.updateState("icon_url")}
-                  className="channelInput" />
+                  className="channelInput"
+                  placeholder="Channel Icon URL" />
               </div>
             </div>
+            <div className="channelNavSeparatorBottom"></div>
             <div className="channelSubmitBox">
               <input className="channelSubmitButton"
                      type="submit"
