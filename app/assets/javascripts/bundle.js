@@ -26475,7 +26475,8 @@
 	  CREATE_DIRECT_MESSAGE: 'CREATE_DIRECT_MESSAGE',
 	  RECEIVE_NEW_DIRECT_MESSAGE: 'RECEIVE_NEW_DIRECT_MESSAGE',
 	  DISMOUNT_DIRECT_MESSAGE: 'DISMOUNT_DIRECT_MESSAGE',
-	  RECEIVE_DIRECT_MESSAGE_ERRORS: 'RECEIVE_DIRECT_MESSAGE_ERRORS'
+	  RECEIVE_DIRECT_MESSAGE_ERRORS: 'RECEIVE_DIRECT_MESSAGE_ERRORS',
+	  CLEAR_DIRECT_MESSAGE_ERRORS: 'CLEAR_DIRECT_MESSAGE_ERRORS'
 	};
 	
 	var fetchAllDirectMessages = exports.fetchAllDirectMessages = function fetchAllDirectMessages() {
@@ -26531,6 +26532,12 @@
 	    errors: errors
 	  };
 	};
+	
+	var clearDirectMessageErrors = exports.clearDirectMessageErrors = function clearDirectMessageErrors() {
+	  return {
+	    type: DirectMessageConstants.CLEAR_DIRECT_MESSAGE_ERRORS
+	  };
+	};
 
 /***/ },
 /* 313 */
@@ -26577,6 +26584,9 @@
 	      return defaultState;
 	    case _direct_message_actions.DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS:
 	      newState['errors'] = action.errors;
+	      return newState;
+	    case _direct_chat_message_actions.DirectChatMessageConstants.CLEAR_DIRECT_MESSAGE_ERRORS:
+	      newState['errors'] = [];
 	      return newState;
 	    case _direct_chat_message_actions.DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:
 	      var newMessage = action.directChatMessage;
@@ -36592,6 +36602,9 @@
 	    dismountDirectMessage: function dismountDirectMessage() {
 	      return dispatch((0, _direct_message_actions.dismountDirectMessage)());
 	    },
+	    clearDirectMessageErrors: function clearDirectMessageErrors() {
+	      return dispatch((0, _direct_message_actions.clearDirectMessageErrors)());
+	    },
 	    logout: function logout() {
 	      return dispatch((0, _session_actions.logout)());
 	    }
@@ -36680,6 +36693,7 @@
 	        if (!this.existingUsernames().includes(username)) {
 	          var direct_message = Object.assign({}, this.state);
 	          this.setState({ "username": "" });
+	          this.props.clearDirectMessageErrors();
 	          this.props.createDirectMessage({ direct_message: direct_message });
 	        }
 	      }
@@ -36689,7 +36703,8 @@
 	    value: function renderFormInput() {
 	      var errors = this.props.errors;
 	
-	      if (errors.length === 0) {
+	
+	      if (!errors || errors.length === 0) {
 	        return "Start a conversation";
 	      } else {
 	        return errors[0];
@@ -36700,7 +36715,8 @@
 	    value: function inputColor() {
 	      var errors = this.props.errors;
 	
-	      if (errors.length === 0) {
+	
+	      if (!errors || errors.length === 0) {
 	        return "directMessageInput";
 	      } else {
 	        return "directMessageInput withErrors";

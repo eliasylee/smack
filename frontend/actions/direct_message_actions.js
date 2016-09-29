@@ -6,7 +6,8 @@ export const DirectMessageConstants = {
   CREATE_DIRECT_MESSAGE: 'CREATE_DIRECT_MESSAGE',
   RECEIVE_NEW_DIRECT_MESSAGE: 'RECEIVE_NEW_DIRECT_MESSAGE',
   DISMOUNT_DIRECT_MESSAGE: 'DISMOUNT_DIRECT_MESSAGE',
-  RECEIVE_DIRECT_MESSAGE_ERRORS: 'RECEIVE_DIRECT_MESSAGE_ERRORS'
+  RECEIVE_DIRECT_MESSAGE_ERRORS: 'RECEIVE_DIRECT_MESSAGE_ERRORS',
+  CLEAR_DIRECT_MESSAGE_ERRORS: 'CLEAR_DIRECT_MESSAGE_ERRORS'
 }
 
 export const fetchAllDirectMessages = () => ({
@@ -45,4 +46,8 @@ export const dismountDirectMessage = () => ({
 export const receiveDirectMessageErrors = errors => ({
   type: DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS,
   errors
+})
+
+export const clearDirectMessageErrors = () => ({
+  type: DirectMessageConstants.CLEAR_DIRECT_MESSAGE_ERRORS
 })

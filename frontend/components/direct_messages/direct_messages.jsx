@@ -36,6 +36,7 @@ class DirectMessages extends React.Component {
       if (!this.existingUsernames().includes(username)) {
         let direct_message = Object.assign({}, this.state);
         this.setState({ "username": "" });
+        this.props.clearDirectMessageErrors();
         this.props.createDirectMessage({ direct_message });
       }
     }
@@ -43,7 +44,8 @@ class DirectMessages extends React.Component {
 
   renderFormInput () {
     const { errors } = this.props;
-    if (errors.length === 0) {
+
+    if (!errors || errors.length === 0) {
       return "Start a conversation";
     } else {
       return errors[0];
@@ -52,7 +54,8 @@ class DirectMessages extends React.Component {
 
   inputColor () {
     const { errors } = this.props;
-    if (errors.length === 0) {
+
+    if (!errors || errors.length === 0) {
       return "directMessageInput";
     } else {
       return "directMessageInput withErrors";

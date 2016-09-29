@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import DirectMessages from './direct_messages';
 import { fetchOneDirectMessage,
          createDirectMessage,
-         dismountDirectMessage } from '../../actions/direct_message_actions';
+         dismountDirectMessage,
+         clearDirectMessageErrors } from '../../actions/direct_message_actions';
 import { logout } from '../../actions/session_actions';
 
 const mapStateToProps = state => ({
@@ -15,6 +16,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   createDirectMessage: username => dispatch(createDirectMessage(username)),
   dismountDirectMessage: () => dispatch(dismountDirectMessage()),
+  clearDirectMessageErrors: () => dispatch(clearDirectMessageErrors()),
   logout: () => dispatch(logout())
 });
 
