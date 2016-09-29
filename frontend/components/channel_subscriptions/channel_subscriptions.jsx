@@ -45,7 +45,6 @@ class ChannelSubscriptions extends React.Component {
                        onChange={this.updateState("username")}
                        value={this.state.username} />
               </div>
-              <input className="subscriptionSubmitButton" type="submit" value="^" />
             </div>
         </form>
       )

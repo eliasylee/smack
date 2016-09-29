@@ -120,11 +120,10 @@
   display: flex;
   justify-content: space-between;
   width: 180px;
-  padding-right: 4px;
 }
 
 .subscriptionUsernameBox {
-  width: 160px;
+  width: 190px;
   background-color: #fff;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
@@ -132,19 +131,5 @@
 
 .subscriptionUsernameInput {
   width: 160px;
-  padding: 10px 0px 10px 10px;
-}
-
-.subscriptionSubmitButton {
-  background-color: #fff;
-  width: 20px;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-  border-left: 1px solid #ECEEEF;
-  text-align: center;
-}
-
-.subscriptionSubmitButton:hover {
-  background-color: #ECEEEF;
-  color: #fff;
+  padding: 10px;
 }

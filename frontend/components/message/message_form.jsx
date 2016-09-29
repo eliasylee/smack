@@ -63,9 +63,6 @@ class MessageForm extends React.Component {
   createMessageForm (textChannelTitle) {
     return (
       <form onSubmit={this.handleSubmit} className="createMessageForm">
-        <div className="textMessageSubmitBox">
-          <input className="textMessageSubmitButton" type="submit" value="^" />
-        </div>
         <div className="createMessageBodyBox">
           <input type="textarea"
                  placeholder={this.createPlaceHolder(textChannelTitle)}

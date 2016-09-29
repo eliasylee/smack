@@ -238,24 +238,6 @@
   justify-content: flex-start;
 }
 
-.textMessageSubmitBox {
-  min-height: 46px;
-  width: 36px;
-  border-right: 1px solid #F0F0F0;
-  font-size: 30px;
-  color: #747F8D;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.textMessageSubmitBox:hover {
-  background-color: #DADDDF;
-  color: #fff;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-
 .createMessageBodyBox {
   padding-left: 15px;
   min-height: 46px;

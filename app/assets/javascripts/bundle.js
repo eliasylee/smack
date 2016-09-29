@@ -35378,7 +35378,7 @@
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* globals Pusher */
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global Pusher */
 	
 	var TextChannelChat = function (_React$Component) {
 	  _inherits(TextChannelChat, _React$Component);
@@ -35974,11 +35974,6 @@
 	        { onSubmit: this.handleSubmit, className: "createMessageForm" },
 	        _react2.default.createElement(
 	          "div",
-	          { className: "textMessageSubmitBox" },
-	          _react2.default.createElement("input", { className: "textMessageSubmitButton", type: "submit", value: "^" })
-	        ),
-	        _react2.default.createElement(
-	          "div",
 	          { className: "createMessageBodyBox" },
 	          _react2.default.createElement("input", { type: "textarea",
 	            placeholder: this.createPlaceHolder(textChannelTitle),
@@ -36331,8 +36326,7 @@
 	                className: 'subscriptionUsernameInput',
 	                onChange: this.updateState("username"),
 	                value: this.state.username })
-	            ),
-	            _react2.default.createElement('input', { className: 'subscriptionSubmitButton', type: 'submit', value: '^' })
+	            )
 	          )
 	        );
 	      }
