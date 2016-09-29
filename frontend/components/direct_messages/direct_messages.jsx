@@ -13,6 +13,10 @@ class DirectMessages extends React.Component {
     this.handleLogOut = this.handleLogOut.bind(this);
   }
 
+  componentWillUnmount () {
+    this.props.dismountDirectMessage();
+  }
+
   updateState (property) {
     return e => this.setState({[property]: e.target.value});
   }

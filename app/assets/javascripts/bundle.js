@@ -26461,7 +26461,8 @@
 	  FETCH_ONE_DIRECT_MESSAGE: 'FETCH_ONE_DIRECT_MESSAGE',
 	  RECEIVE_ONE_DIRECT_MESSAGE: 'RECEIVE_ONE_DIRECT_MESSAGE',
 	  CREATE_DIRECT_MESSAGE: 'CREATE_DIRECT_MESSAGE',
-	  RECEIVE_NEW_DIRECT_MESSAGE: 'RECEIVE_NEW_DIRECT_MESSAGE'
+	  RECEIVE_NEW_DIRECT_MESSAGE: 'RECEIVE_NEW_DIRECT_MESSAGE',
+	  DISMOUNT_DIRECT_MESSAGE: 'DISMOUNT_DIRECT_MESSAGE'
 	};
 	
 	var fetchAllDirectMessages = exports.fetchAllDirectMessages = function fetchAllDirectMessages() {
@@ -26502,6 +26503,12 @@
 	  return {
 	    type: DirectMessageConstants.RECEIVE_NEW_DIRECT_MESSAGE,
 	    directMessage: directMessage
+	  };
+	};
+	
+	var dismountDirectMessage = exports.dismountDirectMessage = function dismountDirectMessage() {
+	  return {
+	    type: DirectMessageConstants.DISMOUNT_DIRECT_MESSAGE
 	  };
 	};
 
@@ -26545,6 +26552,8 @@
 	      newState.username = action.directMessage.username;
 	      newState.messages = keyedMessages;
 	      return newState;
+	    case _direct_message_actions.DirectMessageConstants.DISMOUNT_DIRECT_MESSAGE:
+	      return defaultState;
 	    case _direct_chat_message_actions.DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:
 	      var newMessage = action.directChatMessage;
 	      newState.messages[newMessage.id] = newMessage;
@@ -26766,7 +26775,6 @@
 	      var errors = function errors(data) {
 	        return dispatch((0, _channel_actions.receiveChannelErrors)(data));
 	      };
-	      console.log(action);
 	      switch (action.type) {
 	        case _channel_actions.ChannelConstants.FETCH_ALL_CHANNELS:
 	          (0, _channel_api_util.fetchAllChannels)(fetchAllSuccess, errors);
@@ -36541,6 +36549,9 @@
 	    createDirectMessage: function createDirectMessage(username) {
 	      return dispatch((0, _direct_message_actions.createDirectMessage)(username));
 	    },
+	    dismountDirectMessage: function dismountDirectMessage() {
+	      return dispatch((0, _direct_message_actions.dismountDirectMessage)());
+	    },
 	    logout: function logout() {
 	      return dispatch((0, _session_actions.logout)());
 	    }
@@ -36598,6 +36609,11 @@
 	  }
 	
 	  _createClass(DirectMessages, [{
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.props.dismountDirectMessage();
+	    }
+	  }, {
 	    key: 'updateState',
 	    value: function updateState(property) {
 	      var _this2 = this;
