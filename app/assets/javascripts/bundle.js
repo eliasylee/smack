@@ -28112,11 +28112,33 @@
 	    }
 	  };
 	
+	  var checkChannelId = function checkChannelId(nextState, replace) {
+	    var channelIds = Object.keys(store.getState().channels.channels);
+	
+	    if (!channelIds.includes(nextState.params.id[0])) {
+	      replace('/channels/@me');
+	    }
+	  };
+	
+	  var checkDirectMessageId = function checkDirectMessageId(nextState, replace) {
+	    var directMessages = store.getState().directMessages;
+	    var directMessageIds = [];
+	
+	    directMessages.forEach(function (directMessage) {
+	      directMessageIds.push(directMessage.id);
+	    });
+	
+	    if (!directMessageIds.includes(nextState.params.id[1])) {
+	      replace('/channels/@me');
+	    }
+	  };
+	
 	  var fetchAllChannelsOnEnter = function fetchAllChannelsOnEnter() {
 	    store.dispatch((0, _channel_actions.fetchAllChannels)());
 	  };
 	
-	  var fetchChannelInformation = function fetchChannelInformation(nextState) {
+	  var fetchChannelInformation = function fetchChannelInformation(nextState, replace) {
+	    checkChannelId(nextState, replace);
 	    store.dispatch((0, _channel_actions.fetchOneChannel)(nextState.params.id[0]));
 	    store.dispatch((0, _subscription_actions.fetchAllSubscriptions)(nextState.params.id[0]));
 	  };
@@ -28125,11 +28147,12 @@
 	    store.dispatch((0, _text_channel_actions.fetchOneTextChannel)(nextState.params.id[1]));
 	  };
 	
-	  var fetchAllDirectMessagesOnEnter = function fetchAllDirectMessagesOnEnter() {
+	  var fetchAllDirectMessagesOnEnter = function fetchAllDirectMessagesOnEnter(nextState) {
 	    store.dispatch((0, _direct_message_actions.fetchAllDirectMessages)());
 	  };
 	
-	  var fetchOneDirectMessageOnEnter = function fetchOneDirectMessageOnEnter(nextState) {
+	  var fetchOneDirectMessageOnEnter = function fetchOneDirectMessageOnEnter(nextState, replace) {
+	    checkDirectMessageId(nextState, replace);
 	    store.dispatch((0, _direct_message_actions.fetchOneDirectMessage)(nextState.params.id));
 	  };
 	

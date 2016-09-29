@@ -29,11 +29,33 @@ const AppRouter = ({ currentUser, store }) => {
     }
   }
 
+  const checkChannelId = (nextState, replace) => {
+    let channelIds = Object.keys(store.getState().channels.channels);
+
+    if (!channelIds.includes(nextState.params.id[0])) {
+      replace('/channels/@me');
+    }
+  }
+
+  const checkDirectMessageId = (nextState, replace) => {
+    let directMessages = store.getState().directMessages
+    let directMessageIds = [];
+
+    directMessages.forEach( directMessage => {
+      directMessageIds.push(directMessage.id);
+    });
+
+    if (!directMessageIds.includes(nextState.params.id[1])) {
+      replace('/channels/@me');
+    }
+  }
+
   const fetchAllChannelsOnEnter = () => {
     store.dispatch(fetchAllChannels());
   }
 
-  const fetchChannelInformation = nextState => {
+  const fetchChannelInformation = (nextState, replace) => {
+    checkChannelId(nextState, replace);
     store.dispatch(fetchOneChannel(nextState.params.id[0]));
     store.dispatch(fetchAllSubscriptions(nextState.params.id[0]));
   }
@@ -42,11 +64,12 @@ const AppRouter = ({ currentUser, store }) => {
     store.dispatch(fetchOneTextChannel(nextState.params.id[1]));
   }
 
-  const fetchAllDirectMessagesOnEnter = () => {
+  const fetchAllDirectMessagesOnEnter = nextState => {
     store.dispatch(fetchAllDirectMessages());
   }
 
-  const fetchOneDirectMessageOnEnter = nextState => {
+  const fetchOneDirectMessageOnEnter = (nextState, replace) => {
+    checkDirectMessageId(nextState, replace);
     store.dispatch(fetchOneDirectMessage(nextState.params.id));
   }
 
