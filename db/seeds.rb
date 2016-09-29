@@ -232,7 +232,7 @@ Message.create!(author_id: 7, body: "o dayum", chatable_type: "DirectMessage", c
 Message.create!(author_id: 7, body: "cool", chatable_type: "DirectMessage", chatable_id: 2)
 
 DirectMessage.create!(speaker_id: 5, listener_id: 2)
-Message.create!(author_id: 1, body: "This is the beginning of the direct message history between smartglo1 and ShyGuy.", chatable_type: "DirectMessage", chatable_id: 3)
+Message.create!(author_id: 1, body: "This is the beginning of the direct message history between ShyGuy and smartglo1.", chatable_type: "DirectMessage", chatable_id: 3)
 Message.create!(author_id: 2, body: "yo louis", chatable_type: "DirectMessage", chatable_id: 3)
 Message.create!(author_id: 5, body: "Yo", chatable_type: "DirectMessage", chatable_id: 3)
 Message.create!(author_id: 5, body: "Wassup", chatable_type: "DirectMessage", chatable_id: 3)
@@ -256,13 +256,13 @@ Message.create!(author_id: 5, body: "I see", chatable_type: "DirectMessage", cha
 Message.create!(author_id: 5, body: "Interesting", chatable_type: "DirectMessage", chatable_id: 3)
 
 DirectMessage.create!(speaker_id: 23, listener_id: 2)
-Message.create!(author_id: 1, body: "This is the beginning of the direct message history between rentaro and ShyGuy.", chatable_type: "DirectMessage", chatable_id: 4)
+Message.create!(author_id: 1, body: "This is the beginning of the direct message history between ShyGuy and rentaro.", chatable_type: "DirectMessage", chatable_id: 4)
 Message.create!(author_id: 2, body: "yo ggs they were fun today", chatable_type: "DirectMessage", chatable_id: 4)
 Message.create!(author_id: 23, body: "yeah np gg", chatable_type: "DirectMessage", chatable_id: 4)
 Message.create!(author_id: 2, body: "see you next week", chatable_type: "DirectMessage", chatable_id: 4)
 
 DirectMessage.create!(speaker_id: 2, listener_id: 3)
-Message.create!(author_id: 1, body: "This is the beginning of the direct message history between Sunny and ShyGuy.", chatable_type: "DirectMessage", chatable_id: 5)
+Message.create!(author_id: 1, body: "This is the beginning of the direct message history between ShyGuy and Sunny.", chatable_type: "DirectMessage", chatable_id: 5)
 Message.create!(author_id: 2, body: "yo ben", chatable_type: "DirectMessage", chatable_id: 5)
 Message.create!(author_id: 2, body: "with this tournament thing, would you want to cast with me?", chatable_type: "DirectMessage", chatable_id: 5)
 Message.create!(author_id: 2, body: "i'm anticipating open bracket, rank 15 and below bracket, and rank 30 and below bracket", chatable_type: "DirectMessage", chatable_id: 5)

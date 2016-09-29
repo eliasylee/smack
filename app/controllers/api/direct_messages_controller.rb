@@ -21,7 +21,7 @@ class Api::DirectMessagesController < ApplicationController
 
       if @direct_message.save
         Message.create!(author_id: 1,
-                        body: "This is the beginning of the direct message history between #{@user.username} and #{current_user.username}.",
+                        body: "This is the beginning of the direct message history between #{current_user.username} and #{@user.username}.",
                         chatable_id: @direct_message.id,
                         chatable_type: "DirectMessage")
         render :create
