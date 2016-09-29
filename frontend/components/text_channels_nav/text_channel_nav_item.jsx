@@ -38,10 +38,11 @@ class TextChannelNavItem extends React.Component {
   };
 
   handleDestroyTextChannel () {
+    const { destroyTextChannel, fetchOneTextChannel, router } = this.props;
     let textChannelNumber = parseInt(this.props.textChannelKeys[0]);
-    this.props.destroyTextChannel(this.textChannel);
-    this.props.fetchOneTextChannel(textChannelNumber);
-    this.props.router.push(`/channels/${this.props.channelId}/${textChannelNumber}`)
+    destroyTextChannel(this.textChannel);
+    fetchOneTextChannel(textChannelNumber);
+    router.push(`/channels/${this.props.channelId}/${textChannelNumber}`)
   };
 
   placeDestroyTextChannelButton () {

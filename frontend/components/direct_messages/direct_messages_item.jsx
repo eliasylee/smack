@@ -7,6 +7,7 @@ class DirectMessagesItem extends React.Component {
     this.isActive = this.isActive.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
     this.changeDirectMessage = this.changeDirectMessage.bind(this);
+    this.handleDestroy = this.handleDestroy.bind(this);
   }
 
   isActive () {
@@ -44,8 +45,14 @@ class DirectMessagesItem extends React.Component {
     return result;
   }
 
+  handleDestroy () {
+    const { directMessage, destroyDirectMessage, router } = this.props;
+    destroyDirectMessage(directMessage.id);
+    router.push(`/channels/@me`);
+  }
+
   render () {
-    const { directMessage } = this.props;
+    const { directMessage, destroyDirectMessage } = this.props;
     return (
       <div className={this.isActive()}
            onClick={this.changeDirectMessage}
@@ -55,6 +62,10 @@ class DirectMessagesItem extends React.Component {
         </div>
         <div className="textChannelButtonLeft">
           <ul>{directMessage.username}</ul>
+        </div>
+        <div className="destroyDirectMessageBox">
+          <button className="destroyDirectMessageButton"
+                  onClick={this.handleDestroy}><i className="fa fa-ban" aria-hidden="true"></i></button>
         </div>
       </div>
     )

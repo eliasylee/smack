@@ -18,6 +18,8 @@ const DirectMessageReducer = (state = defaultState, action) => {
       newState.username = action.directMessage.username;
       newState.messages = keyedMessages;
       return newState
+    case DirectMessageConstants.DESTROY_DIRECT_MESSAGE:
+      return defaultState;
     case DirectMessageConstants.DISMOUNT_DIRECT_MESSAGE:
       return defaultState;
     case DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS:

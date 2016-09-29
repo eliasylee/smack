@@ -24,3 +24,12 @@ export const createDirectMessage = (directMessage, success, error) => {
     error
   });
 };
+
+export const destroyDirectMessage = (directMessage, success) => {
+  $.ajax({
+    method: 'DELETE',
+    url: `/api/direct_messages/${directMessage}`,
+    data: directMessage,
+    success
+  });
+};

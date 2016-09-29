@@ -26438,6 +26438,8 @@
 	  value: true
 	});
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	var _direct_message_actions = __webpack_require__(312);
 	
 	var _merge = __webpack_require__(190);
@@ -26453,17 +26455,39 @@
 	  var action = arguments[1];
 	
 	  var newState = (0, _merge2.default)([], state);
-	  switch (action.type) {
-	    case _direct_message_actions.DirectMessageConstants.RECEIVE_ALL_DIRECT_MESSAGES:
-	      var directMessages = action.directMessages;
-	      return directMessages;
-	    case _direct_message_actions.DirectMessageConstants.RECEIVE_NEW_DIRECT_MESSAGE:
-	      var directMessage = action.directMessage;
-	      newState.push(directMessage);
-	      return newState;
-	    default:
-	      return state;
-	  }
+	
+	  var _ret = function () {
+	    switch (action.type) {
+	      case _direct_message_actions.DirectMessageConstants.RECEIVE_ALL_DIRECT_MESSAGES:
+	        var directMessages = action.directMessages;
+	        return {
+	          v: directMessages
+	        };
+	      case _direct_message_actions.DirectMessageConstants.RECEIVE_NEW_DIRECT_MESSAGE:
+	        var directMessage = action.directMessage;
+	        newState.push(directMessage);
+	        return {
+	          v: newState
+	        };
+	      case _direct_message_actions.DirectMessageConstants.DESTROY_DIRECT_MESSAGE:
+	        var dmId = action.directMessage;
+	        newState.forEach(function (directMessage) {
+	          if (directMessage.id === dmId) {
+	            var idx = newState.indexOf(directMessage);
+	            newState = newState.slice(0, idx).concat(newState.slice(idx + 1, newState.length));
+	          }
+	        });
+	        return {
+	          v: newState
+	        };
+	      default:
+	        return {
+	          v: state
+	        };
+	    }
+	  }();
+	
+	  if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	};
 	
 	exports.default = DirectMessagesReducer;
@@ -26485,6 +26509,7 @@
 	  CREATE_DIRECT_MESSAGE: 'CREATE_DIRECT_MESSAGE',
 	  RECEIVE_NEW_DIRECT_MESSAGE: 'RECEIVE_NEW_DIRECT_MESSAGE',
 	  DISMOUNT_DIRECT_MESSAGE: 'DISMOUNT_DIRECT_MESSAGE',
+	  DESTROY_DIRECT_MESSAGE: 'DESTROY_DIRECT_MESSAGE',
 	  RECEIVE_DIRECT_MESSAGE_ERRORS: 'RECEIVE_DIRECT_MESSAGE_ERRORS',
 	  CLEAR_DIRECT_MESSAGE_ERRORS: 'CLEAR_DIRECT_MESSAGE_ERRORS'
 	};
@@ -26533,6 +26558,13 @@
 	var dismountDirectMessage = exports.dismountDirectMessage = function dismountDirectMessage() {
 	  return {
 	    type: DirectMessageConstants.DISMOUNT_DIRECT_MESSAGE
+	  };
+	};
+	
+	var destroyDirectMessage = exports.destroyDirectMessage = function destroyDirectMessage(directMessage) {
+	  return {
+	    type: DirectMessageConstants.DESTROY_DIRECT_MESSAGE,
+	    directMessage: directMessage
 	  };
 	};
 	
@@ -26590,6 +26622,8 @@
 	      newState.username = action.directMessage.username;
 	      newState.messages = keyedMessages;
 	      return newState;
+	    case _direct_message_actions.DirectMessageConstants.DESTROY_DIRECT_MESSAGE:
+	      return defaultState;
 	    case _direct_message_actions.DirectMessageConstants.DISMOUNT_DIRECT_MESSAGE:
 	      return defaultState;
 	    case _direct_message_actions.DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS:
@@ -27220,6 +27254,11 @@
 	        case _direct_message_actions.DirectMessageConstants.CREATE_DIRECT_MESSAGE:
 	          (0, _direct_message_api_util.createDirectMessage)(action.directMessage, createSuccess, errors);
 	          return next(action);
+	        case _direct_message_actions.DirectMessageConstants.DESTROY_DIRECT_MESSAGE:
+	          (0, _direct_message_api_util.destroyDirectMessage)(action.directMessage, function () {
+	            return next(action);
+	          });
+	          break;
 	        default:
 	          return next(action);
 	      }
@@ -27262,6 +27301,15 @@
 	    data: directMessage,
 	    success: success,
 	    error: error
+	  });
+	};
+	
+	var destroyDirectMessage = exports.destroyDirectMessage = function destroyDirectMessage(directMessage, success) {
+	  $.ajax({
+	    method: 'DELETE',
+	    url: '/api/direct_messages/' + directMessage,
+	    data: directMessage,
+	    success: success
 	  });
 	};
 
@@ -28181,7 +28229,13 @@
 	  };
 	
 	  var checkDirectMessageId = function checkDirectMessageId(nextState, replace) {
-	    var directMessageIds = store.getState().session.currentUser.direct_message_ids;
+	    var msgs = store.getState().directMessages;
+	    var keys = Object.keys(msgs);
+	    var directMessageIds = [];
+	
+	    keys.forEach(function (key) {
+	      directMessageIds.push(msgs[key].id);
+	    });
 	
 	    if (!directMessageIds.includes(parseInt(nextState.params.id))) {
 	      replace('/channels/@me');
@@ -35284,20 +35338,25 @@
 	  }, {
 	    key: 'handleDestroyTextChannel',
 	    value: function handleDestroyTextChannel() {
+	      var _props4 = this.props;
+	      var destroyTextChannel = _props4.destroyTextChannel;
+	      var fetchOneTextChannel = _props4.fetchOneTextChannel;
+	      var router = _props4.router;
+	
 	      var textChannelNumber = parseInt(this.props.textChannelKeys[0]);
-	      this.props.destroyTextChannel(this.textChannel);
-	      this.props.fetchOneTextChannel(textChannelNumber);
-	      this.props.router.push('/channels/' + this.props.channelId + '/' + textChannelNumber);
+	      destroyTextChannel(this.textChannel);
+	      fetchOneTextChannel(textChannelNumber);
+	      router.push('/channels/' + this.props.channelId + '/' + textChannelNumber);
 	    }
 	  }, {
 	    key: 'placeDestroyTextChannelButton',
 	    value: function placeDestroyTextChannelButton() {
-	      var _props4 = this.props;
-	      var currentUserId = _props4.currentUserId;
-	      var channelAdminId = _props4.channelAdminId;
-	      var textChannel = _props4.textChannel;
-	      var textChannelKeys = _props4.textChannelKeys;
-	      var stateTextChannel = _props4.stateTextChannel;
+	      var _props5 = this.props;
+	      var currentUserId = _props5.currentUserId;
+	      var channelAdminId = _props5.channelAdminId;
+	      var textChannel = _props5.textChannel;
+	      var textChannelKeys = _props5.textChannelKeys;
+	      var stateTextChannel = _props5.stateTextChannel;
 	
 	      if (textChannel.id !== parseInt(textChannelKeys[0])) {
 	        if (currentUserId === channelAdminId) {
@@ -36616,6 +36675,9 @@
 	    dismountDirectMessage: function dismountDirectMessage() {
 	      return dispatch((0, _direct_message_actions.dismountDirectMessage)());
 	    },
+	    destroyDirectMessage: function destroyDirectMessage(directMessage) {
+	      return dispatch((0, _direct_message_actions.destroyDirectMessage)(directMessage));
+	    },
 	    clearDirectMessageErrors: function clearDirectMessageErrors() {
 	      return dispatch((0, _direct_message_actions.clearDirectMessageErrors)());
 	    },
@@ -36770,6 +36832,7 @@
 	      var _props = this.props;
 	      var directMessages = _props.directMessages;
 	      var stateDirectMessage = _props.stateDirectMessage;
+	      var destroyDirectMessage = _props.destroyDirectMessage;
 	
 	
 	      if (directMessages) {
@@ -36779,6 +36842,7 @@
 	          directMessages.map(function (directMessage) {
 	            return _react2.default.createElement(_direct_messages_item2.default, { directMessage: directMessage,
 	              stateDirectMessage: stateDirectMessage,
+	              destroyDirectMessage: destroyDirectMessage,
 	              key: directMessage.id });
 	          })
 	        );
@@ -36938,6 +37002,7 @@
 	    _this.isActive = _this.isActive.bind(_this);
 	    _this.isDisabled = _this.isDisabled.bind(_this);
 	    _this.changeDirectMessage = _this.changeDirectMessage.bind(_this);
+	    _this.handleDestroy = _this.handleDestroy.bind(_this);
 	    return _this;
 	  }
 	
@@ -36991,9 +37056,22 @@
 	      return result;
 	    }
 	  }, {
+	    key: 'handleDestroy',
+	    value: function handleDestroy() {
+	      var _props4 = this.props;
+	      var directMessage = _props4.directMessage;
+	      var destroyDirectMessage = _props4.destroyDirectMessage;
+	      var router = _props4.router;
+	
+	      destroyDirectMessage(directMessage.id);
+	      router.push('/channels/@me');
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var directMessage = this.props.directMessage;
+	      var _props5 = this.props;
+	      var directMessage = _props5.directMessage;
+	      var destroyDirectMessage = _props5.destroyDirectMessage;
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -37016,6 +37094,16 @@
 	            'ul',
 	            null,
 	            directMessage.username
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'destroyDirectMessageBox' },
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'destroyDirectMessageButton',
+	              onClick: this.handleDestroy },
+	            _react2.default.createElement('i', { className: 'fa fa-ban', 'aria-hidden': 'true' })
 	          )
 	        )
 	      );

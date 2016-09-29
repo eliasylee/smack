@@ -24,11 +24,18 @@ class Api::DirectMessagesController < ApplicationController
                         body: "This is the beginning of the direct message history between #{@user.username} and #{current_user.username}.",
                         chatable_id: @direct_message.id,
                         chatable_type: "DirectMessage")
-
         render :create
       end
     else
       render(json: ["User not found"], status: 404)
+    end
+  end
+
+  def destroy
+    @direct_message = DirectMessage.find_by_id(params[:id])
+
+    if @direct_message.destroy
+      render json: {}
     end
   end
 

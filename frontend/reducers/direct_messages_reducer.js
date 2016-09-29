@@ -13,6 +13,15 @@ const DirectMessagesReducer = (state = defaultState, action) => {
       let directMessage = action.directMessage;
       newState.push(directMessage);
       return newState;
+    case DirectMessageConstants.DESTROY_DIRECT_MESSAGE:
+      let dmId = action.directMessage;
+      newState.forEach( directMessage => {
+        if (directMessage.id === dmId) {
+          let idx = newState.indexOf(directMessage);
+          newState = newState.slice(0, idx).concat(newState.slice(idx + 1, newState.length));
+        }
+      });
+      return newState;
     default:
       return state;
   }

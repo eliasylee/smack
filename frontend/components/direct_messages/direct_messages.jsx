@@ -84,7 +84,7 @@ class DirectMessages extends React.Component {
   }
 
   waitforDirectMessages () {
-    const { directMessages, stateDirectMessage } = this.props;
+    const { directMessages, stateDirectMessage, destroyDirectMessage } = this.props;
 
     if (directMessages) {
       return (
@@ -92,6 +92,7 @@ class DirectMessages extends React.Component {
           {directMessages.map( directMessage => {
             return <DirectMessagesItem directMessage={directMessage}
                                        stateDirectMessage={stateDirectMessage}
+                                       destroyDirectMessage={destroyDirectMessage}
                                        key={directMessage.id} />
           })}
         </div>

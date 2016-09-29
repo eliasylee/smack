@@ -5,7 +5,8 @@ import { DirectMessageConstants,
          receiveDirectMessageErrors } from '../actions/direct_message_actions';
 import { fetchAllDirectMessages,
          fetchOneDirectMessage,
-         createDirectMessage } from '../util/direct_message_api_util';
+         createDirectMessage,
+         destroyDirectMessage } from '../util/direct_message_api_util';
 
 const DirectMessagesMiddleWare = ({ dispatch }) => next => action => {
   const fetchAllSuccess = data => dispatch(receiveAllDirectMessages(data));
@@ -22,6 +23,9 @@ const DirectMessagesMiddleWare = ({ dispatch }) => next => action => {
     case DirectMessageConstants.CREATE_DIRECT_MESSAGE:
       createDirectMessage(action.directMessage, createSuccess, errors);
       return next(action);
+    case DirectMessageConstants.DESTROY_DIRECT_MESSAGE:
+      destroyDirectMessage(action.directMessage, () => next(action));
+      break;
     default:
       return next(action);
   }
