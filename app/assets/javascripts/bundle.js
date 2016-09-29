@@ -26333,6 +26333,9 @@
 	      var destroyedSubId = action.subscription;
 	      delete newState[destroyedSubId];
 	      return newState;
+	    case _subscription_actions.SubscriptionConstants.CLEAR_SUBSCRIPTION_ERRORS:
+	      delete newState['errors'];
+	      return newState;
 	    default:
 	      return state;
 	  }
@@ -26355,7 +26358,8 @@
 	  CREATE_SUBSCRIPTION: 'CREATE_SUBSCRIPTION',
 	  RECEIVE_SUBSCRIPTION: 'RECEIVE_SUBSCRIPTION',
 	  DESTROY_SUBSCRIPTION: 'DESTROY_SUBSCRIPTION',
-	  RECEIVE_SUBSCRIPTION_ERRORS: 'RECEIVE_SUBSCRIPTION_ERRORS'
+	  RECEIVE_SUBSCRIPTION_ERRORS: 'RECEIVE_SUBSCRIPTION_ERRORS',
+	  CLEAR_SUBSCRIPTION_ERRORS: 'CLEAR_SUBSCRIPTION_ERRORS'
 	};
 	
 	var fetchAllSubscriptions = exports.fetchAllSubscriptions = function fetchAllSubscriptions(channel) {
@@ -26397,6 +26401,12 @@
 	  return {
 	    type: SubscriptionConstants.RECEIVE_SUBSCRIPTION_ERRORS,
 	    errors: errors
+	  };
+	};
+	
+	var clearSubscriptionErrors = exports.clearSubscriptionErrors = function clearSubscriptionErrors() {
+	  return {
+	    type: SubscriptionConstants.CLEAR_SUBSCRIPTION_ERRORS
 	  };
 	};
 
@@ -36262,6 +36272,9 @@
 	    },
 	    destroySubscription: function destroySubscription(subscription) {
 	      return dispatch((0, _subscription_actions.destroySubscription)(subscription));
+	    },
+	    clearSubscriptionErrors: function clearSubscriptionErrors() {
+	      return dispatch((0, _subscription_actions.clearSubscriptionErrors)());
 	    }
 	  };
 	};
@@ -36336,6 +36349,7 @@
 	        subscription.channel_id = channel.id;
 	        this.props.createSubscription({ subscription: subscription });
 	        this.setState({ "username": "" });
+	        this.props.clearSubscriptionErrors();
 	      }
 	    }
 	  }, {

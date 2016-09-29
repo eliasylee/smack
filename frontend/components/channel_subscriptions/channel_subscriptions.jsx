@@ -27,6 +27,7 @@ class ChannelSubscriptions extends React.Component {
       subscription.channel_id = channel.id;
       this.props.createSubscription({ subscription });
       this.setState({ "username": "" });
+      this.props.clearSubscriptionErrors();
     }
   }
 

@@ -4,7 +4,8 @@ export const SubscriptionConstants = {
   CREATE_SUBSCRIPTION: 'CREATE_SUBSCRIPTION',
   RECEIVE_SUBSCRIPTION: 'RECEIVE_SUBSCRIPTION',
   DESTROY_SUBSCRIPTION: 'DESTROY_SUBSCRIPTION',
-  RECEIVE_SUBSCRIPTION_ERRORS: 'RECEIVE_SUBSCRIPTION_ERRORS'
+  RECEIVE_SUBSCRIPTION_ERRORS: 'RECEIVE_SUBSCRIPTION_ERRORS',
+  CLEAR_SUBSCRIPTION_ERRORS: 'CLEAR_SUBSCRIPTION_ERRORS'
 }
 
 export const fetchAllSubscriptions = channel => ({
@@ -35,4 +36,8 @@ export const destroySubscription = (subscription) => ({
 export const receiveSubscriptionErrors = errors => ({
   type: SubscriptionConstants.RECEIVE_SUBSCRIPTION_ERRORS,
   errors
+})
+
+export const clearSubscriptionErrors = () => ({
+  type: SubscriptionConstants.CLEAR_SUBSCRIPTION_ERRORS
 })
