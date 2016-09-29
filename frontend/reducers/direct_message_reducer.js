@@ -5,7 +5,8 @@ import messageSelector from './message_selector';
 import merge from 'lodash/merge';
 
 const defaultState = {
-  messages: {}
+  messages: {},
+  errors: []
 };
 
 const DirectMessageReducer = (state = defaultState, action) => {
@@ -19,6 +20,9 @@ const DirectMessageReducer = (state = defaultState, action) => {
       return newState
     case DirectMessageConstants.DISMOUNT_DIRECT_MESSAGE:
       return defaultState;
+    case DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS:
+      newState['errors'] = action.errors;
+      return newState;
     case DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:
       let newMessage = action.directChatMessage;
       newState.messages[newMessage.id] = newMessage;

@@ -15,11 +15,12 @@ export const fetchOneDirectMessage = (directMessage, success) => {
   });
 };
 
-export const createDirectMessage = (directMessage, success) => {
+export const createDirectMessage = (directMessage, success, error) => {
   $.ajax({
     method: 'POST',
     url: `/api/direct_messages`,
     data: directMessage,
-    success
+    success,
+    error
   });
 };

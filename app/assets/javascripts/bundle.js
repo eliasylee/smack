@@ -26474,7 +26474,8 @@
 	  RECEIVE_ONE_DIRECT_MESSAGE: 'RECEIVE_ONE_DIRECT_MESSAGE',
 	  CREATE_DIRECT_MESSAGE: 'CREATE_DIRECT_MESSAGE',
 	  RECEIVE_NEW_DIRECT_MESSAGE: 'RECEIVE_NEW_DIRECT_MESSAGE',
-	  DISMOUNT_DIRECT_MESSAGE: 'DISMOUNT_DIRECT_MESSAGE'
+	  DISMOUNT_DIRECT_MESSAGE: 'DISMOUNT_DIRECT_MESSAGE',
+	  RECEIVE_DIRECT_MESSAGE_ERRORS: 'RECEIVE_DIRECT_MESSAGE_ERRORS'
 	};
 	
 	var fetchAllDirectMessages = exports.fetchAllDirectMessages = function fetchAllDirectMessages() {
@@ -26523,6 +26524,13 @@
 	    type: DirectMessageConstants.DISMOUNT_DIRECT_MESSAGE
 	  };
 	};
+	
+	var receiveDirectMessageErrors = exports.receiveDirectMessageErrors = function receiveDirectMessageErrors(errors) {
+	  return {
+	    type: DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS,
+	    errors: errors
+	  };
+	};
 
 /***/ },
 /* 313 */
@@ -26549,7 +26557,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var defaultState = {
-	  messages: {}
+	  messages: {},
+	  errors: []
 	};
 	
 	var DirectMessageReducer = function DirectMessageReducer() {
@@ -26566,6 +26575,9 @@
 	      return newState;
 	    case _direct_message_actions.DirectMessageConstants.DISMOUNT_DIRECT_MESSAGE:
 	      return defaultState;
+	    case _direct_message_actions.DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS:
+	      newState['errors'] = action.errors;
+	      return newState;
 	    case _direct_chat_message_actions.DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:
 	      var newMessage = action.directChatMessage;
 	      newState.messages[newMessage.id] = newMessage;
@@ -27175,6 +27187,9 @@
 	      var createSuccess = function createSuccess(data) {
 	        return dispatch((0, _direct_message_actions.receiveNewDirectMessage)(data));
 	      };
+	      var errors = function errors(data) {
+	        return dispatch((0, _direct_message_actions.receiveDirectMessageErrors)(data.responseJSON));
+	      };
 	      switch (action.type) {
 	        case _direct_message_actions.DirectMessageConstants.FETCH_ALL_DIRECT_MESSAGES:
 	          (0, _direct_message_api_util.fetchAllDirectMessages)(fetchAllSuccess);
@@ -27183,7 +27198,7 @@
 	          (0, _direct_message_api_util.fetchOneDirectMessage)(action.directMessage, fetchOneSuccess);
 	          return next(action);
 	        case _direct_message_actions.DirectMessageConstants.CREATE_DIRECT_MESSAGE:
-	          (0, _direct_message_api_util.createDirectMessage)(action.directMessage, createSuccess);
+	          (0, _direct_message_api_util.createDirectMessage)(action.directMessage, createSuccess, errors);
 	          return next(action);
 	        default:
 	          return next(action);
@@ -27220,12 +27235,13 @@
 	  });
 	};
 	
-	var createDirectMessage = exports.createDirectMessage = function createDirectMessage(directMessage, success) {
+	var createDirectMessage = exports.createDirectMessage = function createDirectMessage(directMessage, success, error) {
 	  $.ajax({
 	    method: 'POST',
 	    url: '/api/direct_messages',
 	    data: directMessage,
-	    success: success
+	    success: success,
+	    error: error
 	  });
 	};
 
@@ -36563,7 +36579,8 @@
 	  return {
 	    currentUser: state.session.currentUser,
 	    directMessages: state.directMessages,
-	    stateDirectMessage: state.directMessage
+	    stateDirectMessage: state.directMessage,
+	    errors: state.directMessage.errors
 	  };
 	};
 	
@@ -36668,6 +36685,28 @@
 	      }
 	    }
 	  }, {
+	    key: 'renderFormInput',
+	    value: function renderFormInput() {
+	      var errors = this.props.errors;
+	
+	      if (errors.length === 0) {
+	        return "Start a conversation";
+	      } else {
+	        return errors[0];
+	      }
+	    }
+	  }, {
+	    key: 'inputColor',
+	    value: function inputColor() {
+	      var errors = this.props.errors;
+	
+	      if (errors.length === 0) {
+	        return "directMessageInput";
+	      } else {
+	        return "directMessageInput withErrors";
+	      }
+	    }
+	  }, {
 	    key: 'createDirectMessageForm',
 	    value: function createDirectMessageForm() {
 	      return _react2.default.createElement(
@@ -36682,8 +36721,8 @@
 	            _react2.default.createElement('input', { type: 'text',
 	              value: this.state.username,
 	              onChange: this.updateState("username"),
-	              placeholder: 'Start a conversation',
-	              className: 'directMessageInput' })
+	              placeholder: this.renderFormInput(),
+	              className: this.inputColor() })
 	          ),
 	          _react2.default.createElement(
 	            'div',

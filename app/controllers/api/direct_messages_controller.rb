@@ -15,15 +15,20 @@ class Api::DirectMessagesController < ApplicationController
 
   def create
     @user = User.find_by_username(direct_message_params[:username])
-    @direct_message = DirectMessage.new({ speaker_id: current_user.id, listener_id: @user.id })
 
-    if @direct_message.save
-      Message.create!(author_id: 1,
-                      body: "This is the beginning of the direct message history between #{@user.username} and #{current_user.username}.",
-                      chatable_id: @direct_message.id,
-                      chatable_type: "DirectMessage")
+    if @user
+      @direct_message = DirectMessage.new({ speaker_id: current_user.id, listener_id: @user.id })
 
-      render :create
+      if @direct_message.save
+        Message.create!(author_id: 1,
+                        body: "This is the beginning of the direct message history between #{@user.username} and #{current_user.username}.",
+                        chatable_id: @direct_message.id,
+                        chatable_type: "DirectMessage")
+
+        render :create
+      end
+    else
+      render(json: ["User not found"], status: 404)
     end
   end
 

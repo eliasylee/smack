@@ -113,6 +113,22 @@
   color: #6C6E72;
 }
 
+.withErrors::-webkit-input-placeholder {
+  color: #E6544A;
+}
+
+.withErrors::-moz-placeholder {
+  color: #E6544A;
+}
+
+.withErrors:-ms-input-placeholder {
+  color: #E6544A;
+}
+
+.withErrors:-moz-placeholder {
+  color: #E6544A;
+}
+
 .meSplashContainer {
   position: fixed;
   height: 100%;

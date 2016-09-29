@@ -41,6 +41,24 @@ class DirectMessages extends React.Component {
     }
   }
 
+  renderFormInput () {
+    const { errors } = this.props;
+    if (errors.length === 0) {
+      return "Start a conversation";
+    } else {
+      return errors[0];
+    }
+  }
+
+  inputColor () {
+    const { errors } = this.props;
+    if (errors.length === 0) {
+      return "directMessageInput";
+    } else {
+      return "directMessageInput withErrors";
+    }
+  }
+
   createDirectMessageForm () {
     return (
       <form onSubmit={this.handleSubmit} className="createDirectMessageForm">
@@ -49,8 +67,8 @@ class DirectMessages extends React.Component {
             <input type="text"
                    value={this.state.username}
                    onChange={this.updateState("username")}
-                   placeholder="Start a conversation"
-                   className="directMessageInput" />
+                   placeholder={this.renderFormInput()}
+                   className={this.inputColor()} />
           </div>
           <div className="newDirectMessageSubmitBox">
             <input className="newdirectMessageSubmitButton"
