@@ -30,9 +30,10 @@ const AppRouter = ({ currentUser, store }) => {
   }
 
   const checkChannelId = (nextState, replace) => {
-    let channelIds = store.getState().session.currentUser.channel_ids;
+    let channels = store.getState().channels.channels;
+    let channelIds = Object.keys(channels);
 
-    if (!channelIds.includes(parseInt(nextState.params.id[0]))) {
+    if (!channelIds.includes(nextState.params.id[0])) {
       replace('/channels/@me');
     }
   }

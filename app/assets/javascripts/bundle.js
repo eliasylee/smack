@@ -28221,9 +28221,10 @@
 	  };
 	
 	  var checkChannelId = function checkChannelId(nextState, replace) {
-	    var channelIds = store.getState().session.currentUser.channel_ids;
+	    var channels = store.getState().channels.channels;
+	    var channelIds = Object.keys(channels);
 	
-	    if (!channelIds.includes(parseInt(nextState.params.id[0]))) {
+	    if (!channelIds.includes(nextState.params.id[0])) {
 	      replace('/channels/@me');
 	    }
 	  };
