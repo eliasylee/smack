@@ -26629,7 +26629,7 @@
 	    case _direct_message_actions.DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS:
 	      newState['errors'] = action.errors;
 	      return newState;
-	    case _direct_chat_message_actions.DirectChatMessageConstants.CLEAR_DIRECT_MESSAGE_ERRORS:
+	    case _direct_message_actions.DirectMessageConstants.CLEAR_DIRECT_MESSAGE_ERRORS:
 	      newState['errors'] = [];
 	      return newState;
 	    case _direct_chat_message_actions.DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:
@@ -36271,12 +36271,7 @@
 	        _react2.default.createElement(
 	          "div",
 	          { className: "textChannelSubmitBox" },
-	          _react2.default.createElement("input", { className: "textChannelSubmitButton", type: "submit", value: "Done" }),
-	          _react2.default.createElement(
-	            "button",
-	            { className: "closeEditTextChannelForm", onClick: toggleView },
-	            "Cancel"
-	          )
+	          _react2.default.createElement("input", { className: "textChannelSubmitButton", type: "submit", value: "Done" })
 	        )
 	      );
 	    }
@@ -37100,11 +37095,24 @@
 	      router.push('/channels/@me');
 	    }
 	  }, {
+	    key: 'displayDestroyButton',
+	    value: function displayDestroyButton() {
+	      var _props5 = this.props;
+	      var stateDirectMessage = _props5.stateDirectMessage;
+	      var directMessage = _props5.directMessage;
+	
+	      if (stateDirectMessage && directMessage.id === stateDirectMessage.id) {
+	        return "destroyDirectMessageBox";
+	      } else {
+	        return "invisibleDirectMessageBox";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _props5 = this.props;
-	      var directMessage = _props5.directMessage;
-	      var destroyDirectMessage = _props5.destroyDirectMessage;
+	      var _props6 = this.props;
+	      var directMessage = _props6.directMessage;
+	      var destroyDirectMessage = _props6.destroyDirectMessage;
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -37135,7 +37143,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'destroyDirectMessageBox' },
+	          { className: this.displayDestroyButton() },
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'destroyDirectMessageButton',

@@ -51,6 +51,15 @@ class DirectMessagesItem extends React.Component {
     router.push(`/channels/@me`);
   }
 
+  displayDestroyButton () {
+    const { stateDirectMessage, directMessage } = this.props;
+    if (stateDirectMessage && directMessage.id === stateDirectMessage.id) {
+      return "destroyDirectMessageBox";
+    } else {
+      return "invisibleDirectMessageBox";
+    }
+  }
+
   render () {
     const { directMessage, destroyDirectMessage } = this.props;
     return (
@@ -65,7 +74,7 @@ class DirectMessagesItem extends React.Component {
             <ul>{directMessage.username}</ul>
           </div>
         </div>
-        <div className="destroyDirectMessageBox">
+        <div className={this.displayDestroyButton()}>
           <button className="destroyDirectMessageButton"
                   onClick={this.handleDestroy}><i className="fa fa-ban" aria-hidden="true"></i></button>
         </div>

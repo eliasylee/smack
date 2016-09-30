@@ -49,7 +49,6 @@ class TextChannelForm extends React.Component {
         </div>
         <div className="textChannelSubmitBox">
           <input className="textChannelSubmitButton" type="submit" value="Done" />
-          <button className="closeEditTextChannelForm" onClick={toggleView}>Cancel</button>
         </div>
       </form>
     )

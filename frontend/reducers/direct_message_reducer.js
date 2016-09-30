@@ -25,7 +25,7 @@ const DirectMessageReducer = (state = defaultState, action) => {
     case DirectMessageConstants.RECEIVE_DIRECT_MESSAGE_ERRORS:
       newState['errors'] = action.errors;
       return newState;
-    case DirectChatMessageConstants.CLEAR_DIRECT_MESSAGE_ERRORS:
+    case DirectMessageConstants.CLEAR_DIRECT_MESSAGE_ERRORS:
       newState['errors'] = [];
       return newState;
     case DirectChatMessageConstants.RECEIVE_ONE_DIRECT_CHAT_MESSAGE:
