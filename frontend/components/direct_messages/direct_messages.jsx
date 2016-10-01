@@ -152,6 +152,7 @@ class DirectMessages extends React.Component {
                     <button className="logOutIcon" onClick={this.handleLogOut}>
                       <i className="fa fa-sign-out" aria-hidden="true"></i>
                     </button>
+                    <span className="logOutHover">Log Out</span>
                   </div>
                 </div>
               </div>

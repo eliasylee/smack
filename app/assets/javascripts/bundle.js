@@ -35236,6 +35236,11 @@
 	                      'button',
 	                      { className: 'logOutIcon', onClick: this.handleLogOut },
 	                      _react2.default.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' })
+	                    ),
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'logOutHover' },
+	                      'Log Out'
 	                    )
 	                  )
 	                )
@@ -36978,6 +36983,11 @@
 	                      'button',
 	                      { className: 'logOutIcon', onClick: this.handleLogOut },
 	                      _react2.default.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' })
+	                    ),
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'logOutHover' },
+	                      'Log Out'
 	                    )
 	                  )
 	                )

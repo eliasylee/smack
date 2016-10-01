@@ -13,5 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-//= require pusher
-//= require fontawesome
+//= require pusher.js
+//= require fontawesome.js

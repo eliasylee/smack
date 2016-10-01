@@ -1,9 +1,9 @@
 /*
 *= require_tree
 *= require_self
-*= require josefin
-*= require opencondensed
-*= require open
+*= require josefin.css
+*= require opencondensed.css
+*= require open.css
 */
 
 /* Reset */
