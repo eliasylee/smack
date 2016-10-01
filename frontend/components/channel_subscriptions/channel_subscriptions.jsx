@@ -54,6 +54,7 @@ class ChannelSubscriptions extends React.Component {
                        onChange={this.updateState("username")}
                        placeholder={this.renderErrors()}
                        value={this.state.username} />
+                <i className="fa fa-search" aria-hidden="true"></i>
               </div>
             </div>
         </form>
@@ -87,7 +88,7 @@ class ChannelSubscriptions extends React.Component {
     const { subscriptions } = this.props;
     let subKeys = Object.keys(subscriptions).filter(this.excludeErrors);
     let admin = subKeys[0] || [];
-    let members = subKeys.slice(2, subKeys.length) || [];
+    let members = subKeys.slice(1, subKeys.length) || [];
 
     return (
       <div className="subscriptionsBox">

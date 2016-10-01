@@ -125,9 +125,9 @@
 }
 
 .subscriptionInput {
+  width: 180px;
   display: flex;
   justify-content: space-between;
-  width: 180px;
 }
 
 .subscriptionUsernameBox {
@@ -136,6 +136,8 @@
   border: 1px solid #DADDDF;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .subscriptionUsernameInput {

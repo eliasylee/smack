@@ -72,6 +72,7 @@ class DirectMessages extends React.Component {
                    onChange={this.updateState("username")}
                    placeholder={this.renderFormInput()}
                    className={this.inputColor()} />
+            <i className="fa fa-search" aria-hidden="true"></i>
           </div>
           <div className="newDirectMessageSubmitBox">
             <input className="newdirectMessageSubmitButton"

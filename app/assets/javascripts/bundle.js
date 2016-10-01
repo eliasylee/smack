@@ -36446,7 +36446,8 @@
 	                className: 'subscriptionUsernameInput',
 	                onChange: this.updateState("username"),
 	                placeholder: this.renderErrors(),
-	                value: this.state.username })
+	                value: this.state.username }),
+	              _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
 	            )
 	          )
 	        );
@@ -36484,7 +36485,7 @@
 	
 	      var subKeys = Object.keys(subscriptions).filter(this.excludeErrors);
 	      var admin = subKeys[0] || [];
-	      var members = subKeys.slice(2, subKeys.length) || [];
+	      var members = subKeys.slice(1, subKeys.length) || [];
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -36842,7 +36843,8 @@
 	              value: this.state.username,
 	              onChange: this.updateState("username"),
 	              placeholder: this.renderFormInput(),
-	              className: this.inputColor() })
+	              className: this.inputColor() }),
+	            _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
 	            'div',

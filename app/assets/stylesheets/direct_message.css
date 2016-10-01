@@ -128,12 +128,24 @@
   align-items: center;
 }
 
+.directMessageInputLine {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .directMessageInput {
   color: #fff;
   height: 26px;
   width: 190px;
   margin-left: 15px;
+  margin-right: 5px;
+}
+
+.fa-search {
   margin-right: 15px;
+  display: flex;
+  align-items: center;
 }
 
 .directMessageInput::-webkit-input-placeholder {
