@@ -28221,25 +28221,31 @@
 	  };
 	
 	  var checkChannelId = function checkChannelId(nextState, replace) {
-	    var channels = store.getState().channels.channels;
-	    var channelIds = Object.keys(channels);
+	    if (store.getState().channels.channels[0]) {
+	      var channels = store.getState().channels.channels;
+	      var channelIds = Object.keys(channels);
 	
-	    if (!channelIds.includes(nextState.params.id[0])) {
-	      replace('/channels/@me');
+	      if (!channelIds.includes(nextState.params.id[0])) {
+	        replace('/channels/@me');
+	      }
 	    }
 	  };
 	
 	  var checkDirectMessageId = function checkDirectMessageId(nextState, replace) {
-	    var msgs = store.getState().directMessages;
-	    var keys = Object.keys(msgs);
-	    var directMessageIds = [];
+	    if (store.getState().directMessage.id) {
+	      (function () {
+	        var msgs = store.getState().directMessages;
+	        var keys = Object.keys(msgs);
+	        var directMessageIds = [];
 	
-	    keys.forEach(function (key) {
-	      directMessageIds.push(msgs[key].id);
-	    });
+	        keys.forEach(function (key) {
+	          directMessageIds.push(msgs[key].id);
+	        });
 	
-	    if (!directMessageIds.includes(parseInt(nextState.params.id))) {
-	      replace('/channels/@me');
+	        if (!directMessageIds.includes(parseInt(nextState.params.id))) {
+	          replace('/channels/@me');
+	        }
+	      })();
 	    }
 	  };
 	

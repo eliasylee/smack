@@ -310,9 +310,7 @@
   border-radius: 6px;
   border: 2px solid #212327;
   background-color: #24272B;
-  margin-left: 10px;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin: 20px 10px 30px 10px;
   display: flex;
   justify-content: center;
   align-items: center;

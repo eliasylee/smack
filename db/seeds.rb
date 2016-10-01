@@ -130,7 +130,7 @@ TextChannel.create!(channel_id: 2, title: "announcements", description: "Stuff s
 Message.create!(author_id: 1, body: "This is the beginning of the #announcements channel.", chatable_id: 8, chatable_type: "TextChannel")
 Message.create!(author_id: 17, body: "First game of Season 1 Finals is live and about to start! If you're not already watching, get on it! Shadow Brotherhood vs. Snipe Squad going to put on a great game!", chatable_id: 8, chatable_type: "TextChannel")
 Message.create!(author_id: 17, body: "Hey everyone! For any teams interested, there are Pro Division Open Qualifiers starting next week! Signups are open until 4:00PM PDT on Saturday, May 7, which will lead to the brackets starting soon after. So anybody who thinks they have the gusto to be among the best of Chair League, here's your chance!", chatable_id: 8, chatable_type: "TextChannel")
-Message.create!(author_id: 13, body: "thanks Corgi!", chatable_id: 8, chatable_type: "TextChannel")
+Message.create!(author_id: 13, body: "thanks corgi!", chatable_id: 8, chatable_type: "TextChannel")
 
 TextChannel.create!(channel_id: 2, title: "looking4casters", description: "A place to find a Caster for your Match or Scrim and for Casters to post availability!")
 Message.create!(author_id: 1, body: "This is the beginning of the #looking4casters channel.", chatable_id: 9, chatable_type: "TextChannel")
@@ -171,7 +171,7 @@ Message.create!(author_id: 20, body: "but alter on they needed to win Teamfights
 Message.create!(author_id: 20, body: "So it's possible to do something like that and be sucsessfull but you need a very controlled Team and the right Heroes. I think tey only had sylv and Falstadt for dmg", chatable_id: 13, chatable_type: "TextChannel")
 Message.create!(author_id: 24, body: "You can definitely give up the immortal to soak or push if you have Sylvannas, I think the main takeaway is that you shoulnd't do that against Sylvannas", chatable_id: 13, chatable_type: "TextChannel")
 Message.create!(author_id: 20, body: "Yep that will go bad for you", chatable_id: 13, chatable_type: "TextChannel")
-Message.create!(author_id: 24, body: "Cavalierguest Great cast tonight!", chatable_id: 13, chatable_type: "TextChannel")
+Message.create!(author_id: 24, body: "Cavalierguest great cast tonight!", chatable_id: 13, chatable_type: "TextChannel")
 Message.create!(author_id: 19, body: "thanks!", chatable_id: 13, chatable_type: "TextChannel")
 
 TextChannel.create!(channel_id: 3, title: "replayshare", description: "share replays and help analyze")

@@ -30,25 +30,29 @@ const AppRouter = ({ currentUser, store }) => {
   }
 
   const checkChannelId = (nextState, replace) => {
-    let channels = store.getState().channels.channels;
-    let channelIds = Object.keys(channels);
+    if (store.getState().channels.channels[0]) {
+      let channels = store.getState().channels.channels;
+      let channelIds = Object.keys(channels);
 
-    if (!channelIds.includes(nextState.params.id[0])) {
-      replace('/channels/@me');
+      if (!channelIds.includes(nextState.params.id[0])) {
+        replace('/channels/@me');
+      }
     }
   }
 
   const checkDirectMessageId = (nextState, replace) => {
-    let msgs = store.getState().directMessages;
-    let keys = Object.keys(msgs);
-    let directMessageIds = [];
+    if (store.getState().directMessage.id) {
+      let msgs = store.getState().directMessages;
+      let keys = Object.keys(msgs);
+      let directMessageIds = [];
 
-    keys.forEach( key => {
-      directMessageIds.push(msgs[key].id);
-    });
+      keys.forEach( key => {
+        directMessageIds.push(msgs[key].id);
+      });
 
-    if (!directMessageIds.includes(parseInt(nextState.params.id))) {
-      replace('/channels/@me');
+      if (!directMessageIds.includes(parseInt(nextState.params.id))) {
+        replace('/channels/@me');
+      }
     }
   }
 
