@@ -138,6 +138,7 @@
   border-bottom-left-radius: 2px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .subscriptionUsernameInput {
