@@ -114,7 +114,6 @@
 
 .textChannelMessageHeader {
   display: flex;
-  justify-content: left;
   align-items: flex-end;
   margin-bottom: 5px;
 }
@@ -133,19 +132,18 @@
 }
 
 .revealEdit {
-  padding-top: 3px;
+  padding-top: 1px;
   padding-left: 8px;
-  font-size: 8px;
+  font-size: 10px;
   position: relative;
 }
 
 .editedTime {
   display: none;
   text-align: center;
-  line-height: 25px;
-  width: 100px;
+  width: 120px;
   border-radius: 4px;
-  font-size: 8px;
+  font-size: 10px;
   font-family: 'Open Sans', sans-serif;
   color: #fff;
   background-color: #E6544A;
@@ -180,17 +178,17 @@
   opacity: 0;
 }
 
-.textChannelMessageBody:hover .messageEditButton,
-.textChannelMessageBody:hover .messageDeleteButton {
+.textChannelMessageBox:hover .messageEditButton,
+.textChannelMessageBox:hover .messageDeleteButton {
   opacity: 100;
   color: #737f8d;
 }
 
-.textChannelMessageBody:hover .messageEditButton:hover {
+.textChannelMessageBox:hover .messageEditButton:hover {
   color: #8cff66;
 }
 
-.textChannelMessageBody:hover .messageDeleteButton:hover {
+.textChannelMessageBox:hover .messageDeleteButton:hover {
   color: #e6544a;
 }
 
@@ -239,9 +237,9 @@
 }
 
 .createMessageBodyBox {
-  padding-left: 15px;
+  padding: 0px 15px;
   min-height: 46px;
-  width: 90%;
+  width: 100%;
   display: flex;
   justify-content: left;
   align-items: center;
