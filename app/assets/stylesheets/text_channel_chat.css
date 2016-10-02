@@ -175,6 +175,7 @@
 
 .messageEditButton,
 .messageDeleteButton {
+  font-size: 16px;
   opacity: 0;
 }
 
