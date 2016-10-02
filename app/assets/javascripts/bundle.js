@@ -34175,8 +34175,8 @@
 	    key: 'guestLogIn',
 	    value: function guestLogIn() {
 	      var user = {
-	        username: "ShyGuy",
-	        password: "password"
+	        username: "create_guest_account",
+	        password: "create_guest_password"
 	      };
 	      this.props.login({ user: user });
 	    }
