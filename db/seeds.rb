@@ -1,5 +1,5 @@
 User.create!(username: "Welcome!", password: "asdf1234poiuasdfzxcv")
-User.create!(username: "ShyGuy", password: "asdf1234poiuasdfzxcv")
+User.create!(username: "eliasylee", password: "asdf1234poiuasdfzxcv")
 User.create!(username: "Sunny", password: "asdf1234poiuasdfzxcv")
 User.create!(username: "Bryan792", password: "asdf1234poiuasdfzxcv")
 User.create!(username: "smartglo1", password: "asdf1234poiuasdfzxcv")
