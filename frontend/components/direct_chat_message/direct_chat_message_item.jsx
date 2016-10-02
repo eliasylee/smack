@@ -36,50 +36,48 @@ class DirectChatMessageItem extends React.Component {
     }
   }
 
-  prepTimeDisplay (message) {
-    let createdDate = message.created_at.slice(0, 10).split("-");
-    let createdTime = message.created_at.slice(11, 19).split(":");
-    let createdHour = parseInt(createdTime[0] - 7);
-    let createdAmPm;
+  formatTime (object, type) {
+    let date = object.slice(0, 10).split("-");
+    let time = object.slice(11, 19).split(":");
+    let hour = parseInt((time[0] + 14) % 24);
+    let AmPm;
 
-    let updatedDate = message.updated_at.slice(0, 10).split("-");
-    let updatedTime = message.updated_at.slice(11, 19).split(":");
-    let updatedHour = parseInt(updatedTime[0] - 7);
-    let updatedAmPm;
-
-    if (createdHour > 12) {
-      createdTime[0] = (createdHour - 12).toString();
-      createdAmPm = "PM";
-    } else if (updatedHour === 0) {
-      createdTime[0] = (createdHour + 12).toString();
-      createdAmPm = "AM";
+    if (hour > 12 && hour !== 0) {
+      time[0] = (hour - 12).toString();
+      AmPm = "PM";
     } else {
-      createdAmPm = "AM";
+      AmPm = "AM";
     }
 
-    if (updatedHour > 12) {
-      updatedTime[0] = (updatedHour - 12).toString();
-      updatedAmPm = "PM";
-    } else if (updatedHour === 0) {
-      updatedTime[0] = (updatedHour + 12).toString();
-      updatedAmPm = "AM";
+    if (type === "create") {
+      return `${date[1]}/${date[2]}/${date[0]}`;
     } else {
-      updatedAmPm = "AM";
+      return `${date[1]}/${date[2]}/${date[0]} at ${time[0]}:${time[1]} ${AmPm}`;
     }
+  }
 
-    let neatCreated = `${createdDate[1]}/${createdDate[2]}/${createdDate[0]}`;
-    let neatUpdated = `${updatedDate[1]}/${updatedDate[2]}/${updatedDate[0]} at ${updatedTime[0]}:${updatedTime[1]} ${updatedAmPm}`;
+  prepTimeDisplay (timeString) {
+    let createdTime = timeString.created_at;
+    let updatedTime = timeString.updated_at;
 
-    if (createdTime[0] === updatedTime[0] && createdTime[1] === updatedTime[1] && createdTime[2] === updatedTime[2]) {
+    let createFormatted = this.formatTime(createdTime, "create");
+    let updateFormatted = this.formatTime(updatedTime, "update");
+
+    let createCheck = createdTime.slice(11, 19).split(":");
+    let updateCheck = updatedTime.slice(11, 19).split(":");
+
+    if (createCheck[0] === updateCheck[0] &&
+        createCheck[1] === updateCheck[1] &&
+        createCheck[2] === updateCheck[2]) {
       return (
-        <div className="textChannelMessageTime">{neatCreated}</div>
+        <div className="textChannelMessageTime">{createFormatted}</div>
       )
     } else {
       return (
         <div className="textChannelMessageTime">
-          <div className="createdTime">{neatCreated}</div>
+          <div className="createdTime">{createFormatted}</div>
           <div className="revealEdit">(edited)
-              <div className="editedTime">{neatUpdated}</div>
+            <div className="editedTime">{updateFormatted}</div>
           </div>
         </div>
       )

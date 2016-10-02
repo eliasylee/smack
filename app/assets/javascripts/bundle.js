@@ -35793,46 +35793,43 @@
 	      }
 	    }
 	  }, {
+	    key: 'formatTime',
+	    value: function formatTime(object, type) {
+	      var date = object.slice(0, 10).split("-");
+	      var time = object.slice(11, 19).split(":");
+	      var hour = parseInt((time[0] + 14) % 24);
+	      var AmPm = void 0;
+	
+	      if (hour > 12 && hour !== 0) {
+	        time[0] = (hour - 12).toString();
+	        AmPm = "PM";
+	      } else {
+	        AmPm = "AM";
+	      }
+	
+	      if (type === "create") {
+	        return date[1] + '/' + date[2] + '/' + date[0];
+	      } else {
+	        return date[1] + '/' + date[2] + '/' + date[0] + ' at ' + time[0] + ':' + time[1] + ' ' + AmPm;
+	      }
+	    }
+	  }, {
 	    key: 'prepTimeDisplay',
-	    value: function prepTimeDisplay(message) {
-	      var createdDate = message.created_at.slice(0, 10).split("-");
-	      var createdTime = message.created_at.slice(11, 19).split(":");
-	      var createdHour = parseInt(createdTime[0] - 7);
-	      var createdAmPm = void 0;
+	    value: function prepTimeDisplay(timeString) {
+	      var createdTime = timeString.created_at;
+	      var updatedTime = timeString.updated_at;
 	
-	      var updatedDate = message.updated_at.slice(0, 10).split("-");
-	      var updatedTime = message.updated_at.slice(11, 19).split(":");
-	      var updatedHour = parseInt(updatedTime[0] - 7);
-	      var updatedAmPm = void 0;
+	      var createCheck = createdTime.slice(11, 19).split(":");
+	      var updateCheck = updatedTime.slice(11, 19).split(":");
 	
-	      if (createdHour > 12) {
-	        createdTime[0] = (createdHour - 12).toString();
-	        createdAmPm = "PM";
-	      } else if (updatedHour === 0) {
-	        createdTime[0] = (createdHour + 12).toString();
-	        createdAmPm = "AM";
-	      } else {
-	        createdAmPm = "AM";
-	      }
+	      var createFormatted = this.formatTime(createdTime, "create");
+	      var updateFormatted = this.formatTime(updatedTime, "update");
 	
-	      if (updatedHour > 12) {
-	        updatedTime[0] = (updatedHour - 12).toString();
-	        updatedAmPm = "PM";
-	      } else if (updatedHour === 0) {
-	        updatedTime[0] = (updatedHour + 12).toString();
-	        updatedAmPm = "AM";
-	      } else {
-	        updatedAmPm = "AM";
-	      }
-	
-	      var neatCreated = createdDate[1] + '/' + createdDate[2] + '/' + createdDate[0];
-	      var neatUpdated = updatedDate[1] + '/' + updatedDate[2] + '/' + updatedDate[0] + ' at ' + updatedTime[0] + ':' + updatedTime[1] + ' ' + updatedAmPm;
-	
-	      if (createdTime[0] === updatedTime[0] && createdTime[1] === updatedTime[1] && createdTime[2] === updatedTime[2]) {
+	      if (createCheck[0] === updateCheck[0] && createCheck[1] === updateCheck[1] && createCheck[2] === updateCheck[2]) {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'textChannelMessageTime' },
-	          neatCreated
+	          createFormatted
 	        );
 	      } else {
 	        return _react2.default.createElement(
@@ -35841,7 +35838,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'createdTime' },
-	            neatCreated
+	            createFormatted
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -35850,7 +35847,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'editedTime' },
-	              neatUpdated
+	              updateFormatted
 	            )
 	          )
 	        );
@@ -37489,46 +37486,43 @@
 	      }
 	    }
 	  }, {
+	    key: 'formatTime',
+	    value: function formatTime(object, type) {
+	      var date = object.slice(0, 10).split("-");
+	      var time = object.slice(11, 19).split(":");
+	      var hour = parseInt((time[0] + 14) % 24);
+	      var AmPm = void 0;
+	
+	      if (hour > 12 && hour !== 0) {
+	        time[0] = (hour - 12).toString();
+	        AmPm = "PM";
+	      } else {
+	        AmPm = "AM";
+	      }
+	
+	      if (type === "create") {
+	        return date[1] + '/' + date[2] + '/' + date[0];
+	      } else {
+	        return date[1] + '/' + date[2] + '/' + date[0] + ' at ' + time[0] + ':' + time[1] + ' ' + AmPm;
+	      }
+	    }
+	  }, {
 	    key: 'prepTimeDisplay',
-	    value: function prepTimeDisplay(message) {
-	      var createdDate = message.created_at.slice(0, 10).split("-");
-	      var createdTime = message.created_at.slice(11, 19).split(":");
-	      var createdHour = parseInt(createdTime[0] - 7);
-	      var createdAmPm = void 0;
+	    value: function prepTimeDisplay(timeString) {
+	      var createdTime = timeString.created_at;
+	      var updatedTime = timeString.updated_at;
 	
-	      var updatedDate = message.updated_at.slice(0, 10).split("-");
-	      var updatedTime = message.updated_at.slice(11, 19).split(":");
-	      var updatedHour = parseInt(updatedTime[0] - 7);
-	      var updatedAmPm = void 0;
+	      var createFormatted = this.formatTime(createdTime, "create");
+	      var updateFormatted = this.formatTime(updatedTime, "update");
 	
-	      if (createdHour > 12) {
-	        createdTime[0] = (createdHour - 12).toString();
-	        createdAmPm = "PM";
-	      } else if (updatedHour === 0) {
-	        createdTime[0] = (createdHour + 12).toString();
-	        createdAmPm = "AM";
-	      } else {
-	        createdAmPm = "AM";
-	      }
+	      var createCheck = createdTime.slice(11, 19).split(":");
+	      var updateCheck = updatedTime.slice(11, 19).split(":");
 	
-	      if (updatedHour > 12) {
-	        updatedTime[0] = (updatedHour - 12).toString();
-	        updatedAmPm = "PM";
-	      } else if (updatedHour === 0) {
-	        updatedTime[0] = (updatedHour + 12).toString();
-	        updatedAmPm = "AM";
-	      } else {
-	        updatedAmPm = "AM";
-	      }
-	
-	      var neatCreated = createdDate[1] + '/' + createdDate[2] + '/' + createdDate[0];
-	      var neatUpdated = updatedDate[1] + '/' + updatedDate[2] + '/' + updatedDate[0] + ' at ' + updatedTime[0] + ':' + updatedTime[1] + ' ' + updatedAmPm;
-	
-	      if (createdTime[0] === updatedTime[0] && createdTime[1] === updatedTime[1] && createdTime[2] === updatedTime[2]) {
+	      if (createCheck[0] === updateCheck[0] && createCheck[1] === updateCheck[1] && createCheck[2] === updateCheck[2]) {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'textChannelMessageTime' },
-	          neatCreated
+	          createFormatted
 	        );
 	      } else {
 	        return _react2.default.createElement(
@@ -37537,7 +37531,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'createdTime' },
-	            neatCreated
+	            createFormatted
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -37546,7 +37540,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'editedTime' },
-	              neatUpdated
+	              updateFormatted
 	            )
 	          )
 	        );
