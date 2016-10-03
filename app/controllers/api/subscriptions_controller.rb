@@ -27,7 +27,7 @@ class Api::SubscriptionsController < ApplicationController
     @subscription = Subscription.find_by_id(params[:id])
 
     if @subscription.destroy
-      Pusher.trigger('user_' + user.id.to_s, 'subscription_action', {})
+      Pusher.trigger('user_' + @subscription.user_id.to_s, 'subscription_action', {})
       render json: {}
     end
   end
