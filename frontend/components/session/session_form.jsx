@@ -69,11 +69,7 @@ class SessionForm extends React.Component {
   }
 
   guestLogIn () {
-    let user = {
-      username: "create_guest_account",
-      password: "create_guest_password"
-    };
-    this.props.login({ user });
+    hashHistory.push("/guest");
   }
 
   background () {

@@ -28170,27 +28170,31 @@
 	
 	var _session_form_container2 = _interopRequireDefault(_session_form_container);
 	
-	var _channel_nav_container = __webpack_require__(407);
+	var _guest_creation_container = __webpack_require__(407);
+	
+	var _guest_creation_container2 = _interopRequireDefault(_guest_creation_container);
+	
+	var _channel_nav_container = __webpack_require__(409);
 	
 	var _channel_nav_container2 = _interopRequireDefault(_channel_nav_container);
 	
-	var _text_channel_nav_container = __webpack_require__(411);
+	var _text_channel_nav_container = __webpack_require__(413);
 	
 	var _text_channel_nav_container2 = _interopRequireDefault(_text_channel_nav_container);
 	
-	var _text_channel_chat_container = __webpack_require__(414);
+	var _text_channel_chat_container = __webpack_require__(416);
 	
 	var _text_channel_chat_container2 = _interopRequireDefault(_text_channel_chat_container);
 	
-	var _direct_messages_container = __webpack_require__(424);
+	var _direct_messages_container = __webpack_require__(426);
 	
 	var _direct_messages_container2 = _interopRequireDefault(_direct_messages_container);
 	
-	var _direct_chat_message_container = __webpack_require__(427);
+	var _direct_chat_message_container = __webpack_require__(429);
 	
 	var _direct_chat_message_container2 = _interopRequireDefault(_direct_chat_message_container);
 	
-	var _me_splash_container = __webpack_require__(430);
+	var _me_splash_container = __webpack_require__(432);
 	
 	var _me_splash_container2 = _interopRequireDefault(_me_splash_container);
 	
@@ -28281,6 +28285,7 @@
 	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _front_page_container2.default }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _session_form_container2.default, onEnter: redirectIfLoggedIn }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _session_form_container2.default, onEnter: redirectIfLoggedIn }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/guest', component: _guest_creation_container2.default, onEnter: redirectIfLoggedIn }),
 	      _react2.default.createElement(
 	        _reactRouter.Route,
 	        { path: '/channels', component: _channel_nav_container2.default, onEnter: fetchAllChannelsOnEnter },
@@ -34037,9 +34042,6 @@
 	  var _processForm = formType === 'login' ? _session_actions.login : _session_actions.signup;
 	
 	  return {
-	    login: function login(user) {
-	      return dispatch((0, _session_actions.login)(user));
-	    },
 	    processForm: function processForm(user) {
 	      return dispatch(_processForm(user));
 	    },
@@ -34174,11 +34176,7 @@
 	  }, {
 	    key: 'guestLogIn',
 	    value: function guestLogIn() {
-	      var user = {
-	        username: "create_guest_account",
-	        password: "create_guest_password"
-	      };
-	      this.props.login({ user: user });
+	      _reactRouter.hashHistory.push("/guest");
 	    }
 	  }, {
 	    key: 'background',
@@ -34364,7 +34362,143 @@
 	
 	var _reactRedux = __webpack_require__(331);
 	
-	var _channel_nav = __webpack_require__(408);
+	var _guest_creation = __webpack_require__(408);
+	
+	var _guest_creation2 = _interopRequireDefault(_guest_creation);
+	
+	var _session_actions = __webpack_require__(189);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    loggedIn: Boolean(state.session.currentUser)
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    login: function login(user) {
+	      return dispatch((0, _session_actions.login)(user));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_guest_creation2.default);
+
+/***/ },
+/* 408 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(341);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var GuestCreation = function (_React$Component) {
+	  _inherits(GuestCreation, _React$Component);
+	
+	  function GuestCreation() {
+	    _classCallCheck(this, GuestCreation);
+	
+	    return _possibleConstructorReturn(this, (GuestCreation.__proto__ || Object.getPrototypeOf(GuestCreation)).apply(this, arguments));
+	  }
+	
+	  _createClass(GuestCreation, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.redirectIfLoggedIn();
+	
+	      var user = {
+	        username: "create_guest_account",
+	        password: "create_guest_password"
+	      };
+	      this.props.login(user);
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      this.redirectIfLoggedIn();
+	    }
+	  }, {
+	    key: 'redirectIfLoggedIn',
+	    value: function redirectIfLoggedIn() {
+	      if (this.props.loggedIn) {
+	        this.props.router.push("/channels/@me");
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'guestSplash' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'guestBox' },
+	          _react2.default.createElement('img', { className: 'guestLogo',
+	            src: 'red-logo-fist-medium.png',
+	            alt: 'frontPageLogoMed' }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'guestCaption' },
+	            'Creating Guest Account!'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'guestCaptions' },
+	            'Seeding friends...'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'guestCaptions' },
+	            'Seeding conversations...'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'guestCaptions' },
+	            'Seeding social life...'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return GuestCreation;
+	}(_react2.default.Component);
+	
+	exports.default = (0, _reactRouter.withRouter)(GuestCreation);
+
+/***/ },
+/* 409 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(331);
+	
+	var _channel_nav = __webpack_require__(410);
 	
 	var _channel_nav2 = _interopRequireDefault(_channel_nav);
 	
@@ -34409,7 +34543,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_channel_nav2.default);
 
 /***/ },
-/* 408 */
+/* 410 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34424,11 +34558,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _channel_nav_item = __webpack_require__(409);
+	var _channel_nav_item = __webpack_require__(411);
 	
 	var _channel_nav_item2 = _interopRequireDefault(_channel_nav_item);
 	
-	var _me_channel_item = __webpack_require__(410);
+	var _me_channel_item = __webpack_require__(412);
 	
 	var _me_channel_item2 = _interopRequireDefault(_me_channel_item);
 	
@@ -34676,7 +34810,7 @@
 	exports.default = (0, _reactRouter.withRouter)(ChannelNav);
 
 /***/ },
-/* 409 */
+/* 411 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34840,7 +34974,7 @@
 	exports.default = (0, _reactRouter.withRouter)(ChannelNavItem);
 
 /***/ },
-/* 410 */
+/* 412 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34906,7 +35040,7 @@
 	exports.default = (0, _reactRouter.withRouter)(MeChannelItem);
 
 /***/ },
-/* 411 */
+/* 413 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34917,7 +35051,7 @@
 	
 	var _reactRedux = __webpack_require__(331);
 	
-	var _text_channel_nav = __webpack_require__(412);
+	var _text_channel_nav = __webpack_require__(414);
 	
 	var _text_channel_nav2 = _interopRequireDefault(_text_channel_nav);
 	
@@ -34971,7 +35105,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_text_channel_nav2.default);
 
 /***/ },
-/* 412 */
+/* 414 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34988,7 +35122,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _text_channel_nav_item = __webpack_require__(413);
+	var _text_channel_nav_item = __webpack_require__(415);
 	
 	var _text_channel_nav_item2 = _interopRequireDefault(_text_channel_nav_item);
 	
@@ -35341,7 +35475,7 @@
 	exports.default = (0, _reactRouter.withRouter)(TextChannelNav);
 
 /***/ },
-/* 413 */
+/* 415 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35493,7 +35627,7 @@
 	exports.default = (0, _reactRouter.withRouter)(TextChannelNavItem);
 
 /***/ },
-/* 414 */
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35506,7 +35640,7 @@
 	
 	var _message_actions = __webpack_require__(305);
 	
-	var _text_channel_chat = __webpack_require__(415);
+	var _text_channel_chat = __webpack_require__(417);
 	
 	var _text_channel_chat2 = _interopRequireDefault(_text_channel_chat);
 	
@@ -35538,7 +35672,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_text_channel_chat2.default);
 
 /***/ },
-/* 415 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35555,19 +35689,19 @@
 	
 	var _reactRouter = __webpack_require__(341);
 	
-	var _text_channel_chat_item = __webpack_require__(416);
+	var _text_channel_chat_item = __webpack_require__(418);
 	
 	var _text_channel_chat_item2 = _interopRequireDefault(_text_channel_chat_item);
 	
-	var _message_form_container = __webpack_require__(417);
+	var _message_form_container = __webpack_require__(419);
 	
 	var _message_form_container2 = _interopRequireDefault(_message_form_container);
 	
-	var _text_channel_form_container = __webpack_require__(419);
+	var _text_channel_form_container = __webpack_require__(421);
 	
 	var _text_channel_form_container2 = _interopRequireDefault(_text_channel_form_container);
 	
-	var _channel_subscriptions_container = __webpack_require__(421);
+	var _channel_subscriptions_container = __webpack_require__(423);
 	
 	var _channel_subscriptions_container2 = _interopRequireDefault(_channel_subscriptions_container);
 	
@@ -35784,7 +35918,7 @@
 	exports.default = (0, _reactRouter.withRouter)(TextChannelChat);
 
 /***/ },
-/* 416 */
+/* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35799,7 +35933,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _message_form_container = __webpack_require__(417);
+	var _message_form_container = __webpack_require__(419);
 	
 	var _message_form_container2 = _interopRequireDefault(_message_form_container);
 	
@@ -36007,7 +36141,7 @@
 	exports.default = TextChannelChatItem;
 
 /***/ },
-/* 417 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36018,7 +36152,7 @@
 	
 	var _reactRedux = __webpack_require__(331);
 	
-	var _message_form = __webpack_require__(418);
+	var _message_form = __webpack_require__(420);
 	
 	var _message_form2 = _interopRequireDefault(_message_form);
 	
@@ -36066,7 +36200,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_message_form2.default);
 
 /***/ },
-/* 418 */
+/* 420 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36201,7 +36335,7 @@
 	exports.default = MessageForm;
 
 /***/ },
-/* 419 */
+/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36214,7 +36348,7 @@
 	
 	var _text_channel_actions = __webpack_require__(300);
 	
-	var _text_channel_form = __webpack_require__(420);
+	var _text_channel_form = __webpack_require__(422);
 	
 	var _text_channel_form2 = _interopRequireDefault(_text_channel_form);
 	
@@ -36247,7 +36381,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_text_channel_form2.default);
 
 /***/ },
-/* 420 */
+/* 422 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36375,7 +36509,7 @@
 	exports.default = TextChannelForm;
 
 /***/ },
-/* 421 */
+/* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36386,7 +36520,7 @@
 	
 	var _reactRedux = __webpack_require__(331);
 	
-	var _channel_subscriptions = __webpack_require__(422);
+	var _channel_subscriptions = __webpack_require__(424);
 	
 	var _channel_subscriptions2 = _interopRequireDefault(_channel_subscriptions);
 	
@@ -36420,7 +36554,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_channel_subscriptions2.default);
 
 /***/ },
-/* 422 */
+/* 424 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36435,7 +36569,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _channel_subscriptions_item = __webpack_require__(423);
+	var _channel_subscriptions_item = __webpack_require__(425);
 	
 	var _channel_subscriptions_item2 = _interopRequireDefault(_channel_subscriptions_item);
 	
@@ -36619,7 +36753,7 @@
 	exports.default = ChannelSubscriptions;
 
 /***/ },
-/* 423 */
+/* 425 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36749,7 +36883,7 @@
 	exports.default = (0, _reactRouter.withRouter)(ChannelSubscriptionsItem);
 
 /***/ },
-/* 424 */
+/* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36760,7 +36894,7 @@
 	
 	var _reactRedux = __webpack_require__(331);
 	
-	var _direct_messages = __webpack_require__(425);
+	var _direct_messages = __webpack_require__(427);
 	
 	var _direct_messages2 = _interopRequireDefault(_direct_messages);
 	
@@ -36805,7 +36939,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_direct_messages2.default);
 
 /***/ },
-/* 425 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36820,7 +36954,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _direct_messages_item = __webpack_require__(426);
+	var _direct_messages_item = __webpack_require__(428);
 	
 	var _direct_messages_item2 = _interopRequireDefault(_direct_messages_item);
 	
@@ -37118,7 +37252,7 @@
 	exports.default = DirectMessages;
 
 /***/ },
-/* 426 */
+/* 428 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37285,7 +37419,7 @@
 	exports.default = (0, _reactRouter.withRouter)(DirectMessagesItem);
 
 /***/ },
-/* 427 */
+/* 429 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37298,7 +37432,7 @@
 	
 	var _direct_chat_message_actions = __webpack_require__(314);
 	
-	var _direct_chat_message = __webpack_require__(428);
+	var _direct_chat_message = __webpack_require__(430);
 	
 	var _direct_chat_message2 = _interopRequireDefault(_direct_chat_message);
 	
@@ -37328,7 +37462,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_direct_chat_message2.default);
 
 /***/ },
-/* 428 */
+/* 430 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37345,11 +37479,11 @@
 	
 	var _reactRouter = __webpack_require__(341);
 	
-	var _direct_chat_message_item = __webpack_require__(429);
+	var _direct_chat_message_item = __webpack_require__(431);
 	
 	var _direct_chat_message_item2 = _interopRequireDefault(_direct_chat_message_item);
 	
-	var _message_form_container = __webpack_require__(417);
+	var _message_form_container = __webpack_require__(419);
 	
 	var _message_form_container2 = _interopRequireDefault(_message_form_container);
 	
@@ -37505,7 +37639,7 @@
 	exports.default = (0, _reactRouter.withRouter)(DirectChatMessage);
 
 /***/ },
-/* 429 */
+/* 431 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37520,7 +37654,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _message_form_container = __webpack_require__(417);
+	var _message_form_container = __webpack_require__(419);
 	
 	var _message_form_container2 = _interopRequireDefault(_message_form_container);
 	
@@ -37728,7 +37862,7 @@
 	exports.default = DirectChatMessageItem;
 
 /***/ },
-/* 430 */
+/* 432 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

@@ -1,6 +1,6 @@
 class Api::SessionsController < ApplicationController
   def create
-    if (params[:user][:username] == "create_guest_account") && params[:user][:password] == "create_guest_password"
+    if (params[:username] == "create_guest_account") && params[:password] == "create_guest_password"
       @user = User.create_guest_account!
       login_user!(@user)
       render 'api/users/show'

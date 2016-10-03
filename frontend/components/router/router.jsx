@@ -4,6 +4,7 @@ import App from '../app';
 
 import FrontPageContainer from '../frontpage/front_page_container';
 import SessionFormContainer from '../session/session_form_container';
+import GuestCreationContainer from '../guest_creation/guest_creation_container';
 import ChannelNavContainer from '../channels_nav/channel_nav_container';
 import TextChannelNavContainer from '../text_channels_nav/text_channel_nav_container';
 import TextChannelChatContainer from '../text_channel_chat/text_channel_chat_container';
@@ -85,6 +86,7 @@ const AppRouter = ({ currentUser, store }) => {
         <IndexRoute component={FrontPageContainer} />
         <Route path="/signup" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
         <Route path="/login" component={SessionFormContainer} onEnter={redirectIfLoggedIn} />
+        <Route path="/guest" component={GuestCreationContainer} onEnter={redirectIfLoggedIn} />
         <Route path="/channels" component={ChannelNavContainer} onEnter={fetchAllChannelsOnEnter}>
           <Route path="/channels/@me" component={DirectMessagesContainer} onEnter={fetchAllDirectMessagesOnEnter}>
             <IndexRoute component={MeSplashContainer} />

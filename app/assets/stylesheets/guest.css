@@ -1,0 +1,59 @@
+.guestSplash {
+  height: 100vh;
+  width: 100vw;
+  background: #282B30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guestBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@-webkit-keyframes punch {
+  0% { -webkit-transform: scale(1); }
+  25% { -webkit-transform: scale(2); }
+  50% { -webkit-transform: scale(1); }
+  75% { -webkit-transform: scale(1); }
+  100% { -webkit-transform: scale(1); }
+}
+
+.guestLogo {
+  height: 100px;
+
+  -webkit-animation-name:             punch;
+  -webkit-animation-duration:         2s;
+  -webkit-animation-iteration-count:  infinite;
+  -webkit-animation-timing-function:  linear;
+
+  -moz-animation-name:             punch;
+  -moz-animation-duration:         2s;
+  -moz-animation-iteration-count:  infinite;
+  -moz-animation-timing-function:  linear;
+
+  -ms-animation-name:             punch;
+  -ms-animation-duration:         2s;
+  -ms-animation-iteration-count:  infinite;
+  -ms-animation-timing-function:  linear;
+}
+
+.guestCaption {
+  margin: 75px 0px 10px 0px;
+  font-size: 15px;
+}
+
+.guestCaption,
+.guestCaptions {
+  text-align: center;
+  color: #fff;
+  font-style: italic;
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+}
+
+.guestCaptions {
+  color: #8A8E94;
+}
