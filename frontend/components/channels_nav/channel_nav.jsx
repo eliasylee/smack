@@ -52,6 +52,9 @@ class ChannelNav extends React.Component {
     channel.bind('subscription_action', data => {
       this.props.fetchAllChannels();
     });
+    channel.bind('channel_destroyed', data => {
+      this.props.fetchAllChannels();
+    });
   }
 
   handleSubmit (e) {

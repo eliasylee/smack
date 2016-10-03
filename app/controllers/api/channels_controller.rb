@@ -40,6 +40,10 @@ class Api::ChannelsController < ApplicationController
     @channel = Channel.find_by_id(params[:id])
 
     if @channel.destroy
+      @channel.subscriptions.each do |subscription|
+        Pusher.trigger('user_' + subscription.user_id.to_s, 'channel_destroyed', {})
+      end
+      Pusher.trigger('channel_' + @channel.id.to_s, 'channel_viewer_destroyed', {})
       render json: {}
     end
   end

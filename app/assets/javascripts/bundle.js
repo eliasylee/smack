@@ -34504,6 +34504,9 @@
 	      channel.bind('subscription_action', function (data) {
 	        _this2.props.fetchAllChannels();
 	      });
+	      channel.bind('channel_destroyed', function (data) {
+	        _this2.props.fetchAllChannels();
+	      });
 	    }
 	  }, {
 	    key: 'handleSubmit',
@@ -35054,6 +35057,9 @@
 	      var channel = window.pusher.subscribe('channel_' + channelId);
 	      channel.bind('text_channel_action', function (data) {
 	        _this2.props.fetchOneChannel(_this2.props.channel.id);
+	      });
+	      channel.bind('channel_viewer_destroyed', function () {
+	        _this2.props.router.push('/channels/@me');
 	      });
 	    }
 	  }, {

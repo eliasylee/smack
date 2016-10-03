@@ -47,6 +47,9 @@ class TextChannelNav extends React.Component {
     channel.bind('text_channel_action', data => {
       this.props.fetchOneChannel(this.props.channel.id);
     });
+    channel.bind('channel_viewer_destroyed', () => {
+      this.props.router.push(`/channels/@me`);
+    });
   }
 
   componentWillUnmount () {
