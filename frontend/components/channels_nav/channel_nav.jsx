@@ -28,7 +28,7 @@ class ChannelNav extends React.Component {
       }
     }
 
-    if (newProps.currentUser.id) {
+    if (newProps.currentUser && newProps.currentUser.id) {
       let newChannel = 'user_' + newProps.currentUser.id;
 
       if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
@@ -36,7 +36,7 @@ class ChannelNav extends React.Component {
       }
     }
 
-    if (window.pusher && newProps.currentUser.id !== this.props.currentUser.id) {
+    if (window.pusher && newProps.currentUser && newProps.currentUser.id !== this.props.currentUser.id) {
       window.pusher.unsubscribe('user_' + this.props.currentUser.id);
     }
   }

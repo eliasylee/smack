@@ -14,7 +14,7 @@ class DirectMessages extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
-    if (newProps.currentUser.id) {
+    if (newProps.currentUser && newProps.currentUser.id) {
       let newChannel = 'me_channel_' + newProps.currentUser.id;
 
       if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
@@ -22,7 +22,7 @@ class DirectMessages extends React.Component {
       }
     }
 
-    if (window.pusher && newProps.currentUser.id !== this.props.currentUser.id) {
+    if (window.pusher && newProps.currentUser && newProps.currentUser.id !== this.props.currentUser.id) {
       window.pusher.unsubscribe('me_channel_' + this.props.currentUser.id);
     }
   }

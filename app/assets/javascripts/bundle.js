@@ -34477,7 +34477,7 @@
 	        }
 	      }
 	
-	      if (newProps.currentUser.id) {
+	      if (newProps.currentUser && newProps.currentUser.id) {
 	        var newChannel = 'user_' + newProps.currentUser.id;
 	
 	        if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
@@ -34485,7 +34485,7 @@
 	        }
 	      }
 	
-	      if (window.pusher && newProps.currentUser.id !== this.props.currentUser.id) {
+	      if (window.pusher && newProps.currentUser && newProps.currentUser.id !== this.props.currentUser.id) {
 	        window.pusher.unsubscribe('user_' + this.props.currentUser.id);
 	      }
 	    }
@@ -36855,7 +36855,7 @@
 	  _createClass(DirectMessages, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
-	      if (newProps.currentUser.id) {
+	      if (newProps.currentUser && newProps.currentUser.id) {
 	        var newChannel = 'me_channel_' + newProps.currentUser.id;
 	
 	        if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
@@ -36863,7 +36863,7 @@
 	        }
 	      }
 	
-	      if (window.pusher && newProps.currentUser.id !== this.props.currentUser.id) {
+	      if (window.pusher && newProps.currentUser && newProps.currentUser.id !== this.props.currentUser.id) {
 	        window.pusher.unsubscribe('me_channel_' + this.props.currentUser.id);
 	      }
 	    }
