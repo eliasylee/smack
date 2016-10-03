@@ -55,7 +55,8 @@ class ChannelNavItem extends React.Component {
     const { channel, stateChannel, router, clearTextChannels, clearTextMessages } = this.props;
     if (channel.id !== stateChannel.id) {
       clearTextChannels();
-      router.push(`/channels/${channel.id}/${channel.attachments[0].id}`)
+      let txts = channel.attachments;
+      router.push(`/channels/${channel.id}/${txts[txts.length - 1].id}`)
     }
   };
 

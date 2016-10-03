@@ -34910,7 +34910,8 @@
 	
 	      if (channel.id !== stateChannel.id) {
 	        clearTextChannels();
-	        router.push('/channels/' + channel.id + '/' + channel.attachments[0].id);
+	        var txts = channel.attachments;
+	        router.push('/channels/' + channel.id + '/' + txts[txts.length - 1].id);
 	      }
 	    }
 	  }, {

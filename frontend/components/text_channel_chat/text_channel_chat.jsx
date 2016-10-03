@@ -57,7 +57,7 @@ class TextChannelChat extends React.Component {
       this.props.fetchOneTextChannel(this.props.textChannel.id);
     });
     channel.bind('text_channel_destroyed', data => {
-      let channelId = this.props.channel.id
+      let channelId = this.props.channel.id;
       let textChannels = Object.keys(this.props.channel.textChannels);
       this.props.router.push(`/channels/${channelId}/${textChannels[0]}`);
     });
