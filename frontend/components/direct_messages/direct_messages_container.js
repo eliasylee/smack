@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import DirectMessages from './direct_messages';
-import { fetchOneDirectMessage,
+import { fetchAllDirectMessages,
+         fetchOneDirectMessage,
          createDirectMessage,
          dismountDirectMessage,
          destroyDirectMessage,
@@ -15,6 +16,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  fetchAllDirectMessages: () => dispatch(fetchAllDirectMessages()),
   createDirectMessage: username => dispatch(createDirectMessage(username)),
   dismountDirectMessage: () => dispatch(dismountDirectMessage()),
   destroyDirectMessage: directMessage => dispatch(destroyDirectMessage(directMessage)),

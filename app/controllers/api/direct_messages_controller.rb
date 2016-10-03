@@ -20,6 +20,7 @@ class Api::DirectMessagesController < ApplicationController
       @direct_message = DirectMessage.new({ speaker_id: current_user.id, listener_id: @user.id })
 
       if @direct_message.save
+        Pusher.trigger('me_channel_' + @user.id.to_s, 'direct_message_action', {})
         Message.create!(author_id: 1,
                         body: "This is the beginning of the direct message history between #{current_user.username} and #{@user.username}.",
                         chatable_id: @direct_message.id,
@@ -35,6 +36,9 @@ class Api::DirectMessagesController < ApplicationController
     @direct_message = DirectMessage.find_by_id(params[:id])
 
     if @direct_message.destroy
+      pusher_id = @direct_message["speaker_id"] == current_user.id ? @direct_message["listener_id"] : @direct_message["speaker_id"]
+
+      Pusher.trigger('me_channel_' + pusher_id.to_s, 'direct_message_action', {})
       render json: {}
     end
   end

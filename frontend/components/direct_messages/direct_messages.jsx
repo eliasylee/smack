@@ -13,6 +13,33 @@ class DirectMessages extends React.Component {
     this.handleLogOut = this.handleLogOut.bind(this);
   }
 
+  componentWillReceiveProps (newProps) {
+    if (newProps.currentUser.id) {
+      let newChannel = 'me_channel_' + newProps.currentUser.id;
+
+      if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+        this.createPusherChannel(newProps.currentUser.id);
+      }
+    }
+
+    if (window.pusher && newProps.currentUser.id !== this.props.currentUser.id) {
+      window.pusher.unsubscribe('me_channel_' + this.props.currentUser.id);
+    }
+  }
+
+  createPusherChannel (currentUserId) {
+    if (!window.pusher) {
+      window.pusher = new Pusher('a6428d82cdddd683832f', {
+        encrypted: true
+      });
+    }
+
+    let channel = window.pusher.subscribe('me_channel_' + currentUserId);
+    channel.bind('direct_message_action', data => {
+      this.props.fetchAllDirectMessages();
+    });
+  }
+
   componentWillUnmount () {
     this.props.dismountDirectMessage();
   }

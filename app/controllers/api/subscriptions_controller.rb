@@ -15,6 +15,7 @@ class Api::SubscriptionsController < ApplicationController
       @subscription = Subscription.new({ user_id: user.id, channel_id: subscription_params[:channel_id]})
 
       if @subscription.save
+        Pusher.trigger('user_' + user.id.to_s, 'subscription_action', {})
         render :create
       end
     else
@@ -26,6 +27,7 @@ class Api::SubscriptionsController < ApplicationController
     @subscription = Subscription.find_by_id(params[:id])
 
     if @subscription.destroy
+      Pusher.trigger('user_' + user.id.to_s, 'subscription_action', {})
       render json: {}
     end
   end

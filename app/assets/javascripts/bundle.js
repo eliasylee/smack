@@ -34372,6 +34372,8 @@
 	
 	var _message_actions = __webpack_require__(305);
 	
+	var _direct_message_actions = __webpack_require__(312);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
@@ -34386,6 +34388,9 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
+	    fetchAllChannels: function fetchAllChannels() {
+	      return dispatch((0, _channel_actions.fetchAllChannels)());
+	    },
 	    createChannel: function createChannel(channel) {
 	      return dispatch((0, _channel_actions.createChannel)(channel));
 	    },
@@ -34394,6 +34399,9 @@
 	    },
 	    clearTextMessages: function clearTextMessages() {
 	      return dispatch((0, _message_actions.clearTextMessages)());
+	    },
+	    fetchAllDirectMessages: function fetchAllDirectMessages() {
+	      return dispatch((0, _direct_message_actions.fetchAllDirectMessages)());
 	    }
 	  };
 	};
@@ -34468,6 +34476,34 @@
 	          this.toggleView();
 	        }
 	      }
+	
+	      if (newProps.currentUser.id) {
+	        var newChannel = 'user_' + newProps.currentUser.id;
+	
+	        if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+	          this.createPusherChannel(newProps.currentUser.id);
+	        }
+	      }
+	
+	      if (window.pusher && newProps.currentUser.id !== this.props.currentUser.id) {
+	        window.pusher.unsubscribe('user_' + this.props.currentUser.id);
+	      }
+	    }
+	  }, {
+	    key: 'createPusherChannel',
+	    value: function createPusherChannel(currentUserId) {
+	      var _this2 = this;
+	
+	      if (!window.pusher) {
+	        window.pusher = new Pusher('a6428d82cdddd683832f', {
+	          encrypted: true
+	        });
+	      }
+	
+	      var channel = window.pusher.subscribe('user_' + currentUserId);
+	      channel.bind('subscription_action', function (data) {
+	        _this2.props.fetchAllChannels();
+	      });
 	    }
 	  }, {
 	    key: 'handleSubmit',
@@ -34495,10 +34531,10 @@
 	  }, {
 	    key: 'updateState',
 	    value: function updateState(property) {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      return function (e) {
-	        return _this2.setState(_defineProperty({}, property, e.target.value));
+	        return _this3.setState(_defineProperty({}, property, e.target.value));
 	      };
 	    }
 	  }, {
@@ -34573,7 +34609,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this4 = this;
 	
 	      var _props = this.props;
 	      var stateChannel = _props.stateChannel;
@@ -34606,7 +34642,7 @@
 	                  stateChannel: stateChannel,
 	                  clearTextChannels: clearTextChannels,
 	                  clearTextMessages: clearTextMessages,
-	                  path: _this3.props.path,
+	                  path: _this4.props.path,
 	                  key: channelKey });
 	              })
 	            ),
@@ -36734,6 +36770,9 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
+	    fetchAllDirectMessages: function fetchAllDirectMessages() {
+	      return dispatch((0, _direct_message_actions.fetchAllDirectMessages)());
+	    },
 	    createDirectMessage: function createDirectMessage(username) {
 	      return dispatch((0, _direct_message_actions.createDirectMessage)(username));
 	    },
@@ -36803,6 +36842,37 @@
 	  }
 	
 	  _createClass(DirectMessages, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (newProps.currentUser.id) {
+	        var newChannel = 'me_channel_' + newProps.currentUser.id;
+	
+	        if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+	          this.createPusherChannel(newProps.currentUser.id);
+	        }
+	      }
+	
+	      if (window.pusher && newProps.currentUser.id !== this.props.currentUser.id) {
+	        window.pusher.unsubscribe('me_channel_' + this.props.currentUser.id);
+	      }
+	    }
+	  }, {
+	    key: 'createPusherChannel',
+	    value: function createPusherChannel(currentUserId) {
+	      var _this2 = this;
+	
+	      if (!window.pusher) {
+	        window.pusher = new Pusher('a6428d82cdddd683832f', {
+	          encrypted: true
+	        });
+	      }
+	
+	      var channel = window.pusher.subscribe('me_channel_' + currentUserId);
+	      channel.bind('direct_message_action', function (data) {
+	        _this2.props.fetchAllDirectMessages();
+	      });
+	    }
+	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      this.props.dismountDirectMessage();
@@ -36810,10 +36880,10 @@
 	  }, {
 	    key: 'updateState',
 	    value: function updateState(property) {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      return function (e) {
-	        return _this2.setState(_defineProperty({}, property, e.target.value));
+	        return _this3.setState(_defineProperty({}, property, e.target.value));
 	      };
 	    }
 	  }, {

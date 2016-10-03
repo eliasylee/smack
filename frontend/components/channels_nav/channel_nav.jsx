@@ -27,6 +27,31 @@ class ChannelNav extends React.Component {
         this.toggleView();
       }
     }
+
+    if (newProps.currentUser.id) {
+      let newChannel = 'user_' + newProps.currentUser.id;
+
+      if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+        this.createPusherChannel(newProps.currentUser.id);
+      }
+    }
+
+    if (window.pusher && newProps.currentUser.id !== this.props.currentUser.id) {
+      window.pusher.unsubscribe('user_' + this.props.currentUser.id);
+    }
+  }
+
+  createPusherChannel (currentUserId) {
+    if (!window.pusher) {
+      window.pusher = new Pusher('a6428d82cdddd683832f', {
+        encrypted: true
+      });
+    }
+
+    let channel = window.pusher.subscribe('user_' + currentUserId);
+    channel.bind('subscription_action', data => {
+      this.props.fetchAllChannels();
+    });
   }
 
   handleSubmit (e) {
