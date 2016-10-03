@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import TextChannelNav from './text_channel_nav';
-import { destroyChannel,
+import { fetchOneChannel,
+         destroyChannel,
          dismountChannel } from '../../actions/channel_actions';
 import { fetchOneTextChannel,
          createTextChannel,
@@ -17,6 +18,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  fetchOneChannel: channel => dispatch(fetchOneChannel(channel)),
   createTextChannel: textChannel => dispatch(createTextChannel(textChannel)),
   fetchOneTextChannel: textChannel => dispatch(fetchOneTextChannel(textChannel)),
   updateTextChannel: textChannel => dispatch(updateTextChannel(textChannel)),

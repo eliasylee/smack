@@ -68,17 +68,17 @@ class ChannelNavItem extends React.Component {
   }
 
   channelIconOrText (stateChannel, channel, router, path) {
-    if (channel.icon_url) {
-      return (
-        <img src={channel.icon_url}
-             alt="channel-button"
-             className={this.isActive(stateChannel, channel)}/>
-      )
-    } else {
+    if (channel.icon_url === "") {
       return (
         <div className={this.isActiveText(stateChannel, channel, path)}>
           {this.prepChannelName(channel)}
         </div>
+      )
+    } else {
+      return (
+        <img src={channel.icon_url}
+          alt="channel-button"
+          className={this.isActive(stateChannel, channel)}/>
       )
     }
   }

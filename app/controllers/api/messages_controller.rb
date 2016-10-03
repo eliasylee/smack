@@ -15,9 +15,9 @@ class Api::MessagesController < ApplicationController
 
     if @message.save
       if text_channel
-        Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_posted', {})
+        Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_action', {})
       else
-        Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_posted', {})
+        Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_action', {})
       end
 
       render :show
@@ -37,9 +37,9 @@ class Api::MessagesController < ApplicationController
 
     if @message.update(message_params)
       if text_channel
-        Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_updated', {})
+        Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_action', {})
       else
-        Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_updated', {})
+        Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_action', {})
       end
 
       render :show
@@ -59,9 +59,9 @@ class Api::MessagesController < ApplicationController
 
     if @message.destroy
       if text_channel
-        Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_destroyed', {})
+        Pusher.trigger('text_channel_' + text_channel.id.to_s, 'message_action', {})
       else
-        Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_destroyed', {})
+        Pusher.trigger('direct_message_' + direct_message.id.to_s, 'message_action', {})
       end
 
       render json: {}

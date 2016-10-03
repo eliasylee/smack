@@ -1,3 +1,5 @@
+/* global Pusher */
+
 import React from 'react';
 import TextChannelNavItem from './text_channel_nav_item';
 import { withRouter } from 'react-router';
@@ -18,6 +20,33 @@ class TextChannelNav extends React.Component {
     this.createTextChannelForm = this.createTextChannelForm.bind(this);
     this.placeDestroyChannelButton = this.placeDestroyChannelButton.bind(this);
     this.handleDestroyChannel = this.handleDestroyChannel.bind(this);
+  }
+
+  componentWillReceiveProps (newProps) {
+    if (newProps.channel.id) {
+      let newChannel = 'channel_' + newProps.channel.id;
+
+      if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+        this.createPusherChannel(newProps.channel.id);
+      }
+    }
+
+    if (window.pusher && newProps.channel.id !== this.props.channel.id) {
+      window.pusher.unsubscribe('channel_' + this.props.channel.id);
+    }
+  }
+
+  createPusherChannel (channelId) {
+    if (!window.pusher) {
+      window.pusher = new Pusher('a6428d82cdddd683832f', {
+        encrypted: true
+      });
+    }
+
+    let channel = window.pusher.subscribe('channel_' + channelId);
+    channel.bind('text_channel_action', data => {
+      this.props.fetchOneChannel(this.props.channel.id);
+    });
   }
 
   componentWillUnmount () {

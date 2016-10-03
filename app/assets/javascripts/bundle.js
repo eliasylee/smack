@@ -34752,16 +34752,16 @@
 	  }, {
 	    key: 'channelIconOrText',
 	    value: function channelIconOrText(stateChannel, channel, router, path) {
-	      if (channel.icon_url) {
-	        return _react2.default.createElement('img', { src: channel.icon_url,
-	          alt: 'channel-button',
-	          className: this.isActive(stateChannel, channel) });
-	      } else {
+	      if (channel.icon_url === "") {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: this.isActiveText(stateChannel, channel, path) },
 	          this.prepChannelName(channel)
 	        );
+	      } else {
+	        return _react2.default.createElement('img', { src: channel.icon_url,
+	          alt: 'channel-button',
+	          className: this.isActive(stateChannel, channel) });
 	      }
 	    }
 	  }, {
@@ -34902,6 +34902,9 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
+	    fetchOneChannel: function fetchOneChannel(channel) {
+	      return dispatch((0, _channel_actions.fetchOneChannel)(channel));
+	    },
 	    createTextChannel: function createTextChannel(textChannel) {
 	      return dispatch((0, _text_channel_actions.createTextChannel)(textChannel));
 	    },
@@ -34960,7 +34963,7 @@
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global Pusher */
 	
 	var TextChannelNav = function (_React$Component) {
 	  _inherits(TextChannelNav, _React$Component);
@@ -34987,6 +34990,37 @@
 	  }
 	
 	  _createClass(TextChannelNav, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (newProps.channel.id) {
+	        var newChannel = 'channel_' + newProps.channel.id;
+	
+	        if (!window.pusher || !window.pusher.channels.channels[newChannel]) {
+	          this.createPusherChannel(newProps.channel.id);
+	        }
+	      }
+	
+	      if (window.pusher && newProps.channel.id !== this.props.channel.id) {
+	        window.pusher.unsubscribe('channel_' + this.props.channel.id);
+	      }
+	    }
+	  }, {
+	    key: 'createPusherChannel',
+	    value: function createPusherChannel(channelId) {
+	      var _this2 = this;
+	
+	      if (!window.pusher) {
+	        window.pusher = new Pusher('a6428d82cdddd683832f', {
+	          encrypted: true
+	        });
+	      }
+	
+	      var channel = window.pusher.subscribe('channel_' + channelId);
+	      channel.bind('text_channel_action', function (data) {
+	        _this2.props.fetchOneChannel(_this2.props.channel.id);
+	      });
+	    }
+	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      this.props.dismountChannel();
@@ -35015,10 +35049,10 @@
 	  }, {
 	    key: 'update',
 	    value: function update(property) {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      return function (e) {
-	        return _this2.setState(_defineProperty({}, property, e.target.value));
+	        return _this3.setState(_defineProperty({}, property, e.target.value));
 	      };
 	    }
 	  }, {
@@ -35054,7 +35088,7 @@
 	  }, {
 	    key: 'waitForTextChannels',
 	    value: function waitForTextChannels() {
-	      var _this3 = this;
+	      var _this4 = this;
 	
 	      var _props = this.props;
 	      var stateTextChannel = _props.stateTextChannel;
@@ -35074,13 +35108,13 @@
 	                return _react2.default.createElement(_text_channel_nav_item2.default, { textChannel: textChannels[textChannelKey],
 	                  stateTextChannel: stateTextChannel,
 	                  textChannelKeys: textChannelKeys,
-	                  fetchOneTextChannel: _this3.props.fetchOneTextChannel,
-	                  destroyTextChannel: _this3.props.destroyTextChannel,
+	                  fetchOneTextChannel: _this4.props.fetchOneTextChannel,
+	                  destroyTextChannel: _this4.props.destroyTextChannel,
 	                  channelId: channel.id,
 	                  channelAdminId: channel.admin.id,
-	                  currentUserId: _this3.props.currentUser.id,
+	                  currentUserId: _this4.props.currentUser.id,
 	                  key: textChannelKey,
-	                  clearTextMessages: _this3.props.clearTextMessages });
+	                  clearTextMessages: _this4.props.clearTextMessages });
 	              })
 	            )
 	          };
@@ -35563,13 +35597,7 @@
 	      }
 	
 	      var channel = window.pusher.subscribe('text_channel_' + channelId);
-	      channel.bind('message_posted', function (data) {
-	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
-	      });
-	      channel.bind('message_updated', function (data) {
-	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
-	      });
-	      channel.bind('message_destroyed', function (data) {
+	      channel.bind('message_action', function (data) {
 	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
 	      });
 	    }
@@ -37310,13 +37338,7 @@
 	      }
 	
 	      var channel = window.pusher.subscribe('direct_message_' + this.props.params.id);
-	      channel.bind('message_posted', function (data) {
-	        _this2.props.fetchOneDirectMessage(_this2.props.directMessage.id);
-	      });
-	      channel.bind('message_updated', function (data) {
-	        _this2.props.fetchOneDirectMessage(_this2.props.directMessage.id);
-	      });
-	      channel.bind('message_destroyed', function (data) {
+	      channel.bind('message_action', function (data) {
 	        _this2.props.fetchOneDirectMessage(_this2.props.directMessage.id);
 	      });
 	    }

@@ -49,13 +49,7 @@ class DirectChatMessage extends React.Component {
     }
 
     let channel = window.pusher.subscribe('direct_message_' + this.props.params.id);
-    channel.bind('message_posted', data => {
-      this.props.fetchOneDirectMessage(this.props.directMessage.id);
-    });
-    channel.bind('message_updated', data => {
-      this.props.fetchOneDirectMessage(this.props.directMessage.id);
-    });
-    channel.bind('message_destroyed', data => {
+    channel.bind('message_action', data => {
       this.props.fetchOneDirectMessage(this.props.directMessage.id);
     });
   }

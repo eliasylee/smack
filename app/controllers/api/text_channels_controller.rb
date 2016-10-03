@@ -11,6 +11,7 @@ class Api::TextChannelsController < ApplicationController
     @text_channel = TextChannel.new(text_channel_params)
 
     if @text_channel.save
+      Pusher.trigger('channel_' + text_channel_params["channel_id"].to_s, 'text_channel_action', {})
       Message.create!(author_id: 1,
                       body: "This is the beginning of the ##{@text_channel.title} channel.",
                       chatable_id: @text_channel.id,
@@ -24,6 +25,7 @@ class Api::TextChannelsController < ApplicationController
     @text_channel = TextChannel.find_by_id(params["text_channel"]["id"].to_i)
 
     if @text_channel.update(text_channel_params)
+      Pusher.trigger('channel_' + @text_channel.channel_id.to_s, 'text_channel_action', {})
       render :show
     end
   end
@@ -32,6 +34,7 @@ class Api::TextChannelsController < ApplicationController
     @text_channel = TextChannel.find_by_id(params[:id])
 
     if @text_channel.destroy
+      Pusher.trigger('channel_' + @text_channel.channel_id.to_s, 'text_channel_action', {})
       render json: {}
     end
   end
