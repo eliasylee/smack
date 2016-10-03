@@ -45,16 +45,21 @@ class TextChannelChat extends React.Component {
     }
   }
 
-  createPusherChannel (channelId) {
+  createPusherChannel (textChannelId) {
     if (!window.pusher) {
       window.pusher = new Pusher('a6428d82cdddd683832f', {
         encrypted: true
       });
     }
 
-    let channel = window.pusher.subscribe('text_channel_' + channelId);
+    let channel = window.pusher.subscribe('text_channel_' + textChannelId);
     channel.bind('message_action', data => {
       this.props.fetchOneTextChannel(this.props.textChannel.id);
+    });
+    channel.bind('text_channel_destroyed', data => {
+      let channelId = this.props.channel.id
+      let textChannels = Object.keys(this.props.channel.textChannels);
+      this.props.router.push(`/channels/${channelId}/${textChannels[0]}`);
     });
   }
 

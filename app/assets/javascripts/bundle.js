@@ -35629,7 +35629,7 @@
 	    }
 	  }, {
 	    key: 'createPusherChannel',
-	    value: function createPusherChannel(channelId) {
+	    value: function createPusherChannel(textChannelId) {
 	      var _this2 = this;
 	
 	      if (!window.pusher) {
@@ -35638,9 +35638,14 @@
 	        });
 	      }
 	
-	      var channel = window.pusher.subscribe('text_channel_' + channelId);
+	      var channel = window.pusher.subscribe('text_channel_' + textChannelId);
 	      channel.bind('message_action', function (data) {
 	        _this2.props.fetchOneTextChannel(_this2.props.textChannel.id);
+	      });
+	      channel.bind('text_channel_destroyed', function (data) {
+	        var channelId = _this2.props.channel.id;
+	        var textChannels = Object.keys(_this2.props.channel.textChannels);
+	        _this2.props.router.push('/channels/' + channelId + '/' + textChannels[0]);
 	      });
 	    }
 	  }, {

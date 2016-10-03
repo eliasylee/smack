@@ -35,6 +35,7 @@ class Api::TextChannelsController < ApplicationController
 
     if @text_channel.destroy
       Pusher.trigger('channel_' + @text_channel.channel_id.to_s, 'text_channel_action', {})
+      Pusher.trigger('text_channel_' + @text_channel.id.to_s, 'text_channel_destroyed', {})
       render json: {}
     end
   end
