@@ -57,3 +57,81 @@
 .guestCaptions {
   color: #8A8E94;
 }
+
+@-webkit-keyframes fade1 {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  40% { opacity: 1; }
+  60% { opacity: 0; }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@-webkit-keyframes fade2 {
+  0% { opacity: 0; }
+  20% { opacity: 0; }
+  40% { opacity: 1; }
+  60% { opacity: 1; }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@-webkit-keyframes fade3 {
+  0% { opacity: 0; }
+  20% { opacity: 0; }
+  40% { opacity: 0; }
+  60% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.guestBox :nth-child(3) {
+  -webkit-animation-name:             fade1;
+  -webkit-animation-duration:         2s;
+  -webkit-animation-iteration-count:  infinite;
+  -webkit-animation-timing-function:  linear;
+
+  -moz-animation-name:             fade1;
+  -moz-animation-duration:         2s;
+  -moz-animation-iteration-count:  infinite;
+  -moz-animation-timing-function:  linear;
+
+  -ms-animation-name:             fade1;
+  -ms-animation-duration:         2s;
+  -ms-animation-iteration-count:  infinite;
+  -ms-animation-timing-function:  linear;
+}
+
+.guestBox :nth-child(4) {
+  -webkit-animation-name:             fade2;
+  -webkit-animation-duration:         2s;
+  -webkit-animation-iteration-count:  infinite;
+  -webkit-animation-timing-function:  linear;
+
+  -moz-animation-name:             fade2;
+  -moz-animation-duration:         2s;
+  -moz-animation-iteration-count:  infinite;
+  -moz-animation-timing-function:  linear;
+
+  -ms-animation-name:             fade2;
+  -ms-animation-duration:         2s;
+  -ms-animation-iteration-count:  infinite;
+  -ms-animation-timing-function:  linear;
+}
+
+.guestBox :nth-child(5) {
+  -webkit-animation-name:             fade3;
+  -webkit-animation-duration:         2s;
+  -webkit-animation-iteration-count:  infinite;
+  -webkit-animation-timing-function:  linear;
+
+  -moz-animation-name:             fade3;
+  -moz-animation-duration:         2s;
+  -moz-animation-iteration-count:  1;
+  -moz-animation-timing-function:  linear;
+
+  -ms-animation-name:             fade3;
+  -ms-animation-duration:         2s;
+  -ms-animation-iteration-count:  1;
+  -ms-animation-timing-function:  linear;
+}
