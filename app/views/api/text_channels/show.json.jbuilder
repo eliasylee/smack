@@ -9,5 +9,6 @@ json.attachments @text_channel.messages do |message|
   json.author do
     json.id message.author.id
     json.username message.author.username
+    json.color message.author.color
   end
 end

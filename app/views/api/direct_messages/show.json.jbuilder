@@ -10,5 +10,6 @@ json.messages @direct_message.messages do |message|
   json.author do
     json.id message.author.id
     json.username message.author.username
+    json.color message.author.color
   end
 end
