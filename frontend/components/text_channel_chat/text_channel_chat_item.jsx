@@ -113,11 +113,32 @@ class TextChannelChatItem extends React.Component {
     return result;
   }
 
+  idCreator (color) {
+    switch (color) {
+      case "E6544A":
+        return "cE6544A";
+      case "FAA61A":
+        return "cFAA61A";
+      case "7289DA":
+        return "c7289DA";
+      case "43B581":
+        return "c43B581";
+      case "593695":
+        return "c593695";
+      case "992D22":
+        return "c992D22";
+      case "3498DB":
+        return "c3498DB";
+      case "1F8B4C":
+        return "c1F8B4C";
+    }
+  }
+
   render () {
     const { message, currentUser, textChannel } = this.props
     return (
       <div className="textChannelMessageBox">
-        <div className="userLogo messageBoxLogo">
+        <div className="userLogo messageBoxLogo" id={this.idCreator(message.author.color)}>
           <div className="userLogoLetter messageBoxLogoLetter">{this.prepUserName(message.author.username)}</div>
         </div>
         <div className="textChannelMessageBoxInner">

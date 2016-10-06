@@ -1,3 +1,14 @@
+COLORS = [
+  "E6544A",
+  "FAA61A",
+  "7289DA",
+  "43B581",
+  "593695",
+  "992D22",
+  "3498DB",
+  "1F8B4C"
+]
+
 class User < ApplicationRecord
   validates :username, :password_digest, :session_token, presence: true
   validates :password, length: { minimum: 6, maximum: 20, allow_nil: true }
@@ -50,15 +61,19 @@ class User < ApplicationRecord
     self.session_token
   end
 
+  def self.random_color
+    COLORS[rand(0..COLORS.length - 1)]
+  end
+
   def self.create_guest_account!
     guest_number = nil
 
     loop do
-      guest_number = rand(100000)
+      guest_number = rand(COLORS.length - 1)
       break unless User.find_by(username: "ShyGuy#{guest_number}")
     end
 
-    User.create!(username: "ShyGuy#{guest_number}", password: "password")
+    User.create!(username: "ShyGuy#{guest_number}", password: "password", color: User.random_color)
     user = User.find_by_username("ShyGuy#{guest_number}")
 
     chan_1 = Channel.create!(admin_id: user.id, title: "fremont", description: "", icon_url: "https://cdn.discordapp.com/icons/91722996300943360/fd7a1d84d586eaba09e0a38e0c5280ed.jpg")

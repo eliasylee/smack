@@ -26620,6 +26620,7 @@
 	      var keyedMessages = (0, _message_selector2.default)(action.directMessage.messages);
 	      newState.id = action.directMessage.id;
 	      newState.username = action.directMessage.username;
+	      newState.color = action.directMessage.color;
 	      newState.messages = keyedMessages;
 	      return newState;
 	    case _direct_message_actions.DirectMessageConstants.DESTROY_DIRECT_MESSAGE:
@@ -35355,6 +35356,28 @@
 	      return result;
 	    }
 	  }, {
+	    key: 'idCreator',
+	    value: function idCreator(color) {
+	      switch (color) {
+	        case "E6544A":
+	          return "cE6544A";
+	        case "FAA61A":
+	          return "cFAA61A";
+	        case "7289DA":
+	          return "c7289DA";
+	        case "43B581":
+	          return "c43B581";
+	        case "593695":
+	          return "c593695";
+	        case "992D22":
+	          return "c992D22";
+	        case "3498DB":
+	          return "c3498DB";
+	        case "1F8B4C":
+	          return "c1F8B4C";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var children = this.props.children;
@@ -35422,7 +35445,7 @@
 	                  { className: 'currentLogoBox' },
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'userLogo' },
+	                    { className: 'userLogo', id: this.idCreator(this.props.currentUser.color) },
 	                    _react2.default.createElement(
 	                      'div',
 	                      { className: 'userLogoLetter' },
@@ -36093,6 +36116,28 @@
 	      return result;
 	    }
 	  }, {
+	    key: 'idCreator',
+	    value: function idCreator(color) {
+	      switch (color) {
+	        case "E6544A":
+	          return "cE6544A";
+	        case "FAA61A":
+	          return "cFAA61A";
+	        case "7289DA":
+	          return "c7289DA";
+	        case "43B581":
+	          return "c43B581";
+	        case "593695":
+	          return "c593695";
+	        case "992D22":
+	          return "c992D22";
+	        case "3498DB":
+	          return "c3498DB";
+	        case "1F8B4C":
+	          return "c1F8B4C";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _props = this.props;
@@ -36105,7 +36150,7 @@
 	        { className: 'textChannelMessageBox' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'userLogo messageBoxLogo' },
+	          { className: 'userLogo messageBoxLogo', id: this.idCreator(message.author.color) },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'userLogoLetter messageBoxLogoLetter' },
@@ -36842,6 +36887,28 @@
 	      }
 	    }
 	  }, {
+	    key: 'idCreator',
+	    value: function idCreator(color) {
+	      switch (color) {
+	        case "E6544A":
+	          return "cE6544A";
+	        case "FAA61A":
+	          return "cFAA61A";
+	        case "7289DA":
+	          return "c7289DA";
+	        case "43B581":
+	          return "c43B581";
+	        case "593695":
+	          return "c593695";
+	        case "992D22":
+	          return "c992D22";
+	        case "3498DB":
+	          return "c3498DB";
+	        case "1F8B4C":
+	          return "c1F8B4C";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var subscription = this.props.subscription;
@@ -36859,7 +36926,7 @@
 	            { className: 'subUserLogo' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'userLogo' },
+	              { className: 'userLogo', id: this.idCreator(subscription.color) },
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'userLogoLetter' },
@@ -37147,6 +37214,28 @@
 	      return result;
 	    }
 	  }, {
+	    key: 'idCreator',
+	    value: function idCreator(color) {
+	      switch (color) {
+	        case "E6544A":
+	          return "cE6544A";
+	        case "FAA61A":
+	          return "cFAA61A";
+	        case "7289DA":
+	          return "c7289DA";
+	        case "43B581":
+	          return "c43B581";
+	        case "593695":
+	          return "c593695";
+	        case "992D22":
+	          return "c992D22";
+	        case "3498DB":
+	          return "c3498DB";
+	        case "1F8B4C":
+	          return "c1F8B4C";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var children = this.props.children;
@@ -37199,7 +37288,7 @@
 	                  { className: 'currentLogoBox' },
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'userLogo' },
+	                    { className: 'userLogo', id: this.idCreator(this.props.currentUser.color) },
 	                    _react2.default.createElement(
 	                      'div',
 	                      { className: 'userLogoLetter' },
@@ -37367,6 +37456,28 @@
 	      }
 	    }
 	  }, {
+	    key: 'idCreator',
+	    value: function idCreator(color) {
+	      switch (color) {
+	        case "E6544A":
+	          return "cE6544A";
+	        case "FAA61A":
+	          return "cFAA61A";
+	        case "7289DA":
+	          return "c7289DA";
+	        case "43B581":
+	          return "c43B581";
+	        case "593695":
+	          return "c593695";
+	        case "992D22":
+	          return "c992D22";
+	        case "3498DB":
+	          return "c3498DB";
+	        case "1F8B4C":
+	          return "c1F8B4C";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _props6 = this.props;
@@ -37386,7 +37497,7 @@
 	            { className: 'directMessageUserLogo' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'directMessageUserLogoLetter' },
+	              { className: 'directMessageUserLogoLetter', id: this.idCreator(directMessage.color) },
 	              this.prepUserName(directMessage.username)
 	            )
 	          ),
@@ -37814,6 +37925,28 @@
 	      return result;
 	    }
 	  }, {
+	    key: 'idCreator',
+	    value: function idCreator(color) {
+	      switch (color) {
+	        case "E6544A":
+	          return "cE6544A";
+	        case "FAA61A":
+	          return "cFAA61A";
+	        case "7289DA":
+	          return "c7289DA";
+	        case "43B581":
+	          return "c43B581";
+	        case "593695":
+	          return "c593695";
+	        case "992D22":
+	          return "c992D22";
+	        case "3498DB":
+	          return "c3498DB";
+	        case "1F8B4C":
+	          return "c1F8B4C";
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _props = this.props;
@@ -37826,7 +37959,7 @@
 	        { className: 'textChannelMessageBox' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'userLogo messageBoxLogo' },
+	          { className: 'userLogo messageBoxLogo', id: this.idCreator(message.author.color) },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'userLogoLetter messageBoxLogoLetter' },

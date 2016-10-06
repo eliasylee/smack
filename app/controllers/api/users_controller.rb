@@ -1,6 +1,7 @@
 class Api::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
+    @user.color = User.random_color
 
     if @user.save
       login_user!(@user)

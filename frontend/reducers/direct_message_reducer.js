@@ -16,6 +16,7 @@ const DirectMessageReducer = (state = defaultState, action) => {
       let keyedMessages = messageSelector(action.directMessage.messages);
       newState.id = action.directMessage.id;
       newState.username = action.directMessage.username;
+      newState.color = action.directMessage.color;
       newState.messages = keyedMessages;
       return newState
     case DirectMessageConstants.DESTROY_DIRECT_MESSAGE:

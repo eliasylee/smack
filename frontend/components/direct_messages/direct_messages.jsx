@@ -142,6 +142,27 @@ class DirectMessages extends React.Component {
     return result;
   }
 
+  idCreator (color) {
+    switch (color) {
+      case "E6544A":
+        return "cE6544A";
+      case "FAA61A":
+        return "cFAA61A";
+      case "7289DA":
+        return "c7289DA";
+      case "43B581":
+        return "c43B581";
+      case "593695":
+        return "c593695";
+      case "992D22":
+        return "c992D22";
+      case "3498DB":
+        return "c3498DB";
+      case "1F8B4C":
+        return "c1F8B4C";
+    }
+  }
+
   render () {
     const { children } = this.props;
     let user = this.props.currentUser || { username: "" };
@@ -165,7 +186,7 @@ class DirectMessages extends React.Component {
             <div className="navBarCurrentUserOuterBox">
               <div className="navBarCurrentUserLeftBox">
                 <div className="currentLogoBox">
-                  <div className="userLogo">
+                  <div className="userLogo" id={this.idCreator(this.props.currentUser.color)}>
                     <div className="userLogoLetter">{this.prepUserName()}</div>
                   </div>
                 </div>
