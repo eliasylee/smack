@@ -69,7 +69,7 @@ class User < ApplicationRecord
     guest_number = nil
 
     loop do
-      guest_number = rand(COLORS.length - 1)
+      guest_number = rand(1000)
       break unless User.find_by(username: "ShyGuy#{guest_number}")
     end
 
