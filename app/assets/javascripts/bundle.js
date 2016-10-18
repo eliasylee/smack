@@ -35358,24 +35358,7 @@
 	  }, {
 	    key: 'idCreator',
 	    value: function idCreator(color) {
-	      switch (color) {
-	        case "E6544A":
-	          return "cE6544A";
-	        case "FAA61A":
-	          return "cFAA61A";
-	        case "7289DA":
-	          return "c7289DA";
-	        case "43B581":
-	          return "c43B581";
-	        case "593695":
-	          return "c593695";
-	        case "992D22":
-	          return "c992D22";
-	        case "3498DB":
-	          return "c3498DB";
-	        case "1F8B4C":
-	          return "c1F8B4C";
-	      }
+	      return 'c' + color;
 	    }
 	  }, {
 	    key: 'render',
@@ -36118,24 +36101,7 @@
 	  }, {
 	    key: 'idCreator',
 	    value: function idCreator(color) {
-	      switch (color) {
-	        case "E6544A":
-	          return "cE6544A";
-	        case "FAA61A":
-	          return "cFAA61A";
-	        case "7289DA":
-	          return "c7289DA";
-	        case "43B581":
-	          return "c43B581";
-	        case "593695":
-	          return "c593695";
-	        case "992D22":
-	          return "c992D22";
-	        case "3498DB":
-	          return "c3498DB";
-	        case "1F8B4C":
-	          return "c1F8B4C";
-	      }
+	      return 'c' + color;
 	    }
 	  }, {
 	    key: 'render',
@@ -36889,24 +36855,7 @@
 	  }, {
 	    key: 'idCreator',
 	    value: function idCreator(color) {
-	      switch (color) {
-	        case "E6544A":
-	          return "cE6544A";
-	        case "FAA61A":
-	          return "cFAA61A";
-	        case "7289DA":
-	          return "c7289DA";
-	        case "43B581":
-	          return "c43B581";
-	        case "593695":
-	          return "c593695";
-	        case "992D22":
-	          return "c992D22";
-	        case "3498DB":
-	          return "c3498DB";
-	        case "1F8B4C":
-	          return "c1F8B4C";
-	      }
+	      return 'c' + color;
 	    }
 	  }, {
 	    key: 'render',
@@ -37216,24 +37165,7 @@
 	  }, {
 	    key: 'idCreator',
 	    value: function idCreator(color) {
-	      switch (color) {
-	        case "E6544A":
-	          return "cE6544A";
-	        case "FAA61A":
-	          return "cFAA61A";
-	        case "7289DA":
-	          return "c7289DA";
-	        case "43B581":
-	          return "c43B581";
-	        case "593695":
-	          return "c593695";
-	        case "992D22":
-	          return "c992D22";
-	        case "3498DB":
-	          return "c3498DB";
-	        case "1F8B4C":
-	          return "c1F8B4C";
-	      }
+	      return 'c' + color;
 	    }
 	  }, {
 	    key: 'render',
@@ -37458,24 +37390,7 @@
 	  }, {
 	    key: 'idCreator',
 	    value: function idCreator(color) {
-	      switch (color) {
-	        case "E6544A":
-	          return "cE6544A";
-	        case "FAA61A":
-	          return "cFAA61A";
-	        case "7289DA":
-	          return "c7289DA";
-	        case "43B581":
-	          return "c43B581";
-	        case "593695":
-	          return "c593695";
-	        case "992D22":
-	          return "c992D22";
-	        case "3498DB":
-	          return "c3498DB";
-	        case "1F8B4C":
-	          return "c1F8B4C";
-	      }
+	      return 'c' + color;
 	    }
 	  }, {
 	    key: 'render',
@@ -37927,24 +37842,7 @@
 	  }, {
 	    key: 'idCreator',
 	    value: function idCreator(color) {
-	      switch (color) {
-	        case "E6544A":
-	          return "cE6544A";
-	        case "FAA61A":
-	          return "cFAA61A";
-	        case "7289DA":
-	          return "c7289DA";
-	        case "43B581":
-	          return "c43B581";
-	        case "593695":
-	          return "c593695";
-	        case "992D22":
-	          return "c992D22";
-	        case "3498DB":
-	          return "c3498DB";
-	        case "1F8B4C":
-	          return "c1F8B4C";
-	      }
+	      return 'c' + color;
 	    }
 	  }, {
 	    key: 'render',
