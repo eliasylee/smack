@@ -35600,6 +35600,15 @@
 	      }
 	    }
 	  }, {
+	    key: 'prepTextChannelTitle',
+	    value: function prepTextChannelTitle(title) {
+	      if (title.length <= 15) {
+	        return title;
+	      } else {
+	        return title.slice(0, 13) + '...';
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var textChannel = this.props.textChannel;
@@ -35620,7 +35629,7 @@
 	          _react2.default.createElement(
 	            'ul',
 	            null,
-	            textChannel.title
+	            this.prepTextChannelTitle(textChannel.title)
 	          )
 	        ),
 	        this.placeDestroyTextChannelButton()

@@ -56,6 +56,14 @@ class TextChannelNavItem extends React.Component {
     }
   }
 
+  prepTextChannelTitle (title) {
+    if (title.length <= 15) {
+      return title;
+    } else {
+      return `${title.slice(0, 13)}...`;
+    }
+  }
+
   render () {
     const { textChannel } = this.props;
     return (
@@ -64,7 +72,7 @@ class TextChannelNavItem extends React.Component {
            disabled={this.isDisabled()}>
         <div className="textChannelButtonLeft">
           <ul>#</ul>
-          <ul>{textChannel.title}</ul>
+          <ul>{this.prepTextChannelTitle(textChannel.title)}</ul>
         </div>
         {this.placeDestroyTextChannelButton()}
       </div>
