@@ -11,7 +11,7 @@ class ChannelNavItem extends React.Component {
     if (channel.title) {
       let result = "";
       channel.title.split(" ").forEach( word => { result += word.slice(0, 1) })
-      return result.toUpperCase();
+      return result;
     }
   }
 

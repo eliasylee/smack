@@ -169,17 +169,17 @@
   transition: all 500ms ease;
 }
 
-.inactiveText {
+.activeText, .inactiveText, .inactiveText:hover {
   height: 50px;
   width: 50px;
+  color: #fff;
   font-size: 20px;
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
   background-color: #2E3136;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
-  font-family: 'Open Sans', sans-serif;
-  border-radius: 50%;
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
@@ -187,22 +187,12 @@
   transition: all 500ms ease;
 }
 
+.inactiveText {
+  border-radius: 50%;
+}
+
 .activeText, .inactiveText:hover {
-  height: 50px;
-  width: 50px;
-  font-size: 20px;
-  background-color: #2E3136;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  font-family: 'Open Sans', sans-serif;
   border-radius: 15px;
-  -webkit-transition: all 500ms ease;
-  -moz-transition: all 500ms ease;
-  -ms-transition: all 500ms ease;
-  -o-transition: all 500ms ease;
-  transition: all 500ms ease;
 }
 
 .createChannelButtonBox {

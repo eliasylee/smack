@@ -34856,7 +34856,7 @@
 	        channel.title.split(" ").forEach(function (word) {
 	          result += word.slice(0, 1);
 	        });
-	        return result.toUpperCase();
+	        return result;
 	      }
 	    }
 	  }, {
