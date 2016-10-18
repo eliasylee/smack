@@ -34853,7 +34853,9 @@
 	    value: function prepChannelName(channel) {
 	      if (channel.title) {
 	        var result = "";
-	        channel.title.split(" ").forEach(function (word) {
+	        var words = channel.title.split(" ");
+	        words = words.slice(0, 2);
+	        words.forEach(function (word) {
 	          result += word.slice(0, 1);
 	        });
 	        return result;
@@ -35602,10 +35604,10 @@
 	  }, {
 	    key: 'prepTextChannelTitle',
 	    value: function prepTextChannelTitle(title) {
-	      if (title.length <= 15) {
+	      if (title.length <= 25) {
 	        return title;
 	      } else {
-	        return title.slice(0, 13) + '...';
+	        return title.slice(0, 22) + '...';
 	      }
 	    }
 	  }, {

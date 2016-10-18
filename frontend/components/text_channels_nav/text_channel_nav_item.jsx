@@ -57,10 +57,10 @@ class TextChannelNavItem extends React.Component {
   }
 
   prepTextChannelTitle (title) {
-    if (title.length <= 15) {
+    if (title.length <= 25) {
       return title;
     } else {
-      return `${title.slice(0, 13)}...`;
+      return `${title.slice(0, 22)}...`;
     }
   }
 

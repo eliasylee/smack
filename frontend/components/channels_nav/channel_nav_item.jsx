@@ -10,7 +10,9 @@ class ChannelNavItem extends React.Component {
   prepChannelName (channel) {
     if (channel.title) {
       let result = "";
-      channel.title.split(" ").forEach( word => { result += word.slice(0, 1) })
+      let words = channel.title.split(" ");
+      words = words.slice(0, 2);
+      words.forEach( word => { result += word.slice(0, 1) })
       return result;
     }
   }
