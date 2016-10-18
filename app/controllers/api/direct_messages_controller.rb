@@ -28,7 +28,7 @@ class Api::DirectMessagesController < ApplicationController
         render :create
       end
     else
-      render(json: ["User not found"], status: 404)
+      render(json: ["User not found!"], status: 404)
     end
   end
 

@@ -37011,6 +37011,10 @@
 	    _this.state = {
 	      username: ""
 	    };
+	    _this.soloDM = false;
+	    _this.existingDM = false;
+	    _this.typeToClearErrors = true;
+	
 	    _this.existingUsernames = _this.existingUsernames.bind(_this);
 	    _this.updateState = _this.updateState.bind(_this);
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -37060,7 +37064,8 @@
 	      var _this3 = this;
 	
 	      return function (e) {
-	        return _this3.setState(_defineProperty({}, property, e.target.value));
+	        _this3.typeToClearErrors = true;
+	        _this3.setState(_defineProperty({}, property, e.target.value));
 	      };
 	    }
 	  }, {
@@ -37078,9 +37083,22 @@
 	      e.preventDefault();
 	      var username = this.state.username;
 	      if (username !== "") {
-	        if (!this.existingUsernames().includes(username)) {
+	        if (username === this.props.currentUser.username) {
+	          this.setState({ "username": "" });
+	          this.soloDM = true;
+	          this.existingDM = false;
+	          this.typeToClearErrors = false;
+	        } else if (this.existingUsernames().includes(username)) {
+	          this.setState({ "username": "" });
+	          this.existingDM = true;
+	          this.soloDM = false;
+	          this.typeToClearErrors = false;
+	        } else {
 	          var direct_message = Object.assign({}, this.state);
 	          this.setState({ "username": "" });
+	          this.soloDM = false;
+	          this.existingDM = false;
+	          this.typeToClearErrors = false;
 	          this.props.clearDirectMessageErrors();
 	          this.props.createDirectMessage({ direct_message: direct_message });
 	        }
@@ -37092,10 +37110,16 @@
 	      var errors = this.props.errors;
 	
 	
-	      if (!errors || errors.length === 0) {
+	      if (!errors || errors.length === 0 || this.typeToClearErrors) {
 	        return "Start a conversation";
 	      } else {
-	        return errors[0];
+	        if (this.soloDM) {
+	          return "Feeling lonely?";
+	        } else if (this.existingDM) {
+	          return "Chat already exists!";
+	        } else {
+	          return errors[0];
+	        }
 	      }
 	    }
 	  }, {
@@ -37104,7 +37128,7 @@
 	      var errors = this.props.errors;
 	
 	
-	      if (!errors || errors.length === 0) {
+	      if (!errors || errors.length === 0 || this.typeToClearErrors) {
 	        return "directMessageInput";
 	      } else {
 	        return "directMessageInput withErrors";

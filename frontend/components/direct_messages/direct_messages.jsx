@@ -7,6 +7,10 @@ class DirectMessages extends React.Component {
     this.state = {
       username: ""
     }
+    this.soloDM = false;
+    this.existingDM = false;
+    this.typeToClearErrors = true;
+
     this.existingUsernames = this.existingUsernames.bind(this);
     this.updateState = this.updateState.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,7 +49,10 @@ class DirectMessages extends React.Component {
   }
 
   updateState (property) {
-    return e => this.setState({[property]: e.target.value});
+    return e => {
+      this.typeToClearErrors = true;
+      this.setState({[property]: e.target.value});
+    }
   }
 
   existingUsernames () {
@@ -60,9 +67,22 @@ class DirectMessages extends React.Component {
     e.preventDefault();
     let username = this.state.username;
     if (username !== "") {
-      if (!this.existingUsernames().includes(username)) {
+      if (username === this.props.currentUser.username) {
+        this.setState({ "username": "" });
+        this.soloDM = true;
+        this.existingDM = false;
+        this.typeToClearErrors = false;
+      } else if (this.existingUsernames().includes(username)) {
+        this.setState({ "username": "" });
+        this.existingDM = true;
+        this.soloDM = false;
+        this.typeToClearErrors = false;
+      } else {
         let direct_message = Object.assign({}, this.state);
         this.setState({ "username": "" });
+        this.soloDM = false;
+        this.existingDM = false;
+        this.typeToClearErrors = false;
         this.props.clearDirectMessageErrors();
         this.props.createDirectMessage({ direct_message });
       }
@@ -72,17 +92,23 @@ class DirectMessages extends React.Component {
   renderFormInput () {
     const { errors } = this.props;
 
-    if (!errors || errors.length === 0) {
+    if ((!errors || errors.length === 0) || this.typeToClearErrors) {
       return "Start a conversation";
     } else {
-      return errors[0];
+      if (this.soloDM) {
+        return "Feeling lonely?";
+      } else if (this.existingDM) {
+        return "Chat already exists!";
+      } else {
+        return errors[0];
+      }
     }
   }
 
   inputColor () {
     const { errors } = this.props;
 
-    if (!errors || errors.length === 0) {
+    if ((!errors || errors.length === 0) || this.typeToClearErrors) {
       return "directMessageInput";
     } else {
       return "directMessageInput withErrors";
