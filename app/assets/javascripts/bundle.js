@@ -36664,7 +36664,7 @@
 	        if (this.existingUser) {
 	          return "User already subbed!";
 	        } else if (subs['errors']) {
-	          return subs['errors'] + "!";
+	          return subs['errors'];
 	        }
 	      }
 	    }
