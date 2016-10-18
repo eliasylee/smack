@@ -8,6 +8,9 @@ class ChannelSubscriptions extends React.Component {
       channel_id: 0,
       username: ""
     }
+    this.existingUser = false;
+    this.typeToClearErrors = false;
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderSubscriptionForm = this.renderSubscriptionForm.bind(this);
     this.renderErrors = this.renderErrors.bind(this);
@@ -28,17 +31,31 @@ class ChannelSubscriptions extends React.Component {
       this.props.createSubscription({ subscription });
       this.setState({ "username": "" });
       this.props.clearSubscriptionErrors();
+      this.existingUser = false;
+      this.typeToClearErrors = false;
+    } else if (usernames.includes(this.state.username)) {
+      this.setState({ "username": "" });
+      this.props.clearSubscriptionErrors();
+      this.existingUser = true;
+      this.typeToClearErrors = false;
     }
   }
 
   updateState (property) {
-    return e => this.setState({ [property]: e.target.value });
+    return e => {
+      this.typeToClearErrors = true;
+      this.setState({ [property]: e.target.value });
+    }
   }
 
   renderErrors () {
     let subs = this.props.subscriptions;
-    if (subs['errors']) {
-      return subs['errors'];
+    if (!this.typeToClearErrors) {
+      if (this.existingUser) {
+        return "User already subbed!"
+      } else if (subs['errors']) {
+        return subs['errors'] + "!";
+      }
     }
   }
 

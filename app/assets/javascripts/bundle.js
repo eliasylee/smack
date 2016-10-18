@@ -36607,6 +36607,9 @@
 	      channel_id: 0,
 	      username: ""
 	    };
+	    _this.existingUser = false;
+	    _this.typeToClearErrors = false;
+	
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    _this.renderSubscriptionForm = _this.renderSubscriptionForm.bind(_this);
 	    _this.renderErrors = _this.renderErrors.bind(_this);
@@ -36634,6 +36637,13 @@
 	        this.props.createSubscription({ subscription: subscription });
 	        this.setState({ "username": "" });
 	        this.props.clearSubscriptionErrors();
+	        this.existingUser = false;
+	        this.typeToClearErrors = false;
+	      } else if (usernames.includes(this.state.username)) {
+	        this.setState({ "username": "" });
+	        this.props.clearSubscriptionErrors();
+	        this.existingUser = true;
+	        this.typeToClearErrors = false;
 	      }
 	    }
 	  }, {
@@ -36642,15 +36652,20 @@
 	      var _this2 = this;
 	
 	      return function (e) {
-	        return _this2.setState(_defineProperty({}, property, e.target.value));
+	        _this2.typeToClearErrors = true;
+	        _this2.setState(_defineProperty({}, property, e.target.value));
 	      };
 	    }
 	  }, {
 	    key: 'renderErrors',
 	    value: function renderErrors() {
 	      var subs = this.props.subscriptions;
-	      if (subs['errors']) {
-	        return subs['errors'];
+	      if (!this.typeToClearErrors) {
+	        if (this.existingUser) {
+	          return "User already subbed!";
+	        } else if (subs['errors']) {
+	          return subs['errors'] + "!";
+	        }
 	      }
 	    }
 	  }, {
