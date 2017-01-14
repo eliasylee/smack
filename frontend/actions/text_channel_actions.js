@@ -8,7 +8,7 @@ export const TextChannelConstants = {
   RECEIVE_TEXT_CHANNEL_ERRORS: 'RECEIVE_TEXT_CHANNEL_ERRORS'
 }
 
-export const fetchOneTextChannel = (textChannel) => ({
+export const fetchOneTextChannel = textChannel => ({
   type: TextChannelConstants.FETCH_ONE_TEXT_CHANNEL,
   textChannel
 })
